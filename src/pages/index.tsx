@@ -10,11 +10,15 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
+import { ColorModeToggle } from "@/components/ColorToggle";
 
 export default function Home() {
   return (
-    <Flex direction="column" minH="100vh" justifyContent="center">
-      <VStack gap="10" w="full" mt="-32">
+    <Flex direction="column" minH="100vh">
+      <Box w="full" textAlign="right" p="3">
+        <ColorModeToggle />
+      </Box>
+      <VStack gap="10" w="full" mt="10">
         <BraindaoLogo />
         <Heading>IQ Search Engine</Heading>
         <InputGroup

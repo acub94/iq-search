@@ -23,6 +23,7 @@ const Footer = () => {
       justifyContent="center"
       fontWeight="semibold"
       color="#1A202C"
+      _dark={{ color: "white" }}
       py="2"
       position="absolute"
       bottom="0"
