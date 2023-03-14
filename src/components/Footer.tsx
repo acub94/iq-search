@@ -23,12 +23,12 @@ const Footer = () => {
       justifyContent="center"
       fontWeight="semibold"
       color="#1A202C"
-      _dark={{ color: "white" }}
+      _dark={{ color: "white", borderTopColor: "gray.400" }}
       py="2"
       position="absolute"
       bottom="0"
     >
-      <Text>Powered by Braindao</Text>
+      <Text fontSize={{ base: "14px", lg: "18px" }}>Powered by Braindao</Text>
       <HStack w="full" alignItems="center" justifyContent="center">
         {Socials.map((social) => (
           <Link
@@ -38,15 +38,23 @@ const Footer = () => {
             key={social.href}
           >
             <chakra.span srOnly>{social.href}</chakra.span>
-            <Button size="sm" variant="social">
+            <Button size="xs" variant="social">
               <chakra.span srOnly>{social.href}</chakra.span>
-              <Icon as={social.icon} w={7} h={8} />
+              <Icon
+                as={social.icon}
+                w={{ base: "5", lg: "6" }}
+                h={{ base: "6", lg: "7" }}
+              />
             </Button>
           </Link>
         ))}
       </HStack>
 
-      <Flex alignItems="center" direction={{ base: "column", md: "initial" }}>
+      <Flex
+        alignItems="center"
+        direction={{ base: "column", md: "initial" }}
+        fontSize={{ base: "14px", lg: "18px" }}
+      >
         <Text pr={2}>
           ©{thisYear}
           <Link target="_blank" href="https://iq.wiki.com/">

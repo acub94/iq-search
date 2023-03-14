@@ -18,23 +18,17 @@ export default function Home() {
       <Box w="full" textAlign="right" p="3">
         <ColorModeToggle />
       </Box>
-      <VStack gap="10" w="full" mt="10">
+      <VStack gap="10" w="full" mt={{ base: "5", lg: "7" }}>
         <BraindaoLogo />
         <Heading>IQ Search Engine</Heading>
         <InputGroup
-          size="lg"
-          maxW="500px"
-          display={{ base: "none", md: "block" }}
+          size={{ base: "md", lg: "lg" }}
+          maxW={{ base: "60%", lg: "500px" }}
         >
-          <InputRightElement
-            ml={{ base: "15px", xl: "unset" }}
-            pointerEvents="none"
-            h="full"
-          >
+          <InputRightElement mr="15px" pointerEvents="none" h="full">
             <Search2Icon color="gray.300" />
           </InputRightElement>
           <Input
-            ml={{ base: "15px", xl: "unset" }}
             placeholder="Ask me anything Crypto"
             _placeholderShown={{
               textOverflow: "ellipsis",
