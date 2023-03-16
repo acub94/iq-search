@@ -2,7 +2,7 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
 import { StrictMode } from "react";
-import { Montserrat } from "@next/font/google";
+import { Montserrat } from "next/font/google";
 import theme from "@/components/themes";
 
 export const montserrat = Montserrat({

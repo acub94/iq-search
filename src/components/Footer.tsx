@@ -28,7 +28,7 @@ const Footer = () => {
       position="absolute"
       bottom="0"
     >
-      <Text fontSize={{ base: "14px", lg: "18px" }}>Powered by Braindao</Text>
+      <Text fontSize={{ base: "12px", lg: "14px" }}>Powered by Braindao</Text>
       <HStack w="full" alignItems="center" justifyContent="center">
         {Socials.map((social) => (
           <Link
@@ -53,7 +53,7 @@ const Footer = () => {
       <Flex
         alignItems="center"
         direction={{ base: "column", md: "initial" }}
-        fontSize={{ base: "14px", lg: "18px" }}
+        fontSize={{ base: "12px", lg: "14px" }}
       >
         <Text pr={2}>
           ©{thisYear}

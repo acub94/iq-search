@@ -1,12 +1,14 @@
 import {
   RiTwitterFill,
-  RiRedditFill,
   RiTelegramFill,
   RiInstagramFill,
   RiGithubFill,
-  RiDiscordFill,
   RiFacebookFill,
+  RiShareLine,
+  RiThumbUpLine,
+  RiThumbDownLine,
 } from "react-icons/ri";
+import { BsDiscord } from "react-icons/bs";
 
 export const Socials = [
   {
@@ -44,6 +46,21 @@ export const Socials = [
     id: 6,
     href: "https://discord.gg/x9EWvTcPXt",
     name: "discord",
-    icon: RiDiscordFill,
+    icon: BsDiscord,
+  },
+];
+
+export const ResultIcons = [
+  {
+    id: 1,
+    icon: RiShareLine,
+  },
+  {
+    id: 2,
+    icon: RiThumbUpLine,
+  },
+  {
+    id: 3,
+    icon: RiThumbDownLine,
   },
 ];
