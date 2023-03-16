@@ -33,10 +33,13 @@ const ResultCard = ({
       <Box w="full">
         <Text fontSize={{ base: "12px", lg: "14px" }}>{result}</Text>
         <chakra.div pt="4">
-          <Link href={resultLink} target="_blank">
-            <Text color="#FF5CAA" _dark={{ color: "#FF1A88" }}>
-              {shortenText(urlTitle)}
-            </Text>
+          <Link
+            href={resultLink}
+            color="#FF5CAA"
+            _dark={{ color: "#FF1A88" }}
+            target="_blank"
+          >
+            <Text>{shortenText(urlTitle)}</Text>
           </Link>
           <Text>{shortenText(resultLink)}</Text>
         </chakra.div>

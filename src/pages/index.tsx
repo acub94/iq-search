@@ -42,7 +42,8 @@ export default function Home() {
         w="full"
         justifyContent="center"
         alignItems="center"
-        py="4"
+        pt="6"
+        pb="12"
         gap="3"
       >
         <ResultCard
