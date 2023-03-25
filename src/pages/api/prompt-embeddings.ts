@@ -1,38 +1,54 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { Configuration, OpenAIApi } from 'openai'
+import { supabaseAdmin } from "@/utils"
 
-const configuration = new Configuration({
-    apiKey: String(process.env.OPEN_AI_KEY),
-    organization: String(process.env.OPEN_AI_ORGANIZATION_KEY),
-})
-const openai = new OpenAIApi(configuration)
+export const config = {
+    runtime: "edge"
+  };
 
-export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse,
-) {
-    if (req && !req.body) {
-        return res.status(500).send('Unprocessable Entity')
+const handler = async (req: Request): Promise<Response> => {
+  try {
+    const { query, apiKey, matches } = (await req.json()) as {
+      query: string;
+      apiKey: string;
+      matches: number;
     }
 
-    let result
+const input = query.replace(/\n/g, " ");
 
-    try {
-        console.log(req.body)
-        const er = await openai.createEmbedding({
-            model: 'text-embedding-ada-002',
-            input: String(req.body),
-        })
+const res = await fetch("https://api.openai.com/v1/embeddings", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY!}`
+      },
+      method: "POST",
+      body: JSON.stringify({
+        model: "text-embedding-ada-002",
+        input: query
+      })
+    });
 
-        if (er.status !== 200) {
-            res.json({ error: er.data, message: 'Create Embedding Error' })
-        }
-        const [responseData] = er.data.data
 
-        result = responseData.embedding
-    } catch (err: any) {
-        console.log(err?.response.data)
+const json = await res.json();
+const embedding = json.data[0].embedding;   
+
+const { data: chunks, error } = await supabaseAdmin.rpc("wiki_search", {
+    query_embedding: embedding,
+    similarity_threshold: 0.01,
+    match_count: 1
+  });
+
+ if (error) {
+      console.error(error);
+      return new Response("Error", { status: 500 });
     }
-
-    return res.json({  embedding: result })
+    
+    return new Response(JSON.stringify(chunks), { status: 200 });
+} catch (error) {
+  console.error(error);
+  return new Response("Error", { status: 500 });
 }
+};
+
+
+export default handler;
