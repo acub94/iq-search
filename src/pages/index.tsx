@@ -12,8 +12,23 @@ import {
 import { Search2Icon } from "@chakra-ui/icons";
 import { ColorModeToggle } from "@/components/ColorToggle";
 import ResultCard from "@/components/ResultCard";
+import { useCallback, useState } from "react";
+import axios, { AxiosError } from "axios";
 
 export default function Home() {
+  const [searchText, setSearchText] = useState("");
+
+  const handleSearchText = async (body: string) => {
+    try {
+      setSearchText(body);
+      const response = await axios.post("/api/prompt-embeddings", { body });
+      console.log(response);
+    } catch (error) {
+      const { response } = error as AxiosError;
+      console.log(response);
+    }
+  };
+
   return (
     <Flex direction="column" minH="100vh">
       <Box w="full" textAlign="right" p="3" position="fixed">
@@ -35,6 +50,8 @@ export default function Home() {
               textOverflow: "ellipsis",
             }}
             fontSize="16"
+            value={searchText}
+            onChange={(e) => handleSearchText(e.target.value)}
           />
         </InputGroup>
       </VStack>

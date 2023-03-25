@@ -45,8 +45,9 @@ const ResultCard = ({
         </chakra.div>
       </Box>
       <HStack w="full" alignItems="center" justifyContent="start" gap="4">
-        {ResultIcons.map((item) => (
+        {ResultIcons.map((item, i) => (
           <Icon
+            key={i}
             as={item.icon}
             w={{ base: "5", lg: "6" }}
             h={{ base: "6", lg: "7" }}
