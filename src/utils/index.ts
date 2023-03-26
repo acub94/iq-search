@@ -6,7 +6,7 @@ export const supabaseAdmin = createClient(
     process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-export const OpenAIStream = async (prompt: string, apiKey: string) => {
+export const OpenAIStream = async (prompt: string) => {
     const encoder = new TextEncoder();
     const decoder = new TextDecoder();
   
@@ -51,8 +51,8 @@ export const OpenAIStream = async (prompt: string, apiKey: string) => {
   
             try {
               const json = JSON.parse(data);
-              const text = json.choices[0].delta.content;
-              const queue = encoder.encode(text);
+              const text = json.choices[0].delta.content
+              const queue = encoder.encode(text)
               controller.enqueue(queue);
             } catch (e) {
               controller.error(e);

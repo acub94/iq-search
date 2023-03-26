@@ -6,16 +6,13 @@ export const config = {
 
 const handler = async (req: Request): Promise<Response> => {
   try {
-    const { prompt, apiKey } = (await req.json()) as {
-      prompt: string;
-      apiKey: string;
-    };
+    const { prompt } = (await req.json()) as {prompt: string};
 
-    const stream = await OpenAIStream(prompt, apiKey);
+    const stream = await OpenAIStream(prompt);
 
-    return new Response(stream);
+    return new Response(stream, { status: 200});
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     return new Response("Error", { status: 500 });
   }
 };

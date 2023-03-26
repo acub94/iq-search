@@ -1,10 +1,12 @@
 import Footer from "@/components/Footer";
+import { PGChunk } from "@/types";
 import { BraindaoLogo } from "@/components/Icons/BraindaoLogo";
 import {
   Box,
   Flex,
   Heading,
   Input,
+  Text,
   InputGroup,
   InputRightElement,
   VStack,
@@ -14,20 +16,75 @@ import { ColorModeToggle } from "@/components/ColorToggle";
 import ResultCard from "@/components/ResultCard";
 import { useCallback, useState } from "react";
 import axios, { AxiosError } from "axios";
+import endent from "endent";
 
 export default function Home() {
   const [searchText, setSearchText] = useState("");
+  const [query, setQuery] = useState<string>("");
+  const [chunks, setChunks] = useState<PGChunk[]>([]);
+  const [answer, setAnswer] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const handleSearchText = async (body: string) => {
-    try {
-      setSearchText(body);
-      const response = await axios.post("/api/prompt-embeddings", { body });
-      console.log(response);
-    } catch (error) {
-      const { response } = error as AxiosError;
-      console.log(response);
+  const handleAnswer = async () => {
+    setLoading(true);
+
+    const searchResponse = await fetch("/api/prompt-embeddings", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ query })
+    });
+
+    if (!searchResponse.ok) {
+      setLoading(false);
+      return;
     }
+
+    const results: PGChunk[] = await searchResponse.json();
+    setChunks(results);
+  
+    const prompt = endent`
+    Use the following passages to answer the query: ${query}
+
+    ${results.map((chunk) => chunk.content).join("\n")}
+    `;
+
+    console.log(prompt);
+
+    const answerResponse = await fetch("/api/answer", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ prompt })
+    });
+
+    if(!answerResponse.ok) {
+      setLoading(false);
+      return;
+    }
+
+    const data = answerResponse.body;
+
+    if (!data) {
+      return;
+    }
+
+    const reader = data.getReader();
+    const decoder = new TextDecoder();
+    let done = false;
+
+    while (!done) {
+      const {value, done: doneReading} = await reader.read();
+      done = doneReading;
+      const chunkvalue = decoder.decode(value);
+      setAnswer((prev) => prev + chunkvalue);
+    }
+
+    setLoading(false);
   };
+
 
   return (
     <Flex direction="column" minH="100vh">
@@ -50,10 +107,25 @@ export default function Home() {
               textOverflow: "ellipsis",
             }}
             fontSize="16"
-            value={searchText}
-            onChange={(e) => handleSearchText(e.target.value)}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
           />
         </InputGroup>
+        <button
+          className="absolute right-2 top-2.5 h-7 w-7 rounded-full bg-blue-500 p-1 hover:cursor-pointer hover:bg-blue-600 sm:right-3 sm:top-3 sm:h-10 sm:w-10 text-white"
+          onClick={handleAnswer}
+          >
+          Submit
+        </button>
+      </VStack>
+      <VStack spacing={4} mt={4}>
+        {
+          loading
+          ? <Box><Text>Loading...</Text></Box>
+          : <Box>
+            {answer}
+          </Box>
+        }
       </VStack>
       <VStack
         w="full"
