@@ -1,4 +1,3 @@
-import { shortenText } from "@/utils/shortenText";
 import {
   VStack,
   Text,
@@ -15,11 +14,9 @@ import { ResultIcons, Socials } from "./Data/socialData";
 const ResultCard = ({
   result,
   resultLink,
-  urlTitle,
 }: {
   result: string;
   resultLink: string;
-  urlTitle: string;
 }) => {
   return (
     <VStack
@@ -39,15 +36,15 @@ const ResultCard = ({
             _dark={{ color: "#FF1A88" }}
             target="_blank"
           >
-            <Text>{shortenText(urlTitle)}</Text>
+            <Text>{resultLink}</Text>
           </Link>
-          <Text>{shortenText(resultLink)}</Text>
         </chakra.div>
       </Box>
       <HStack w="full" alignItems="center" justifyContent="start" gap="4">
         {ResultIcons.map((item, i) => (
           <Icon
             key={i}
+            cursor="pointer"
             as={item.icon}
             w={{ base: "5", lg: "6" }}
             h={{ base: "6", lg: "7" }}

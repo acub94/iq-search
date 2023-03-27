@@ -25,7 +25,6 @@ const Footer = () => {
       color="#1A202C"
       _dark={{ color: "white", borderTopColor: "gray.400" }}
       py="2"
-      // position="absolute"
       bottom="0"
     >
       <Text fontSize={{ base: "12px", lg: "14px" }}>Powered by Braindao</Text>
