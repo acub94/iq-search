@@ -1,5 +1,3 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { Configuration, OpenAIApi } from "openai";
 import { supabaseAdmin } from "@/utils";
 
 export const config = {

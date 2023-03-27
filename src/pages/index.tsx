@@ -9,6 +9,7 @@ import {
   VStack,
   Button,
   Spinner,
+  Icon,
 } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
 import { ColorModeToggle } from "@/components/ColorToggle";
@@ -26,6 +27,7 @@ export default function Home() {
   const handleAnswer = async () => {
     setLoading(true);
     setAnswer("");
+
     const searchResponse = await fetch("/api/prompt-embeddings", {
       method: "POST",
       headers: {
@@ -87,11 +89,18 @@ export default function Home() {
       <Box w="full" textAlign="right" p="3" position="fixed">
         <ColorModeToggle />
       </Box>
-      <VStack gap="7" w="full" mt={{ base: "8", lg: "12" }}>
+      <VStack gap="6" w="full" mt={{ base: "8", lg: "12" }}>
         <BraindaoLogo />
         <Heading>IQ Search Engine</Heading>
 
-        <Flex maxW={{ base: "60%", lg: "500px" }}>
+        <Flex
+          w={{ base: "60%", lg: "500px" }}
+          gap="2"
+          border="gray.800"
+          borderWidth="2px"
+          rounded="lg"
+          pl="2"
+        >
           <Input
             placeholder="Ask me anything Crypto"
             _placeholderShown={{
@@ -100,32 +109,40 @@ export default function Home() {
             fontSize="16"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
+            variant="unstyled"
           />
-          <Button onClick={handleAnswer} bg="transparent">
-            <Search2Icon color="gray.300" />
+          <Button
+            onClick={handleAnswer}
+            bg="none"
+            px="3"
+            // disabled={query.length > 1}
+            _hover={{ bg: "none", color: "gray.500" }}
+          >
+            <Icon as={Search2Icon} />
           </Button>
         </Flex>
       </VStack>
 
-      {loading && (
-        <VStack py="36">
+      {loading ? (
+        <VStack py="24">
           <Spinner size="lg" />
         </VStack>
-      )}
-      {!loading && answer.length < 1 && <VStack py="28"></VStack>}
-      {!loading && answer.length > 1 && (
+      ) : (
         <VStack
           w="full"
           justifyContent="center"
           alignItems="center"
-          pt="8"
-          pb="12"
+          py="8"
           gap="3"
         >
-          <ResultCard
-            result={answer}
-            resultLink={`https://iq.wiki/wiki/${resultId}`}
-          />
+          {answer.length < 1 ? (
+            <VStack py="20"></VStack>
+          ) : (
+            <ResultCard
+              result={answer}
+              resultLink={`https://iq.wiki/wiki/${resultId}`}
+            />
+          )}
         </VStack>
       )}
       <Footer />
