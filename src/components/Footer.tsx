@@ -27,7 +27,6 @@ const Footer = () => {
       py="2"
       bottom="0"
     >
-      <Text fontSize={{ base: "12px", lg: "14px" }}>Powered by Braindao</Text>
       <HStack w="full" alignItems="center" justifyContent="center">
         {Socials.map((social) => (
           <Link
@@ -56,7 +55,7 @@ const Footer = () => {
         fontSize={{ base: "12px", lg: "14px" }}
       >
         <Text pr={2}>
-          ©{thisYear}
+          ©{thisYear} Powered by 
           <Link target="_blank" href="https://iq.wiki.com/">
             <Text
               as="span"

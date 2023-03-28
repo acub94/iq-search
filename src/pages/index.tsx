@@ -59,7 +59,7 @@ export default function Home() {
     const prompt = endent`
     Use the following passages to answer the query: ${query}\n\n
 
-    ${results.map((chunk) => { return chunk.title + ': ' + chunk.content).join("\n\n")}
+    ${results.map((chunk) => { return chunk.title + ': ' + chunk.content}).join("\n\n")}
     `;
 
     const answerResponse = await fetch("/api/answer", {

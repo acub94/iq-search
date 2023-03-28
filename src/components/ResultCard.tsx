@@ -29,8 +29,8 @@ const ResultCard = ({
     >
       <Box w="full">
         <Text fontSize={{ base: "12px", lg: "14px" }}>{result}</Text>
-        <chakra.div pt="4">
-          <Link
+        <chakra.div pt="8">
+          Source: <Link
             href={resultLink}
             color="#FF5CAA"
             _dark={{ color: "#FF1A88" }}
