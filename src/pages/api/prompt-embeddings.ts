@@ -31,8 +31,8 @@ const handler = async (req: Request): Promise<Response> => {
 
     const { data: chunks, error } = await supabaseAdmin.rpc("wiki_search", {
       query_embedding: embedding,
-      similarity_threshold: 0.01,
-      match_count: 50,
+      similarity_threshold: 0.50,
+      match_count: 10,
     });
     if (error) {
       console.error(error);
