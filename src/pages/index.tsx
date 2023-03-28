@@ -42,14 +42,16 @@ export default function Home() {
     }
 
     const results: PGChunk[] = await searchResponse.json();
+    console.log(results)
     setChunks(results);
-    setResultId(results[0].id);
+    setResultId(results[0].wikiid);
 
     const prompt = endent`
     Use the following passages to answer the query: ${query}
 
     ${results.map((chunk) => chunk.content).join("\n")}
     `;
+    console.log(prompt)
 
     const answerResponse = await fetch("/api/answer", {
       method: "POST",
