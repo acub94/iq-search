@@ -26,7 +26,7 @@ export const OpenAIStream = async (prompt: string) => {
         {
           role: "system",
           content:
-            "You are a helpful assistant that accurately answers queries using IQ.Wiki wikis. Use the text provided to form your answer, but avoid copying word-for-word from the essays. Try to use your own words when possible. Keep your answer under 5 sentences. Be accurate, helpful, concise, and clear.",
+            "You are a very enthusiastic IQ.Wiki representative who loves to help people! Given the following sections from the IQ.Wiki articles, answer the questions using only that information, outputted in the markdown format. If you are unsure and the answer is not explicitly written in the documentation, say “Sorry, | don't know how to help with that",
         },
         {
           role: "user",

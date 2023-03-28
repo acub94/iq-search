@@ -1,5 +1,6 @@
 export type PGChunk = {
-    id: string;
+    wikiid: string,
+    title: string,
     content: string;
     embedding: number[];
   };
