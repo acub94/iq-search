@@ -10,6 +10,7 @@ import {
   Button,
   Spinner,
   Icon,
+  chakra,
 } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
 import { ColorModeToggle } from "@/components/ColorToggle";
@@ -85,68 +86,70 @@ export default function Home() {
   };
 
   return (
-    <Flex direction="column" minH="100vh">
-      <Box w="full" textAlign="right" p="3" position="fixed">
-        <ColorModeToggle />
-      </Box>
-      <VStack gap="6" w="full" mt={{ base: "8", lg: "12" }}>
-        <BraindaoLogo />
-        <Heading fontSize={{ lg: "35px", md: "xl", base: "md" }}>
-          IQ Search Engine
-        </Heading>
+    <Flex direction="column">
+      <chakra.div minH="84vh">
+        <Box w="full" textAlign="right" p="3" position="fixed">
+          <ColorModeToggle />
+        </Box>
+        <VStack gap="6" w="full" mt={{ base: "8", lg: "12" }}>
+          <BraindaoLogo />
+          <Heading fontSize={{ lg: "35px", md: "xl", base: "md" }}>
+            IQ Search Engine
+          </Heading>
 
-        <Flex
-          w={{ base: "60%", lg: "500px" }}
-          gap="2"
-          border="gray.800"
-          borderWidth="2px"
-          rounded="lg"
-          pl="2"
-        >
-          <Input
-            placeholder="Ask me anything Crypto"
-            _placeholderShown={{
-              textOverflow: "ellipsis",
-            }}
-            fontSize="16"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            variant="unstyled"
-          />
-          <Button
-            onClick={handleAnswer}
-            bg="none"
-            px="3"
-            // disabled={query.length > 1}
-            _hover={{ bg: "none", color: "gray.500" }}
+          <Flex
+            w={{ base: "60%", lg: "500px" }}
+            gap="2"
+            border="gray.800"
+            borderWidth="2px"
+            rounded="lg"
+            pl="2"
           >
-            <Icon as={Search2Icon} />
-          </Button>
-        </Flex>
-      </VStack>
-
-      {loading ? (
-        <VStack py="24">
-          <Spinner size="lg" />
-        </VStack>
-      ) : (
-        <VStack
-          w="full"
-          justifyContent="center"
-          alignItems="center"
-          py="8"
-          gap="3"
-        >
-          {answer.length < 1 ? (
-            <VStack py="20"></VStack>
-          ) : (
-            <ResultCard
-              result={answer}
-              resultLink={`https://iq.wiki/wiki/${resultId}`}
+            <Input
+              placeholder="Ask me anything Crypto"
+              _placeholderShown={{
+                textOverflow: "ellipsis",
+              }}
+              fontSize="16"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              variant="unstyled"
             />
-          )}
+            <Button
+              onClick={handleAnswer}
+              bg="none"
+              px="3"
+              // disabled={query.length > 1}
+              _hover={{ bg: "none", color: "gray.500" }}
+            >
+              <Icon as={Search2Icon} />
+            </Button>
+          </Flex>
         </VStack>
-      )}
+
+        {loading ? (
+          <VStack py="24">
+            <Spinner size="lg" />
+          </VStack>
+        ) : (
+          <VStack
+            w="full"
+            justifyContent="center"
+            alignItems="center"
+            py="8"
+            gap="3"
+          >
+            {answer.length < 1 ? (
+              <VStack py="20"></VStack>
+            ) : (
+              <ResultCard
+                result={answer}
+                resultLink={`https://iq.wiki/wiki/${resultId}`}
+              />
+            )}
+          </VStack>
+        )}
+      </chakra.div>
       <Footer />
     </Flex>
   );
