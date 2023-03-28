@@ -43,6 +43,7 @@ const Footer = () => {
                 as={social.icon}
                 w={{ base: "5", lg: "6" }}
                 h={{ base: "6", lg: "7" }}
+                _hover={{ color: "brand.500", _dark: { color: "brand.800" } }}
               />
             </Button>
           </Link>

@@ -91,7 +91,9 @@ export default function Home() {
       </Box>
       <VStack gap="6" w="full" mt={{ base: "8", lg: "12" }}>
         <BraindaoLogo />
-        <Heading>IQ Search Engine</Heading>
+        <Heading fontSize={{ lg: "35px", md: "xl", base: "md" }}>
+          IQ Search Engine
+        </Heading>
 
         <Flex
           w={{ base: "60%", lg: "500px" }}
