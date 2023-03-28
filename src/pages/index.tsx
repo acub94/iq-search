@@ -11,6 +11,7 @@ import {
   Spinner,
   Icon,
   chakra,
+  useToast,
 } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
 import { ColorModeToggle } from "@/components/ColorToggle";
@@ -24,8 +25,17 @@ export default function Home() {
   const [answer, setAnswer] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [resultId, setResultId] = useState("");
+  const toast = useToast();
 
   const handleAnswer = async () => {
+    if (query.length == 0) {
+      toast({
+        title: "Please enter a valid text before searching",
+        isClosable: true,
+        status: "error",
+      });
+      return;
+    }
     setLoading(true);
     setAnswer("");
 
@@ -85,6 +95,20 @@ export default function Home() {
     setLoading(false);
   };
 
+  const handleKeyPress = async (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (event.key === "Enter" && query.length > 0) {
+      await handleAnswer();
+    } else if (event.key === "Enter" && query.length == 0) {
+      toast({
+        title: "Please enter a valid text before searching",
+        isClosable: true,
+        status: "error",
+      });
+    }
+  };
+
   return (
     <Flex direction="column">
       <chakra.div minH="84vh">
@@ -114,6 +138,7 @@ export default function Home() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               variant="unstyled"
+              onKeyDown={handleKeyPress}
             />
             <Button
               onClick={handleAnswer}
