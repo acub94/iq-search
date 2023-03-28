@@ -57,9 +57,9 @@ export default function Home() {
     setResultId(results[0].wikiid);
 
     const prompt = endent`
-    Use the following passages to answer the query: ${query}
+    Use the following passages to answer the query: ${query}\n\n
 
-    ${results.map((chunk) => chunk.content).join("\n")}
+    ${results.map((chunk) => { return chunk.title + ': ' + chunk.content).join("\n\n")}
     `;
 
     const answerResponse = await fetch("/api/answer", {
