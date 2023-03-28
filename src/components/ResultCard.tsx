@@ -28,8 +28,8 @@ const ResultCard = ({
       rounded="md"
     >
       <Box w="full">
-        <Text fontSize={{ base: "12px", lg: "14px" }}>{result}</Text>
-        <chakra.div pt="8">
+        <Text fontSize={{ base: "12px", lg: "14px" }} whiteSpace="pre-wrap">{result}</Text>
+        <chakra.div pt="4">
           Source: <Link
             href={resultLink}
             color="#FF5CAA"
