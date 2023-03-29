@@ -24,7 +24,7 @@ const Footer = () => {
       fontWeight="semibold"
       color="#1A202C"
       _dark={{ color: "white", borderTopColor: "gray.400" }}
-      py="2"
+      py="5"
       bottom="0"
     >
       <HStack w="full" alignItems="center" justifyContent="center">
@@ -55,7 +55,7 @@ const Footer = () => {
         fontSize={{ base: "12px", lg: "14px" }}
       >
         <Text pr={2}>
-          ©{thisYear} Powered by 
+          ©{thisYear} Powered by
           <Link target="_blank" href="https://iq.wiki.com/">
             <Text
               as="span"

@@ -1,6 +1,6 @@
 import Footer from "@/components/Footer";
 import { PGChunk } from "@/types";
-import { BraindaoLogo } from "@/components/Icons/BraindaoLogo";
+import Lottie from "lottie-react";
 import {
   Box,
   Flex,
@@ -12,12 +12,16 @@ import {
   Icon,
   chakra,
   useToast,
+  Image,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
 import { ColorModeToggle } from "@/components/ColorToggle";
 import ResultCard from "@/components/ResultCard";
 import { useState } from "react";
 import endent from "endent";
+import FilterDark from "../components/Data/filterDark.json";
+import FilterLight from "../components/Data/filterLight.json";
 
 export default function Home() {
   const [query, setQuery] = useState<string>("");
@@ -59,7 +63,11 @@ export default function Home() {
     const prompt = endent`
     Use the following passages to answer the query: ${query}\n\n
 
-    ${results.map((chunk) => { return chunk.title + ': ' + chunk.content}).join("\n\n")}
+    ${results
+      .map((chunk) => {
+        return chunk.title + ": " + chunk.content;
+      })
+      .join("\n\n")}
     `;
 
     const answerResponse = await fetch("/api/answer", {
@@ -109,6 +117,13 @@ export default function Home() {
     }
   };
 
+  const style = {
+    height: 100,
+    cursor: "pointer",
+  };
+
+  const loadingSrc = useColorModeValue(FilterDark, FilterLight);
+
   return (
     <Flex direction="column">
       <chakra.div minH="84vh">
@@ -116,9 +131,12 @@ export default function Home() {
           <ColorModeToggle />
         </Box>
         <VStack gap="6" w="full" mt={{ base: "8", lg: "12" }}>
-          <BraindaoLogo />
-          <Heading fontSize={{ lg: "35px", md: "xl", base: "md" }}>
-            IQ Search Engine
+          <Image
+            src="./brainLogo.svg"
+            w={{ base: "100px", md: "120px", lg: "140px", xl: "160px" }}
+          />
+          <Heading fontSize={{ lg: "35px", md: "2xl", base: "xl" }}>
+            Project IQ GPT
           </Heading>
 
           <Flex
@@ -153,8 +171,8 @@ export default function Home() {
         </VStack>
 
         {loading ? (
-          <VStack py="24">
-            <Spinner size="lg" />
+          <VStack py="16">
+            <Lottie animationData={loadingSrc} style={style} />
           </VStack>
         ) : (
           <VStack
