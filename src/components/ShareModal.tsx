@@ -9,25 +9,30 @@ import {
   Text,
   Box,
   Link,
+  ModalHeader,
+  chakra,
 } from "@chakra-ui/react";
+import { RiFileCopyLine, RiFileCopyFill } from "react-icons/ri";
 
 const ShareModal = ({
-  onClose = () => {},
+  onClose,
   isOpen = false,
-  ...rest
-}: Partial<ModalProps>) => {
-  const { hasCopied, onCopy } = useClipboard("url");
+}: {
+  onClose: () => void;
+  isOpen: boolean;
+}) => {
+  const { hasCopied, onCopy } = useClipboard("This is the URL of the Response");
   if (!isOpen) return null;
 
   return (
-    <Modal onClose={onClose} isOpen={isOpen} isCentered size="xl" {...rest}>
+    <Modal onClose={onClose} isOpen={isOpen} isCentered size="xl">
       <ModalOverlay />
       <ModalContent
         _dark={{
           bg: "gray.800",
         }}
       >
-        <ModalBody py="3rem" px="2rem">
+        <ModalBody p="0">
           <Flex
             justify="space-between"
             align="center"
@@ -36,8 +41,8 @@ const ShareModal = ({
             p="1rem"
             borderRadius="0.4rem"
           >
-            <Text onClick={onCopy} color="brand.600" cursor="pointer">
-              {hasCopied ? "Copied!" : "Copy url"}
+            <Text color="brand.600" cursor="pointer">
+              Share Link
             </Text>
             <Box
               overflowX="hidden"
@@ -45,6 +50,7 @@ const ShareModal = ({
               p="0.5rem"
               bg="brand.150"
               _dark={{ bg: "#232934" }}
+              rounded="md"
             >
               <Link
                 whiteSpace="nowrap"
@@ -52,9 +58,12 @@ const ShareModal = ({
                 color="#2D3748"
                 _dark={{ color: "#b1b2b5" }}
               >
-                {"url"}
+                This is the URL of the Response
               </Link>
             </Box>
+            <chakra.div onClick={onCopy}>
+              {!hasCopied ? <RiFileCopyLine /> : <RiFileCopyFill />}
+            </chakra.div>
           </Flex>
         </ModalBody>
       </ModalContent>

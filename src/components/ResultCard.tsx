@@ -5,8 +5,6 @@ import {
   chakra,
   Box,
   HStack,
-  Button,
-  Icon,
   Flex,
   Tooltip,
   useDisclosure,
@@ -51,7 +49,7 @@ const ResultCard = ({
   const [speed, setSpeed] = useState(2);
   const [direction, setDirection] = useState(1);
   const [isLike, setIsLike] = useState(false);
-
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [isStoppedShare, setIsStoppedShare] = useState(true);
   const [isPausedShare, setIsPausedShare] = useState(false);
   const [speedShare, setSpeedShare] = useState(2);
@@ -66,8 +64,7 @@ const ResultCard = ({
     setIsLike(!isLike);
   };
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  
+
   const ShareHandler = () => {
     if (!isStoppedShare) {
       setDirectionShare(directionShare * -1);
