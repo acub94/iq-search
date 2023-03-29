@@ -6,21 +6,19 @@ import {
   ModalContent,
   ModalBody,
   Flex,
-  Wrap,
   Text,
   Box,
   Link,
 } from "@chakra-ui/react";
-import { useRouter } from "next/router";
 
 const ShareModal = ({
   onClose = () => {},
   isOpen = false,
   ...rest
 }: Partial<ModalProps>) => {
-  const router = useRouter();
   const { hasCopied, onCopy } = useClipboard("url");
   if (!isOpen) return null;
+
   return (
     <Modal onClose={onClose} isOpen={isOpen} isCentered size="xl" {...rest}>
       <ModalOverlay />
@@ -50,7 +48,7 @@ const ShareModal = ({
             >
               <Link
                 whiteSpace="nowrap"
-                href={router.asPath}
+                // href={router.asPath}
                 color="#2D3748"
                 _dark={{ color: "#b1b2b5" }}
               >

@@ -9,11 +9,13 @@ import {
   Icon,
   Flex,
   Tooltip,
+  useDisclosure,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import Like from "./Data/Like.json";
 import Share from "./Data/share.json";
 import Lottie from "react-lottie";
+import ShareModal from "./ShareModal";
 
 const ResultCard = ({
   result,
@@ -64,12 +66,15 @@ const ResultCard = ({
     setIsLike(!isLike);
   };
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  
   const ShareHandler = () => {
     if (!isStoppedShare) {
       setDirectionShare(directionShare * -1);
     }
     setIsStoppedShare(false);
     setIsLikeShare(!isLikeShare);
+    onOpen();
   };
 
   return (
@@ -125,6 +130,7 @@ const ResultCard = ({
           </chakra.div>
         </Tooltip>
       </HStack>
+      <ShareModal isOpen={isOpen} onClose={onClose} />
     </VStack>
   );
 };
