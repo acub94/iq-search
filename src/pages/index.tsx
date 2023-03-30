@@ -136,7 +136,7 @@ export default function Home() {
             w={{ base: "100px", md: "120px", lg: "140px", xl: "160px" }}
           />
           <Heading fontSize={{ lg: "35px", md: "2xl", base: "xl" }}>
-            Project IQ GPT
+            IQ GPT
           </Heading>
 
           <Flex
