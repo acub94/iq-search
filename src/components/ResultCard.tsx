@@ -64,7 +64,6 @@ const ResultCard = ({
     setIsLike(!isLike);
   };
 
-
   const ShareHandler = () => {
     if (!isStoppedShare) {
       setDirectionShare(directionShare * -1);
@@ -76,12 +75,14 @@ const ResultCard = ({
 
   return (
     <VStack
-      p="3"
-      bg="gray.200"
+      px="6"
+      pt="5"
+      pb="1"
+      bg="gray.50"
       _dark={{ bg: "gray.700" }}
       gap="1"
       w={{ base: "80%", md: "80%", lg: "60%" }}
-      rounded="md"
+      rounded="2xl"
     >
       <Box w="full">
         <Text fontSize={{ base: "14px", lg: "16px" }} whiteSpace="pre-wrap">

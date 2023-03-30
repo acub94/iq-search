@@ -8,7 +8,6 @@ import {
   Input,
   VStack,
   Button,
-  Spinner,
   Icon,
   chakra,
   useToast,
@@ -30,8 +29,10 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(false);
   const [resultId, setResultId] = useState("");
   const toast = useToast();
+  const [isSearchDisabled, setIsSearchDisabled] = useState(false);
 
   const handleAnswer = async () => {
+    setIsSearchDisabled(true);
     if (query.length == 0) {
       toast({
         title: "Please enter a valid text before searching",
@@ -101,6 +102,7 @@ export default function Home() {
     }
 
     setLoading(false);
+    setIsSearchDisabled(false);
   };
 
   const handleKeyPress = async (
@@ -136,7 +138,7 @@ export default function Home() {
             w={{ base: "100px", md: "120px", lg: "140px", xl: "160px" }}
           />
           <Heading fontSize={{ lg: "35px", md: "2xl", base: "xl" }}>
-            Project IQ GPT
+            IQ GPT
           </Heading>
 
           <Flex
@@ -157,12 +159,12 @@ export default function Home() {
               onChange={(e) => setQuery(e.target.value)}
               variant="unstyled"
               onKeyDown={handleKeyPress}
+              disabled={isSearchDisabled}
             />
             <Button
               onClick={handleAnswer}
               bg="none"
               px="3"
-              // disabled={query.length > 1}
               _hover={{ bg: "none", color: "gray.500" }}
             >
               <Icon as={Search2Icon} />
@@ -171,7 +173,7 @@ export default function Home() {
         </VStack>
 
         {loading ? (
-          <VStack py="16">
+          <VStack py="14">
             <Lottie animationData={loadingSrc} style={style} />
           </VStack>
         ) : (

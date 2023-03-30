@@ -9,7 +9,6 @@ import {
   Text,
   Box,
   Link,
-  ModalHeader,
   chakra,
 } from "@chakra-ui/react";
 import { RiFileCopyLine, RiFileCopyFill } from "react-icons/ri";
