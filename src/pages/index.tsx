@@ -21,6 +21,7 @@ import { useState } from "react";
 import endent from "endent";
 import FilterDark from "../components/Data/filterDark.json";
 import FilterLight from "../components/Data/filterLight.json";
+import Link from "next/link";
 
 export default function Home() {
   const [query, setQuery] = useState<string>("");
@@ -133,13 +134,20 @@ export default function Home() {
           <ColorModeToggle />
         </Box>
         <VStack gap="6" w="full" mt={{ base: "8", lg: "12" }}>
-          <Image
-            src="./brainLogo.svg"
-            w={{ base: "100px", md: "120px", lg: "140px", xl: "160px" }}
-          />
-          <Heading fontSize={{ lg: "35px", md: "2xl", base: "xl" }}>
-            IQ GPT
-          </Heading>
+          <Link href="/">
+            <Image
+              src="./brainLogo.svg"
+              w={{ base: "100px", md: "120px", lg: "140px", xl: "160px" }}
+            />
+            <Heading
+              fontSize={{ lg: "35px", md: "2xl", base: "xl" }}
+              pt="2"
+              textAlign="center"
+              _hover={{ textDecoration: "none" }}
+            >
+              IQ GPT
+            </Heading>
+          </Link>
 
           <Flex
             w={{ base: "60%", lg: "500px" }}
