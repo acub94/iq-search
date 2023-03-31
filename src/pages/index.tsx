@@ -137,10 +137,10 @@ export default function Home() {
           <Link href="/">
             <Image
               src="./brainLogo.svg"
-              w={{ base: "100px", md: "120px", lg: "140px", xl: "160px" }}
+              w={{ base: "130px", lg: "150px", xl: "160px" }}
             />
             <Heading
-              fontSize={{ lg: "35px", md: "2xl", base: "xl" }}
+              fontSize={{ lg: "35px", md: "3xl", base: "3xl" }}
               pt="2"
               textAlign="center"
               _hover={{ textDecoration: "none" }}
@@ -150,7 +150,7 @@ export default function Home() {
           </Link>
 
           <Flex
-            w={{ base: "60%", lg: "500px" }}
+            w={{ base: "80%", lg: "500px" }}
             gap="2"
             border="gray.800"
             borderWidth="2px"
