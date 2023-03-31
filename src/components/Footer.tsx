@@ -24,7 +24,7 @@ const Footer = () => {
       fontWeight="semibold"
       color="#1A202C"
       _dark={{ color: "white", borderTopColor: "gray.400" }}
-      py="5"
+      py="4"
       bottom="0"
     >
       <HStack w="full" alignItems="center" justifyContent="center">

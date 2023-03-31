@@ -153,10 +153,10 @@ export default function Home() {
             w={{ base: "80%", lg: "500px" }}
             gap="2"
             h="14"
-            border="gray.50"
-            _dark={{ border: "white", bg: "gray.700" }}
+            borderColor="gray.200"
+            _dark={{ borderColor: "gray.300", bg: "gray.700" }}
             bg="white"
-            borderWidth="2px"
+            borderWidth="1px"
             rounded="lg"
             pl="2"
             alignItems="center"
