@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import Like from "./Data/Like.json";
+import Dislike from "./Data/Dislike.json";
 import Share from "./Data/share.json";
 import Lottie from "react-lottie";
 import ShareModal from "./ShareModal";
@@ -28,6 +29,15 @@ const ResultCard = ({
   };
 
   const defaultOptions = {
+    loop: false,
+    autoplay: false,
+    animationData: Dislike,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  const defaultOptionsLike = {
     loop: false,
     autoplay: false,
     animationData: Like,
@@ -48,20 +58,29 @@ const ResultCard = ({
   const [isPaused, setIsPaused] = useState(false);
   const [speed, setSpeed] = useState(2);
   const [direction, setDirection] = useState(1);
-  const [isLike, setIsLike] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isStoppedShare, setIsStoppedShare] = useState(true);
   const [isPausedShare, setIsPausedShare] = useState(false);
   const [speedShare, setSpeedShare] = useState(2);
   const [directionShare, setDirectionShare] = useState(1);
-  const [isLikeShare, setIsLikeShare] = useState(false);
+
+  const [isStoppedLike, setIsStoppedLike] = useState(true);
+  const [isPausedLike, setIsPausedLike] = useState(false);
+  const [speedLike, setSpeedLike] = useState(2);
+  const [directionLike, setDirectionLike] = useState(1);
 
   const clickHandler = () => {
     if (!isStopped) {
       setDirection(direction * -1);
     }
     setIsStopped(false);
-    setIsLike(!isLike);
+  };
+
+  const LikeHandler = () => {
+    if (!isStoppedLike) {
+      setDirectionLike(directionLike * -1);
+    }
+    setIsStoppedLike(false);
   };
 
   const ShareHandler = () => {
@@ -69,7 +88,6 @@ const ResultCard = ({
       setDirectionShare(directionShare * -1);
     }
     setIsStoppedShare(false);
-    setIsLikeShare(!isLikeShare);
     onOpen();
   };
 
@@ -100,7 +118,12 @@ const ResultCard = ({
           </Link>
         </Flex>
       </Box>
-      <HStack w="full" alignItems="center" justifyContent="start">
+      <HStack
+        w="full"
+        alignItems="center"
+        textAlign="center"
+        justifyContent="start"
+      >
         <Tooltip label="Share Link" fontSize="sm" rounded="md">
           <chakra.div onClick={ShareHandler}>
             <Lottie
@@ -115,11 +138,31 @@ const ResultCard = ({
           </chakra.div>
         </Tooltip>
         <Tooltip label="Like" fontSize="sm" rounded="md">
-          <chakra.div onClick={clickHandler}>
+          <chakra.div onClick={LikeHandler} pt="4px">
+            <Lottie
+              options={defaultOptionsLike}
+              style={{
+                marginLeft: "-17px",
+              }}
+              height={50}
+              width={50}
+              isStopped={isStoppedLike}
+              isPaused={isPausedLike}
+              speed={speedLike}
+              direction={directionLike}
+            />
+          </chakra.div>
+        </Tooltip>
+        <Tooltip label="Dislike" fontSize="sm" rounded="md">
+          <chakra.div onClick={clickHandler} pt="6px">
             <Lottie
               options={defaultOptions}
-              height={55}
-              width={40}
+              style={{
+                transform: "rotate(180deg)",
+                marginLeft: "-22px",
+              }}
+              height={50}
+              width={50}
               isStopped={isStopped}
               isPaused={isPaused}
               speed={speed}
