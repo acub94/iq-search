@@ -152,10 +152,14 @@ export default function Home() {
           <Flex
             w={{ base: "80%", lg: "500px" }}
             gap="2"
-            border="gray.800"
+            h="14"
+            border="gray.50"
+            _dark={{ border: "white", bg: "gray.700" }}
+            bg="white"
             borderWidth="2px"
             rounded="lg"
             pl="2"
+            alignItems="center"
           >
             <Input
               placeholder="Ask me anything Crypto"
@@ -168,6 +172,7 @@ export default function Home() {
               variant="unstyled"
               onKeyDown={handleKeyPress}
               disabled={isSearchDisabled}
+              h="full"
             />
             <Button
               onClick={handleAnswer}
