@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import Like from "./Data/Like.json";
-import Dislike from "./Data/Dislike.json";
+import Dislike from "./Data/DisLike.json";
 import Share from "./Data/share.json";
 import Lottie from "react-lottie";
 import ShareModal from "./ShareModal";
