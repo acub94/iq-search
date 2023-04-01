@@ -31,7 +31,12 @@ const ShareModal = ({
   if (!isOpen) return null;
 
   return (
-    <Modal onClose={onClose} isOpen={isOpen} isCentered size="xl">
+    <Modal
+      onClose={onClose}
+      isOpen={isOpen}
+      isCentered
+      size={{ base: "sm", md: "lg", lg: "xl" }}
+    >
       <ModalOverlay />
       <ModalContent
         _dark={{
@@ -56,7 +61,7 @@ const ShareModal = ({
             direction="column"
             pb="5"
             gap="10"
-            px="8"
+            px={{ base: "4", md: "6", lg: "8" }}
           >
             <Text
               fontSize={{ base: "md", md: "lg", lg: "xl" }}
@@ -67,7 +72,7 @@ const ShareModal = ({
             <HStack
               w="full"
               alignItems="center"
-              gap="5"
+              gap={{ base: "1", md: "5" }}
               justifyContent="center"
             >
               {Socials.map((social) => (
@@ -93,7 +98,12 @@ const ShareModal = ({
                 </Link>
               ))}
             </HStack>
-            <VStack w="full" gap="2" alignItems="flex-start">
+            <VStack
+              w="full"
+              gap="2"
+              alignItems="flex-start"
+              fontSize={{ base: "sm", md: "md", lg: "lg" }}
+            >
               <chakra.span>Or copy link</chakra.span>
               <Flex
                 w="full"

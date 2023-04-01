@@ -15,6 +15,7 @@ import Dislike from "./Data/DisLike.json";
 import Share from "./Data/share.json";
 import Lottie from "react-lottie";
 import ShareModal from "./ShareModal";
+import { shortenText } from "@/utils/shortenText";
 
 const ResultCard = ({
   result,
@@ -106,17 +107,24 @@ const ResultCard = ({
         <Text fontSize={{ base: "14px", lg: "16px" }} whiteSpace="pre-wrap">
           {result}
         </Text>
-        <Flex pt="4" gap="1">
-          Source:
-          <Link
-            href={resultLink}
-            color="#FF5CAA"
-            _dark={{ color: "#FF1A88" }}
-            target="_blank"
-          >
-            <Text>{resultLink}</Text>
-          </Link>
-        </Flex>
+        <VStack pt="7" w="full" alignItems="flex-start" fontStyle="italic">
+          <Flex w="full" pb="0">
+            Source:
+            <Link
+              href={resultLink}
+              color="brand.500"
+              _dark={{ color: "brand.800" }}
+              target="_blank"
+              textOverflow="hidden"
+              pl="2"
+            >
+              <Text>{shortenText(result, 70)}</Text>
+            </Link>{" "}
+          </Flex>
+          <chakra.span color="gray.500" _dark={{ color: "whiteAlpha.600" }}>
+            {resultLink}
+          </chakra.span>
+        </VStack>
       </Box>
       <HStack
         w="full"
@@ -125,7 +133,7 @@ const ResultCard = ({
         justifyContent="start"
       >
         <Tooltip label="Share Link" fontSize="sm" rounded="md">
-          <chakra.div onClick={ShareHandler}>
+          <chakra.div onClick={ShareHandler} px="3">
             <Lottie
               options={defaultOptionsShare}
               height={30}
@@ -138,12 +146,9 @@ const ResultCard = ({
           </chakra.div>
         </Tooltip>
         <Tooltip label="Like" fontSize="sm" rounded="md">
-          <chakra.div onClick={LikeHandler} pt="4px">
+          <chakra.div onClick={LikeHandler}>
             <Lottie
               options={defaultOptionsLike}
-              style={{
-                marginLeft: "-17px",
-              }}
               height={50}
               width={50}
               isStopped={isStoppedLike}
@@ -154,12 +159,12 @@ const ResultCard = ({
           </chakra.div>
         </Tooltip>
         <Tooltip label="Dislike" fontSize="sm" rounded="md">
-          <chakra.div onClick={clickHandler} pt="6px">
+          <chakra.div onClick={clickHandler}>
             <Lottie
               options={defaultOptions}
               style={{
                 transform: "rotate(180deg)",
-                marginLeft: "-22px",
+                marginBottom: "2px",
               }}
               height={50}
               width={50}
