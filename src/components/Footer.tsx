@@ -17,14 +17,14 @@ const Footer = () => {
     <VStack
       w="full"
       borderTop="1px"
-      borderTopColor="gray.200"
+      borderTopColor="gray.400"
       spacing="3"
       alignItems="center"
       justifyContent="center"
       fontWeight="semibold"
       color="#1A202C"
       _dark={{ color: "white", borderTopColor: "gray.400" }}
-      py="4"
+      py="3"
       bottom="0"
     >
       <HStack w="full" alignItems="center" justifyContent="center">

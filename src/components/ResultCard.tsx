@@ -16,6 +16,7 @@ import Share from "./Data/share.json";
 import Lottie from "react-lottie";
 import ShareModal from "./ShareModal";
 import { shortenText } from "@/utils/shortenText";
+import { RiThumbUpFill, RiThumbUpLine } from "react-icons/ri";
 
 const ResultCard = ({
   result,
@@ -55,10 +56,8 @@ const ResultCard = ({
       preserveAspectRatio: "xMidYMid slice",
     },
   };
-  const [isStopped, setIsStopped] = useState(true);
-  const [isPaused, setIsPaused] = useState(false);
-  const [speed, setSpeed] = useState(2);
-  const [direction, setDirection] = useState(1);
+  const [isDisLiked, setIsDisLiked] = useState(false);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isStoppedShare, setIsStoppedShare] = useState(true);
   const [isPausedShare, setIsPausedShare] = useState(false);
@@ -71,10 +70,7 @@ const ResultCard = ({
   const [directionLike, setDirectionLike] = useState(1);
 
   const clickHandler = () => {
-    if (!isStopped) {
-      setDirection(direction * -1);
-    }
-    setIsStopped(false);
+    setIsDisLiked(!isDisLiked);
   };
 
   const LikeHandler = () => {
@@ -133,7 +129,7 @@ const ResultCard = ({
         justifyContent="start"
       >
         <Tooltip label="Share Link" fontSize="sm" rounded="md">
-          <chakra.div onClick={ShareHandler} px="3">
+          <chakra.div onClick={ShareHandler}>
             <Lottie
               options={defaultOptionsShare}
               height={30}
@@ -159,20 +155,14 @@ const ResultCard = ({
           </chakra.div>
         </Tooltip>
         <Tooltip label="Dislike" fontSize="sm" rounded="md">
-          <chakra.div onClick={clickHandler}>
-            <Lottie
-              options={defaultOptions}
-              style={{
-                transform: "rotate(180deg)",
-                marginBottom: "2px",
-              }}
-              height={50}
-              width={50}
-              isStopped={isStopped}
-              isPaused={isPaused}
-              speed={speed}
-              direction={direction}
-            />
+          <chakra.div
+            onClick={clickHandler}
+            transform="rotate(180deg)"
+            fontSize="20px"
+            color="white"
+            _dark={{ color: "black" }}
+          >
+            {!isDisLiked ? <RiThumbUpLine /> : <RiThumbUpFill />}
           </chakra.div>
         </Tooltip>
       </HStack>

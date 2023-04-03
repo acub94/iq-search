@@ -30,10 +30,8 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(false);
   const [resultId, setResultId] = useState("");
   const toast = useToast();
-  const [isSearchDisabled, setIsSearchDisabled] = useState(false);
 
   const handleAnswer = async () => {
-    setIsSearchDisabled(true);
     if (query.length == 0) {
       toast({
         title: "Please enter a valid text before searching",
@@ -103,7 +101,6 @@ export default function Home() {
     }
 
     setLoading(false);
-    setIsSearchDisabled(false);
   };
 
   const handleKeyPress = async (
@@ -129,15 +126,19 @@ export default function Home() {
 
   return (
     <Flex direction="column">
-      <chakra.div minH="84vh">
+      <chakra.div minH="87vh">
         <Box w="full" textAlign="right" p="3" position="fixed">
           <ColorModeToggle />
         </Box>
-        <VStack gap="6" w="full" mt={{ base: "8", lg: "12" }}>
+        <VStack
+          gap={{ base: "10", md: "6" }}
+          w="full"
+          mt={{ base: "16", lg: "12" }}
+        >
           <Link href="/">
             <Image
               src="./brainLogo.svg"
-              w={{ base: "130px", lg: "150px", xl: "160px" }}
+              w={{ base: "180px", lg: "170px", xl: "160px" }}
             />
             <Heading
               fontSize={{ lg: "35px", md: "3xl", base: "3xl" }}
@@ -150,7 +151,7 @@ export default function Home() {
           </Link>
 
           <Flex
-            w={{ base: "80%", lg: "500px" }}
+            w={{ base: "80%", lg: "600px" }}
             gap="2"
             h="14"
             borderColor="gray.200"
@@ -171,7 +172,6 @@ export default function Home() {
               onChange={(e) => setQuery(e.target.value)}
               variant="unstyled"
               onKeyDown={handleKeyPress}
-              disabled={isSearchDisabled}
               h="full"
             />
             <Button
@@ -183,30 +183,35 @@ export default function Home() {
               <Icon as={Search2Icon} />
             </Button>
           </Flex>
-        </VStack>
-
-        {loading ? (
-          <VStack py="14">
-            <Lottie animationData={loadingSrc} style={style} />
-          </VStack>
-        ) : (
-          <VStack
-            w="full"
-            justifyContent="center"
-            alignItems="center"
-            py="8"
-            gap="3"
-          >
-            {answer.length < 1 ? (
-              <VStack py="20"></VStack>
+          <>
+            {loading ? (
+              <VStack
+                pt={{ base: "0", lg: "14" }}
+                pb={{ base: "10", lg: "14" }}
+              >
+                <Lottie animationData={loadingSrc} style={style} />
+              </VStack>
             ) : (
-              <ResultCard
-                result={answer}
-                resultLink={`https://iq.wiki/wiki/${resultId}`}
-              />
+              <VStack
+                w="full"
+                justifyContent="center"
+                alignItems="center"
+                pt="4"
+                pb="10"
+                gap="3"
+              >
+                {answer.length < 1 ? (
+                  <VStack py={{ base: "2", md: "7", lg: "20" }}></VStack>
+                ) : (
+                  <ResultCard
+                    result={answer}
+                    resultLink={`https://iq.wiki/wiki/${resultId}`}
+                  />
+                )}
+              </VStack>
             )}
-          </VStack>
-        )}
+          </>
+        </VStack>
       </chakra.div>
       <Footer />
     </Flex>
