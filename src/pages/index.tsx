@@ -126,7 +126,7 @@ export default function Home() {
 
   return (
     <Flex direction="column">
-      <chakra.div minH="87vh">
+      <chakra.div minH="87vh" justifyContent="center" alignItems="center">
         <Box w="full" textAlign="right" p="3" position="fixed">
           <ColorModeToggle />
         </Box>
@@ -134,6 +134,7 @@ export default function Home() {
           gap={{ base: "10", md: "6" }}
           w="full"
           mt={{ base: "16", lg: "12" }}
+          alignItems="center"
         >
           <Link href="/">
             <Image
@@ -149,7 +150,7 @@ export default function Home() {
               IQ GPT
             </Heading>
           </Link>
-          <VStack>
+          <VStack w="full">
             <Flex
               w={{ base: "80%", lg: "600px" }}
               gap="2"
@@ -201,7 +202,7 @@ export default function Home() {
                 gap="3"
               >
                 {answer.length < 1 ? (
-                  <VStack py={{ base: "2", md: "7", lg: "20" }}></VStack>
+                  <VStack py={{ base: "2", md: "7", lg: "10" }}></VStack>
                 ) : (
                   <ResultCard
                     result={answer}
