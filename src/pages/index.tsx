@@ -149,41 +149,41 @@ export default function Home() {
               IQ GPT
             </Heading>
           </Link>
-
-          <Flex
-            w={{ base: "80%", lg: "600px" }}
-            gap="2"
-            h="14"
-            borderColor="gray.200"
-            _dark={{ borderColor: "gray.300", bg: "gray.700" }}
-            bg="white"
-            borderWidth="1px"
-            rounded="lg"
-            pl="2"
-            alignItems="center"
-          >
-            <Input
-              placeholder="Ask me anything Crypto"
-              _placeholderShown={{
-                textOverflow: "ellipsis",
-              }}
-              fontSize="16"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              variant="unstyled"
-              onKeyDown={handleKeyPress}
-              h="full"
-            />
-            <Button
-              onClick={handleAnswer}
-              bg="none"
-              px="3"
-              _hover={{ bg: "none", color: "gray.500" }}
+          <VStack>
+            <Flex
+              w={{ base: "80%", lg: "600px" }}
+              gap="2"
+              h="14"
+              borderColor="gray.200"
+              _dark={{ borderColor: "gray.300", bg: "gray.700" }}
+              bg="white"
+              borderWidth="1px"
+              rounded="lg"
+              pl="2"
+              alignItems="center"
             >
-              <Icon as={Search2Icon} />
-            </Button>
-          </Flex>
-          <>
+              <Input
+                placeholder="Ask me anything Crypto"
+                _placeholderShown={{
+                  textOverflow: "ellipsis",
+                }}
+                fontSize="16"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                variant="unstyled"
+                onKeyDown={handleKeyPress}
+                h="full"
+              />
+              <Button
+                onClick={handleAnswer}
+                bg="none"
+                px="3"
+                _hover={{ bg: "none", color: "gray.500" }}
+              >
+                <Icon as={Search2Icon} />
+              </Button>
+            </Flex>
+
             {loading ? (
               <VStack
                 pt={{ base: "0", lg: "14" }}
@@ -197,7 +197,7 @@ export default function Home() {
                 justifyContent="center"
                 alignItems="center"
                 pt="4"
-                pb="10"
+                pb="6"
                 gap="3"
               >
                 {answer.length < 1 ? (
@@ -210,7 +210,7 @@ export default function Home() {
                 )}
               </VStack>
             )}
-          </>
+          </VStack>
         </VStack>
       </chakra.div>
       <Footer />
