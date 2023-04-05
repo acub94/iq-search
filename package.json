@@ -37,6 +37,7 @@
     "typescript": "4.9.5"
   },
   "devDependencies": {
-    "@types/react-lottie": "^1.2.6"
+    "@types/react-lottie": "^1.2.6",
+    "rome": "12.0.0"
   }
 }

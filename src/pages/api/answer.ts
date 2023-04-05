@@ -11,7 +11,7 @@ const handler = async (req: Request): Promise<Response> => {
     const stream = await OpenAIStream(prompt);
 
     return new Response(stream, { status: 200});
-  } catch (error) {
+  } catch (_error) {
     // console.error(error);
     return new Response("Error", { status: 500 });
   }

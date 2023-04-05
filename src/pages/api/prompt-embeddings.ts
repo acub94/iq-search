@@ -6,7 +6,7 @@ export const config = {
 
 const handler = async (req: Request): Promise<Response> => {
   try {
-    const { query, apiKey, matches } = (await req.json()) as {
+    const { query } = (await req.json()) as {
       query: string;
       apiKey: string;
       matches: number;

@@ -29,10 +29,6 @@ const ResultCard = ({
   result: string;
   resultLink: string;
 }) => {
-  const style = {
-    height: 55,
-    cursor: "pointer",
-  };
 
   const defaultOptions = {
     loop: false,
@@ -61,18 +57,18 @@ const ResultCard = ({
     },
   };
   const [isStopped, setIsStopped] = useState(true);
-  const [isPaused, setIsPaused] = useState(false);
-  const [speed, setSpeed] = useState(2);
+  const [isPaused] = useState(false);
+  const [speed] = useState(2);
   const [direction, setDirection] = useState(1);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isStoppedShare, setIsStoppedShare] = useState(true);
-  const [isPausedShare, setIsPausedShare] = useState(false);
-  const [speedShare, setSpeedShare] = useState(2);
+  const [isPausedShare] = useState(false);
+  const [speedShare] = useState(2);
   const [directionShare, setDirectionShare] = useState(1);
 
   const [isStoppedLike, setIsStoppedLike] = useState(true);
-  const [isPausedLike, setIsPausedLike] = useState(false);
-  const [speedLike, setSpeedLike] = useState(2);
+  const [isPausedLike] = useState(false);
+  const [speedLike] = useState(2);
   const [directionLike, setDirectionLike] = useState(1);
 
   const clickHandler = () => {

@@ -26,14 +26,14 @@ import { queryReadyText } from "@/utils/shortenText";
 
 export default function Home() {
   const [queryText, setQueryText] = useState<string>("");
-  const [chunks, setChunks] = useState<PGChunk[]>([]);
+  const [, setChunks] = useState<PGChunk[]>([]);
   const [answer, setAnswer] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [resultId, setResultId] = useState("");
   const toast = useToast();
 
   const handleAnswer = async () => {
-    if (queryText.length == 0) {
+    if (queryText.length === 0) {
       toast({
         title: "Please enter a valid text before searching",
         isClosable: true,
@@ -43,7 +43,7 @@ export default function Home() {
     }
     setLoading(true);
     setAnswer("");
-    let query = queryReadyText(queryText);
+    const query = queryReadyText(queryText);
     const searchResponse = await fetch("/api/prompt-embeddings", {
       method: "POST",
       headers: {
@@ -118,7 +118,7 @@ export default function Home() {
   ) => {
     if (event.key === "Enter" && queryText.length > 0) {
       await handleAnswer();
-    } else if (event.key === "Enter" && queryText.length == 0) {
+    } else if (event.key === "Enter" && queryText.length === 0) {
       toast({
         title: "Please enter a valid text before searching",
         isClosable: true,

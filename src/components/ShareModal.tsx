@@ -1,5 +1,4 @@
 import {
-  ModalProps,
   useClipboard,
   Modal,
   ModalOverlay,
@@ -7,7 +6,6 @@ import {
   ModalBody,
   Flex,
   Text,
-  Box,
   Link,
   chakra,
   ModalHeader,
@@ -16,7 +14,6 @@ import {
   HStack,
   VStack,
 } from "@chakra-ui/react";
-import { RiFileCopyLine, RiFileCopyFill } from "react-icons/ri";
 import { MdCancel } from "react-icons/md";
 import { Socials } from "./Data/socialData";
 
