@@ -25,7 +25,7 @@ import Link from "next/link";
 import { queryReadyText } from "@/utils/shortenText";
 
 export default function Home() {
-  const [query, setQuery] = useState<string>("");
+  const [queryText, setQueryText] = useState<string>("");
   const [chunks, setChunks] = useState<PGChunk[]>([]);
   const [answer, setAnswer] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -33,7 +33,7 @@ export default function Home() {
   const toast = useToast();
 
   const handleAnswer = async () => {
-    if (query.length == 0) {
+    if (queryText.length == 0) {
       toast({
         title: "Please enter a valid text before searching",
         isClosable: true,
@@ -43,13 +43,13 @@ export default function Home() {
     }
     setLoading(true);
     setAnswer("");
-    let queryText = queryReadyText(query);
+    let query = queryReadyText(queryText);
     const searchResponse = await fetch("/api/prompt-embeddings", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ queryText }),
+      body: JSON.stringify({ query }),
     });
 
     if (!searchResponse.ok) {
@@ -116,9 +116,9 @@ export default function Home() {
   const handleKeyPress = async (
     event: React.KeyboardEvent<HTMLInputElement>
   ) => {
-    if (event.key === "Enter" && query.length > 0) {
+    if (event.key === "Enter" && queryText.length > 0) {
       await handleAnswer();
-    } else if (event.key === "Enter" && query.length == 0) {
+    } else if (event.key === "Enter" && queryText.length == 0) {
       toast({
         title: "Please enter a valid text before searching",
         isClosable: true,
@@ -187,8 +187,8 @@ export default function Home() {
                   textOverflow: "ellipsis",
                 }}
                 fontSize="16"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                value={queryText}
+                onChange={(e) => setQueryText(e.target.value)}
                 variant="unstyled"
                 onKeyDown={handleKeyPress}
                 h="full"
