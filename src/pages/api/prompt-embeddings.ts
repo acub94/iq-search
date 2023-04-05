@@ -12,7 +12,11 @@ const handler = async (req: Request): Promise<Response> => {
       matches: number;
     };
 
-    const input = query.replace(/(\w)\?/g, "$1 ?");
+    let input = query;
+    if (input[input.length - 1] !== '?') {
+      input += '?';
+    }
+    input = input.replace(/(\w)\?/g, "$1 ?");
 
 
     const res = await fetch("https://api.openai.com/v1/embeddings", {
