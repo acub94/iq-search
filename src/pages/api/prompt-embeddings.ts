@@ -34,7 +34,7 @@ const handler = async (req: Request): Promise<Response> => {
     const embedding = json.data[0].embedding;
 
     const { data: chunks, error } = await supabaseAdmin.rpc(
-      "langchain_search",
+      "langchain150tkn_search",
       {
         query_embedding: embedding,
         similarity_threshold: 0.76,
