@@ -59,9 +59,11 @@ export default function Home() {
     const results: PGChunk[] = await searchResponse.json();
     setChunks(results);
     setResultId(results[0].wikiid);
+
+    const input = query.replace(/(\w)\?/g, "$1 ?");
     
     const prompt = endent`
-    Use the following passage to answer the query(dont write any questions in output): ${query}\n
+    Use the following passage to answer the query(dont write any questions in output): ${input}\n
 
     ${results
       .map((chunk) => {
