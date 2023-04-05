@@ -60,7 +60,6 @@ export default function Home() {
     setChunks(results);
     setResultId(results[0].wikiid);
 
-    console.log(results)
 
     const prompt = endent`
     Use the following passage to answer the query(dont write any questions in output): ${query}\n
@@ -72,8 +71,6 @@ export default function Home() {
       .join("")
       }
     `;
-
-    console.log(prompt)
 
     const answerResponse = await fetch("/api/answer", {
       method: "POST",
