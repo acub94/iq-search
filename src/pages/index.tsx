@@ -60,7 +60,12 @@ export default function Home() {
     setChunks(results);
     setResultId(results[0].wikiid);
 
-    const input = query.replace(/(\w)\?/g, "$1 ?");
+    let input = query;
+    if (input[input.length - 1] !== '?') {
+      input += '?';
+    }
+    input = input.replace(/(\w)\?/g, "$1 ?");
+  
     
     const prompt = endent`
     Use the following passage to answer the query(dont write any questions in output): ${input}\n
