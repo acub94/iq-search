@@ -13,7 +13,6 @@ const handler = async (req: Request): Promise<Response> => {
     };
 
     const input = query.replace(/\?/g, "");
-    console.log(input)
 
     const res = await fetch("https://api.openai.com/v1/embeddings", {
       headers: {
