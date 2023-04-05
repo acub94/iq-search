@@ -12,7 +12,12 @@ const handler = async (req: Request): Promise<Response> => {
       matches: number;
     };
 
-    const input = query.replace(/\?/g, "");
+    let input = query;
+    if (input[input.length - 1] !== '?') {
+      input += '?';
+    }
+    input = input.replace(/(\w)\?/g, "$1 ?");
+
 
     const res = await fetch("https://api.openai.com/v1/embeddings", {
       headers: {
@@ -31,7 +36,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     const { data: chunks, error } = await supabaseAdmin.rpc("langchain_search", {
       query_embedding: embedding,
-      similarity_threshold: 0.73,
+      similarity_threshold: 0.76,
       match_count: 5,
     });
     if (error) {
