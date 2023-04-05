@@ -12,7 +12,7 @@ const handler = async (req: Request): Promise<Response> => {
       matches: number;
     };
 
-    const input = query.replace(/\n/g, " ");
+    const input = query.replace(/\?/g, "");
 
     const res = await fetch("https://api.openai.com/v1/embeddings", {
       headers: {
@@ -22,7 +22,7 @@ const handler = async (req: Request): Promise<Response> => {
       method: "POST",
       body: JSON.stringify({
         model: "text-embedding-ada-002",
-        input: query,
+        input: input,
       }),
     });
 
@@ -31,7 +31,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     const { data: chunks, error } = await supabaseAdmin.rpc("langchain_search", {
       query_embedding: embedding,
-      similarity_threshold: 0.76,
+      similarity_threshold: 0.73,
       match_count: 5,
     });
     if (error) {
