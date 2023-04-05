@@ -12,7 +12,8 @@ const handler = async (req: Request): Promise<Response> => {
       matches: number;
     };
 
-    const input = query.replace(/\?/g, "");
+    const input = query.replace(/\?/g, " ");
+
 
     const res = await fetch("https://api.openai.com/v1/embeddings", {
       headers: {
