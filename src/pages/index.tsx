@@ -59,6 +59,7 @@ export default function Home() {
     const results: PGChunk[] = await searchResponse.json();
     setChunks(results);
     setResultId(results[0].wikiid);
+    
 
     let input = query;
     if (input[input.length - 1] !== '?') {
@@ -77,7 +78,7 @@ export default function Home() {
       .join("")
       }
     `;
-
+    
     const answerResponse = await fetch("/api/answer", {
       method: "POST",
       headers: {
