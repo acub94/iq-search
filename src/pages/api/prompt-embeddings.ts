@@ -32,8 +32,8 @@ const handler = async (req: Request): Promise<Response> => {
 
     const { data: chunks, error } = await supabaseAdmin.rpc("langchain_search", {
       query_embedding: embedding,
-      similarity_threshold: 0.73,
-      match_count: 5,
+      similarity_threshold: 0.76,
+      match_count: 4,
     });
     if (error) {
       console.error(error);
