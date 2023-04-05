@@ -22,6 +22,7 @@ import endent from "endent";
 import FilterDark from "../components/Data/filterDark.json";
 import FilterLight from "../components/Data/filterLight.json";
 import Link from "next/link";
+import { queryReadyText } from "@/utils/shortenText";
 
 export default function Home() {
   const [query, setQuery] = useState<string>("");
@@ -42,13 +43,13 @@ export default function Home() {
     }
     setLoading(true);
     setAnswer("");
-
+    let queryText = queryReadyText(query);
     const searchResponse = await fetch("/api/prompt-embeddings", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ query }),
+      body: JSON.stringify({ queryText }),
     });
 
     if (!searchResponse.ok) {
@@ -57,11 +58,20 @@ export default function Home() {
     }
 
     const results: PGChunk[] = await searchResponse.json();
+    if (results.length < 1) {
+      setLoading(false);
+      toast({
+        title: "Search query can't be found in any wiki",
+        isClosable: true,
+        status: "warning",
+      });
+      return;
+    }
     setChunks(results);
     setResultId(results[0].wikiid);
 
     const prompt = endent`
-    Use the following passages to answer the query: ${query}\n\n
+    Use the following passages to answer the query: ${queryText}\n\n
 
     ${results
       .map((chunk) => {
@@ -126,15 +136,19 @@ export default function Home() {
 
   return (
     <Flex direction="column">
-      <chakra.div minH="87vh" justifyContent="center" alignItems="center">
-        <Box w="full" textAlign="right" p="3" position="fixed">
-          <ColorModeToggle />
-        </Box>
+      <Box w="full" textAlign="right" p="3" position="fixed">
+        <ColorModeToggle />
+      </Box>
+      <chakra.div
+        minH="87vh"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
         <VStack
           gap={{ base: "10", md: "6" }}
           w="full"
           mt={{ base: "16", lg: "12" }}
-          alignItems="center"
         >
           <Link href="/">
             <Image
@@ -143,7 +157,7 @@ export default function Home() {
             />
             <Heading
               fontSize={{ lg: "35px", md: "3xl", base: "3xl" }}
-              pt="2"
+              pt="4"
               textAlign="center"
               _hover={{ textDecoration: "none" }}
             >
@@ -152,11 +166,15 @@ export default function Home() {
           </Link>
           <VStack w="full">
             <Flex
-              w={{ base: "80%", lg: "600px" }}
+              w={{ base: "80%", lg: "70%" }}
               gap="2"
               h="14"
               borderColor="gray.200"
-              _dark={{ borderColor: "gray.300", bg: "gray.700" }}
+              _dark={{
+                borderColor: "#ffffff3d",
+                bg: "gray.700",
+                color: "#ffffffa3",
+              }}
               bg="white"
               borderWidth="1px"
               rounded="lg"
@@ -186,10 +204,7 @@ export default function Home() {
             </Flex>
 
             {loading ? (
-              <VStack
-                pt={{ base: "0", lg: "14" }}
-                pb={{ base: "10", lg: "14" }}
-              >
+              <VStack py={{ base: "5", lg: "14" }}>
                 <Lottie animationData={loadingSrc} style={style} />
               </VStack>
             ) : (
@@ -201,9 +216,7 @@ export default function Home() {
                 pb="6"
                 gap="3"
               >
-                {answer.length < 1 ? (
-                  <VStack py={{ base: "2", md: "7", lg: "10" }}></VStack>
-                ) : (
+                {answer.length > 0 && (
                   <ResultCard
                     result={answer}
                     resultLink={`https://iq.wiki/wiki/${resultId}`}
