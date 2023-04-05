@@ -29,7 +29,6 @@ const ResultCard = ({
   result: string;
   resultLink: string;
 }) => {
-
   const defaultOptions = {
     loop: false,
     autoplay: false,

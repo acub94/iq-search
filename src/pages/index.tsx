@@ -71,12 +71,11 @@ export default function Home() {
     setResultId(results[0].wikiid);
 
     let input = query;
-    if (input[input.length - 1] !== '?') {
-      input += '?';
+    if (input[input.length - 1] !== "?") {
+      input += "?";
     }
     input = input.replace(/(\w)\?/g, "$1 ?");
-  
-    
+
     const prompt = endent`
     Use the following passage to answer the query(dont write any questions in output): ${input}\n
 
@@ -121,7 +120,7 @@ export default function Home() {
   };
 
   const handleKeyPress = async (
-    event: React.KeyboardEvent<HTMLInputElement>
+    event: React.KeyboardEvent<HTMLInputElement>,
   ) => {
     if (event.key === "Enter" && queryText.length > 0) {
       await handleAnswer();
