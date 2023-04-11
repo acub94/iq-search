@@ -16,13 +16,14 @@ import {
 } from '@chakra-ui/react';
 import { Search2Icon } from '@chakra-ui/icons';
 import { ColorModeToggle } from '@/components/ColorToggle';
-import ResultCard from '@/components/ResultCard';
+
 import { useState } from 'react';
 import endent from 'endent';
 import FilterDark from '../components/Data/filterDark.json';
 import FilterLight from '../components/Data/filterLight.json';
 import Link from 'next/link';
 import { queryReadyText } from '@/utils/shortenText';
+import SearchCard from '@/components/SearchCard';
 
 export default function Home() {
   const [queryText, setQueryText] = useState<string>('');
@@ -219,7 +220,7 @@ export default function Home() {
                 gap='3'
               >
                 {answer.length > 0 && (
-                  <ResultCard
+                  <SearchCard
                     result={answer}
                     resultLink={`https://iq.wiki/wiki/${resultId}`}
                   />
