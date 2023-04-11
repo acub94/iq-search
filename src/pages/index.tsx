@@ -1,6 +1,6 @@
-import Footer from '@/components/Footer';
-import { PGChunk } from '@/types';
-import Lottie from 'lottie-react';
+import Footer from "@/components/Footer";
+import { PGChunk } from "@/types";
+import Lottie from "lottie-react";
 import {
   Box,
   Flex,
@@ -12,45 +12,45 @@ import {
   chakra,
   useToast,
   Image,
-  useColorModeValue
-} from '@chakra-ui/react';
-import { Search2Icon } from '@chakra-ui/icons';
-import { ColorModeToggle } from '@/components/ColorToggle';
+  useColorModeValue,
+} from "@chakra-ui/react";
+import { Search2Icon } from "@chakra-ui/icons";
+import { ColorModeToggle } from "@/components/ColorToggle";
 
-import { useState } from 'react';
-import endent from 'endent';
-import FilterDark from '../components/Data/filterDark.json';
-import FilterLight from '../components/Data/filterLight.json';
-import Link from 'next/link';
-import { queryReadyText } from '@/utils/shortenText';
-import SearchCard from '@/components/SearchCard';
+import { useState } from "react";
+import endent from "endent";
+import FilterDark from "../components/Data/filterDark.json";
+import FilterLight from "../components/Data/filterLight.json";
+import Link from "next/link";
+import { queryReadyText } from "@/utils/shortenText";
+import SearchCard from "@/components/SearchCard";
 
 export default function Home() {
-  const [queryText, setQueryText] = useState<string>('');
+  const [queryText, setQueryText] = useState<string>("");
   const [, setChunks] = useState<PGChunk[]>([]);
-  const [answer, setAnswer] = useState<string>('');
+  const [answer, setAnswer] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const [resultId, setResultId] = useState('');
+  const [resultId, setResultId] = useState("");
   const toast = useToast();
 
   const handleAnswer = async () => {
     if (queryText.length === 0) {
       toast({
-        title: 'Please enter a valid text before searching',
+        title: "Please enter a valid text before searching",
         isClosable: true,
-        status: 'error'
+        status: "error",
       });
       return;
     }
     setLoading(true);
-    setAnswer('');
+    setAnswer("");
     const query = queryReadyText(queryText);
-    const searchResponse = await fetch('/api/prompt-embeddings', {
-      method: 'POST',
+    const searchResponse = await fetch("/api/prompt-embeddings", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ query })
+      body: JSON.stringify({ query }),
     });
 
     if (!searchResponse.ok) {
@@ -64,7 +64,7 @@ export default function Home() {
       toast({
         title: "Search query can't be found in any wiki",
         isClosable: true,
-        status: 'warning'
+        status: "warning",
       });
       return;
     }
@@ -72,10 +72,10 @@ export default function Home() {
     setResultId(results[0].wikiid);
 
     let input = query;
-    if (input[input.length - 1] !== '?') {
-      input += '?';
+    if (input[input.length - 1] !== "?") {
+      input += "?";
     }
-    input = input.replace(/(\w)\?/g, '$1 ?');
+    input = input.replace(/(\w)\?/g, "$1 ?");
 
     const prompt = endent`
     Use the following passage to answer the query(dont write any questions in output): ${input}\n
@@ -84,15 +84,15 @@ export default function Home() {
       .map((chunk) => {
         return chunk.content;
       })
-      .join('')}
+      .join("")}
     `;
 
-    const answerResponse = await fetch('/api/answer', {
-      method: 'POST',
+    const answerResponse = await fetch("/api/answer", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ prompt })
+      body: JSON.stringify({ prompt }),
     });
 
     if (!answerResponse.ok) {
@@ -121,22 +121,22 @@ export default function Home() {
   };
 
   const handleKeyPress = async (
-    event: React.KeyboardEvent<HTMLInputElement>
+    event: React.KeyboardEvent<HTMLInputElement>,
   ) => {
-    if (event.key === 'Enter' && queryText.length > 0) {
+    if (event.key === "Enter" && queryText.length > 0) {
       await handleAnswer();
-    } else if (event.key === 'Enter' && queryText.length === 0) {
+    } else if (event.key === "Enter" && queryText.length === 0) {
       toast({
-        title: 'Please enter a valid text before searching',
+        title: "Please enter a valid text before searching",
         isClosable: true,
-        status: 'error'
+        status: "error",
       });
     }
   };
 
   const style = {
     height: 100,
-    cursor: 'pointer'
+    cursor: "pointer",
   };
 
   const loadingSrc = useColorModeValue(FilterDark, FilterLight);
@@ -146,37 +146,37 @@ export default function Home() {
       <Box w='full' textAlign='right' p='3' position='fixed'>
         <ColorModeToggle />
       </Box>
-      <chakra.div minH='87vh' display='flex' mt={{ md: '6' }}>
+      <chakra.div minH='87vh' display='flex' mt={{ md: "6" }}>
         <VStack
-          gap={{ base: '10', md: '6' }}
+          gap={{ base: "10", md: "6" }}
           w='full'
-          mt={{ base: '16', lg: '12' }}
+          mt={{ base: "16", lg: "12" }}
         >
           <Link href='/'>
             <Image
               src='./brainLogo.svg'
-              w={{ base: '120px' }}
+              w={{ base: "120px" }}
               alt='Braindao GPT logo'
             />
             <Heading
-              fontSize={{ lg: '35px', md: '3xl', base: '3xl' }}
+              fontSize={{ lg: "35px", md: "3xl", base: "3xl" }}
               pt='4'
               textAlign='center'
-              _hover={{ textDecoration: 'none' }}
+              _hover={{ textDecoration: "none" }}
             >
               IQ GPT
             </Heading>
           </Link>
-          <VStack w='full' px={{ base: '5', md: 0 }}>
+          <VStack w='full' px={{ base: "5", md: 0 }}>
             <Flex
-              w={{ base: 'full', md: '560px' }}
+              w={{ base: "full", md: "560px" }}
               gap='2'
               h='14'
               borderColor='gray.200'
               _dark={{
-                borderColor: '#ffffff3d',
-                bg: 'gray.700',
-                color: '#ffffffa3'
+                borderColor: "#ffffff3d",
+                bg: "gray.700",
+                color: "#ffffffa3",
               }}
               bg='white'
               borderWidth='1px'
@@ -187,7 +187,7 @@ export default function Home() {
               <Input
                 placeholder='Ask me anything Crypto'
                 _placeholderShown={{
-                  textOverflow: 'ellipsis'
+                  textOverflow: "ellipsis",
                 }}
                 fontSize='16'
                 value={queryText}
@@ -200,14 +200,14 @@ export default function Home() {
                 onClick={handleAnswer}
                 bg='none'
                 px='4'
-                _hover={{ bg: 'none', color: 'gray.500' }}
+                _hover={{ bg: "none", color: "gray.500" }}
               >
                 <Icon as={Search2Icon} />
               </Button>
             </Flex>
 
             {loading ? (
-              <VStack py={{ base: '5', lg: '14' }}>
+              <VStack py={{ base: "5", lg: "14" }}>
                 <Lottie animationData={loadingSrc} style={style} />
               </VStack>
             ) : (

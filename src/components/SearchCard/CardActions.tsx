@@ -1,12 +1,12 @@
-import { HStack, Tooltip, IconButton, Icon } from '@chakra-ui/react';
-import { useState } from 'react';
+import { HStack, Tooltip, IconButton, Icon } from "@chakra-ui/react";
+import { useState } from "react";
 import {
   RiShareLine,
   RiThumbUpFill,
   RiThumbUpLine,
   RiThumbDownFill,
-  RiThumbDownLine
-} from 'react-icons/ri';
+  RiThumbDownLine,
+} from "react-icons/ri";
 
 const CardActions = ({ ShareHandler }: { ShareHandler: () => void }) => {
   const [liked, setLiked] = useState<boolean>(false);
@@ -34,7 +34,7 @@ const CardActions = ({ ShareHandler }: { ShareHandler: () => void }) => {
         rounded='md'
         bg='gray.800'
         color='whiteAlpha.900'
-        _dark={{ bg: 'whiteAlpha.900', color: 'gray.800' }}
+        _dark={{ bg: "whiteAlpha.900", color: "gray.800" }}
       >
         <IconButton
           variant='unstyled'
@@ -47,7 +47,7 @@ const CardActions = ({ ShareHandler }: { ShareHandler: () => void }) => {
           alignItems='center'
           justifyContent='center'
           color='gray.500'
-          _dark={{ color: 'whiteAlpha.700' }}
+          _dark={{ color: "whiteAlpha.700" }}
         >
           <Icon as={RiShareLine} w='5' h='5' />
         </IconButton>
@@ -58,7 +58,7 @@ const CardActions = ({ ShareHandler }: { ShareHandler: () => void }) => {
         rounded='md'
         bg='gray.800'
         color='whiteAlpha.900'
-        _dark={{ bg: 'whiteAlpha.900', color: 'gray.800' }}
+        _dark={{ bg: "whiteAlpha.900", color: "gray.800" }}
       >
         <IconButton
           variant='unstyled'
@@ -70,7 +70,7 @@ const CardActions = ({ ShareHandler }: { ShareHandler: () => void }) => {
           alignItems='center'
           justifyContent='center'
           color='gray.500'
-          _dark={{ color: 'whiteAlpha.700' }}
+          _dark={{ color: "whiteAlpha.700" }}
           onClick={() => {
             handleLike();
           }}
@@ -88,7 +88,7 @@ const CardActions = ({ ShareHandler }: { ShareHandler: () => void }) => {
         rounded='md'
         bg='gray.800'
         color='whiteAlpha.900'
-        _dark={{ bg: 'whiteAlpha.900', color: 'gray.800' }}
+        _dark={{ bg: "whiteAlpha.900", color: "gray.800" }}
       >
         <IconButton
           variant='unstyled'
@@ -100,7 +100,7 @@ const CardActions = ({ ShareHandler }: { ShareHandler: () => void }) => {
           alignItems='center'
           justifyContent='center'
           color='gray.500'
-          _dark={{ color: 'whiteAlpha.700' }}
+          _dark={{ color: "whiteAlpha.700" }}
           onClick={() => {
             handleDislike();
           }}

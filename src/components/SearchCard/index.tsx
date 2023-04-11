@@ -5,21 +5,21 @@ import {
   chakra,
   Box,
   Flex,
-  useDisclosure
-} from '@chakra-ui/react';
-import React from 'react';
-import { shortenText } from '@/utils/shortenText';
-import { Inconsolata } from 'next/font/google';
-import CardActions from './CardActions';
-import ShareModal from '../ShareModal';
+  useDisclosure,
+} from "@chakra-ui/react";
+import React from "react";
+import { shortenText } from "@/utils/shortenText";
+import { Inconsolata } from "next/font/google";
+import CardActions from "./CardActions";
+import ShareModal from "../ShareModal";
 
 const inconsolata = Inconsolata({
-  subsets: ['latin']
+  subsets: ["latin"],
 });
 
 const SearchCard = ({
   result,
-  resultLink
+  resultLink,
 }: {
   result: string;
   resultLink: string;
@@ -31,19 +31,20 @@ const SearchCard = ({
 
   return (
     <VStack
-      p={{ base: 3, md: '5' }}
+      p={{ base: 3, md: "5" }}
       bg='gray.50'
+      borderColor='gray.200'
+      borderWidth='1px'
       _dark={{
-        bg: 'gray.700',
-        borderColor: '#ffffff3d',
-        borderWidth: '1px'
+        bg: "gray.700",
+        borderColor: "#ffffff3d",
       }}
       gap='1'
-      w={{ base: '100%', md: '80%', xl: '60%' }}
+      w={{ base: "100%", md: "80%", xl: "60%" }}
       rounded='2xl'
     >
       <Box w='full'>
-        <Text fontSize={{ base: '14px', lg: '16px' }} whiteSpace='pre-wrap'>
+        <Text fontSize={{ base: "14px", lg: "16px" }} whiteSpace='pre-wrap'>
           {result}
         </Text>
         <VStack
@@ -61,8 +62,8 @@ const SearchCard = ({
               target='_blank'
               textOverflow='hidden'
               color='brand.500'
-              _hover={{ textDecor: 'underline' }}
-              _dark={{ color: 'brand.800' }}
+              _hover={{ textDecor: "underline" }}
+              _dark={{ color: "brand.800" }}
             >
               {resultLink}
             </Link>

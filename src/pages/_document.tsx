@@ -1,8 +1,8 @@
-import * as React from 'react';
-import type { DocumentContext } from 'next/document';
-import NextDocument, { Head, Html, Main, NextScript } from 'next/document';
-import { ColorModeScript } from '@chakra-ui/react';
-import theme from '@/components/themes';
+import * as React from "react";
+import type { DocumentContext } from "next/document";
+import NextDocument, { Head, Html, Main, NextScript } from "next/document";
+import { ColorModeScript } from "@chakra-ui/react";
+import theme from "@/components/themes";
 
 export default class Document extends NextDocument {
   static async getInitialProps(ctx: DocumentContext) {
