@@ -11,9 +11,16 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import Like from "./Data/Like.json";
+import Dislike from "./Data/DisLike.json";
 import Share from "./Data/share.json";
 import Lottie from "react-lottie";
 import ShareModal from "./ShareModal";
+import { shortenText } from "@/utils/shortenText";
+import { Inconsolata } from "next/font/google";
+
+const inconsolata = Inconsolata({
+  subsets: ["latin"],
+});
 
 const ResultCard = ({
   result,
@@ -22,12 +29,16 @@ const ResultCard = ({
   result: string;
   resultLink: string;
 }) => {
-  const style = {
-    height: 55,
-    cursor: "pointer",
+  const defaultOptions = {
+    loop: false,
+    autoplay: false,
+    animationData: Dislike,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
   };
 
-  const defaultOptions = {
+  const defaultOptionsLike = {
     loop: false,
     autoplay: false,
     animationData: Like,
@@ -45,61 +56,87 @@ const ResultCard = ({
     },
   };
   const [isStopped, setIsStopped] = useState(true);
-  const [isPaused, setIsPaused] = useState(false);
-  const [speed, setSpeed] = useState(2);
+  const [isPaused] = useState(false);
+  const [speed] = useState(2);
   const [direction, setDirection] = useState(1);
-  const [isLike, setIsLike] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isStoppedShare, setIsStoppedShare] = useState(true);
-  const [isPausedShare, setIsPausedShare] = useState(false);
-  const [speedShare, setSpeedShare] = useState(2);
+  const [isPausedShare] = useState(false);
+  const [speedShare] = useState(2);
   const [directionShare, setDirectionShare] = useState(1);
-  const [isLikeShare, setIsLikeShare] = useState(false);
+
+  const [isStoppedLike, setIsStoppedLike] = useState(true);
+  const [isPausedLike] = useState(false);
+  const [speedLike] = useState(2);
+  const [directionLike, setDirectionLike] = useState(1);
 
   const clickHandler = () => {
     if (!isStopped) {
       setDirection(direction * -1);
     }
     setIsStopped(false);
-    setIsLike(!isLike);
   };
 
+  const LikeHandler = () => {
+    if (!isStoppedLike) {
+      setDirectionLike(directionLike * -1);
+    }
+    setIsStoppedLike(false);
+  };
 
   const ShareHandler = () => {
     if (!isStoppedShare) {
       setDirectionShare(directionShare * -1);
     }
     setIsStoppedShare(false);
-    setIsLikeShare(!isLikeShare);
     onOpen();
   };
 
   return (
     <VStack
-      p="3"
-      bg="gray.200"
+      px="6"
+      pt="5"
+      pb="1"
+      bg="gray.50"
       _dark={{ bg: "gray.700" }}
       gap="1"
       w={{ base: "80%", md: "80%", lg: "60%" }}
-      rounded="md"
+      rounded="2xl"
     >
       <Box w="full">
         <Text fontSize={{ base: "14px", lg: "16px" }} whiteSpace="pre-wrap">
           {result}
         </Text>
-        <Flex pt="4" gap="1">
-          Source:
-          <Link
-            href={resultLink}
-            color="#FF5CAA"
-            _dark={{ color: "#FF1A88" }}
-            target="_blank"
-          >
-            <Text>{resultLink}</Text>
-          </Link>
-        </Flex>
+        <VStack
+          pt="7"
+          w="full"
+          alignItems="flex-start"
+          fontFamily={inconsolata.style.fontFamily}
+        >
+          <Flex w="full" pb="0">
+            Source:
+            <Link
+              href={resultLink}
+              color="brand.500"
+              _dark={{ color: "brand.800" }}
+              target="_blank"
+              textOverflow="hidden"
+              pl="2"
+            >
+              <Text>{shortenText(result, 70)}</Text>
+            </Link>{" "}
+          </Flex>
+          <chakra.span color="gray.500" _dark={{ color: "whiteAlpha.600" }}>
+            {resultLink}
+          </chakra.span>
+        </VStack>
       </Box>
-      <HStack w="full" alignItems="center" justifyContent="start">
+      <HStack
+        w="full"
+        alignItems="center"
+        textAlign="center"
+        justifyContent="start"
+      >
         <Tooltip label="Share Link" fontSize="sm" rounded="md">
           <chakra.div onClick={ShareHandler}>
             <Lottie
@@ -113,19 +150,57 @@ const ResultCard = ({
             />
           </chakra.div>
         </Tooltip>
-        <Tooltip label="Like" fontSize="sm" rounded="md">
-          <chakra.div onClick={clickHandler}>
-            <Lottie
-              options={defaultOptions}
-              height={55}
-              width={40}
-              isStopped={isStopped}
-              isPaused={isPaused}
-              speed={speed}
-              direction={direction}
+
+        <chakra.div pos="relative" cursor="pointer">
+          <Lottie
+            options={defaultOptionsLike}
+            style={{
+              marginLeft: "-13px",
+            }}
+            height={50}
+            width={50}
+            isStopped={isStoppedLike}
+            isPaused={isPausedLike}
+            speed={speedLike}
+            direction={directionLike}
+          />
+          <Tooltip label="Like" fontSize="sm" rounded="md">
+            <chakra.div
+              onClick={LikeHandler}
+              pos="absolute"
+              top="30%"
+              left="3%"
+              w="18px"
+              h="20px"
             />
-          </chakra.div>
-        </Tooltip>
+          </Tooltip>
+        </chakra.div>
+
+        <chakra.div pos="relative" cursor="pointer">
+          <Lottie
+            options={defaultOptions}
+            style={{
+              transform: "rotate(180deg)",
+              marginLeft: "-24px",
+            }}
+            height={50}
+            width={50}
+            isStopped={isStopped}
+            isPaused={isPaused}
+            speed={speed}
+            direction={direction}
+          />
+          <Tooltip label="Dislike" fontSize="sm" rounded="md">
+            <chakra.div
+              onClick={clickHandler}
+              pos="absolute"
+              top="30%"
+              left="-25%"
+              w="18px"
+              h="20px"
+            />
+          </Tooltip>
+        </chakra.div>
       </HStack>
       <ShareModal isOpen={isOpen} onClose={onClose} />
     </VStack>

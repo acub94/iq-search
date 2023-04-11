@@ -1,17 +1,17 @@
 import { OpenAIStream } from "@/utils";
 
 export const config = {
-  runtime: "edge"
+  runtime: "edge",
 };
 
 const handler = async (req: Request): Promise<Response> => {
   try {
-    const { prompt } = (await req.json()) as {prompt: string};
+    const { prompt } = (await req.json()) as { prompt: string };
 
     const stream = await OpenAIStream(prompt);
 
-    return new Response(stream, { status: 200});
-  } catch (error) {
+    return new Response(stream, { status: 200 });
+  } catch (_error) {
     // console.error(error);
     return new Response("Error", { status: 500 });
   }
