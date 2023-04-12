@@ -4,12 +4,15 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { StrictMode } from "react";
 import { Montserrat } from "next/font/google";
 import theme from "@/components/themes";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 export const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["500", "600", "700"],
   display: "swap",
 });
+
+const queryClient = new QueryClient();
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
@@ -19,9 +22,11 @@ const App = ({ Component, pageProps }: AppProps) => {
           --montserrat-font: ${montserrat.style.fontFamily};
         }
       `}</style>
-      <ChakraProvider theme={theme}>
-        <Component {...pageProps} />
-      </ChakraProvider>
+      <QueryClientProvider client={queryClient}>
+        <ChakraProvider theme={theme}>
+          <Component {...pageProps} />
+        </ChakraProvider>
+      </QueryClientProvider>
     </StrictMode>
   );
 };

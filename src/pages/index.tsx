@@ -223,6 +223,7 @@ export default function Home() {
                   <SearchCard
                     result={answer}
                     resultLink={`https://iq.wiki/wiki/${resultId}`}
+                    searchInput={queryText}
                   />
                 )}
               </VStack>

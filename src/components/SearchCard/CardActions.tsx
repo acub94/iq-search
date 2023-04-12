@@ -1,3 +1,4 @@
+import { FeedbackType, useContentFeedback } from "@/hooks/useContentFeedback";
 import { HStack, Tooltip, IconButton, Icon } from "@chakra-ui/react";
 import { useState } from "react";
 import {
@@ -8,17 +9,36 @@ import {
   RiThumbDownLine,
 } from "react-icons/ri";
 
-const CardActions = ({ ShareHandler }: { ShareHandler: () => void }) => {
+const CardActions = ({
+  ShareHandler,
+  resultOutput,
+  searchInput,
+}: {
+  ShareHandler: () => void;
+  resultOutput: string;
+  searchInput: string;
+}) => {
   const [liked, setLiked] = useState<boolean>(false);
+  const [feedbackType, setFeedbackType] = useState<FeedbackType>();
   const [disLiked, setDisliked] = useState<boolean>(false);
 
   const handleLike = () => {
-    setLiked(!liked);
+    setLiked(true);
+    setDisliked(false);
+    setFeedbackType(FeedbackType.positive);
   };
 
   const handleDislike = () => {
-    setDisliked(!disLiked);
+    setDisliked(true);
+    setLiked(false);
+    setFeedbackType(FeedbackType.negative);
   };
+
+  useContentFeedback({
+    input: searchInput,
+    output: resultOutput,
+    feedback: feedbackType,
+  });
 
   return (
     <HStack

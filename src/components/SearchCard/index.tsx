@@ -20,7 +20,9 @@ const inconsolata = Inconsolata({
 const SearchCard = ({
   result,
   resultLink,
+  searchInput,
 }: {
+  searchInput: string;
   result: string;
   resultLink: string;
 }) => {
@@ -70,7 +72,11 @@ const SearchCard = ({
           </chakra.span>
         </VStack>
       </Box>
-      <CardActions ShareHandler={ShareHandler} />
+      <CardActions
+        searchInput={searchInput}
+        resultOutput={result}
+        ShareHandler={ShareHandler}
+      />
       <ShareModal isOpen={isOpen} onClose={onClose} />
     </VStack>
   );
