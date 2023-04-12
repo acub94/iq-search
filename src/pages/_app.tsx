@@ -5,6 +5,7 @@ import { StrictMode } from "react";
 import { Montserrat } from "next/font/google";
 import theme from "@/components/themes";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { trpc } from "@/utils/trpc";
 
 export const montserrat = Montserrat({
   subsets: ["latin"],
@@ -31,4 +32,4 @@ const App = ({ Component, pageProps }: AppProps) => {
   );
 };
 
-export default App;
+export default trpc.withTRPC(App);
