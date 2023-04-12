@@ -10,11 +10,16 @@ export const ColorModeToggle = (props: Omit<IconButtonProps, "aria-label">) => {
   return (
     <>
       <IconButton
-        aria-label="Color mode"
+        aria-label='Color mode'
         icon={<ColorModeIcon />}
         onClick={toggleColorMode}
-        variant="outline"
-        size="sm"
+        variant='ghost'
+        size='sm'
+        border='1px solid'
+        borderColor='gray.200'
+        _dark={{
+          borderColor: "#ffffff3d",
+        }}
         {...props}
       />
     </>

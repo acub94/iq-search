@@ -12,14 +12,13 @@ export default class Document extends NextDocument {
 
   render() {
     return (
-      <Html lang="en">
+      <Html lang='en'>
         <Head>
-          <meta charSet="UTF-8" />
-          <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
-          <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta charSet='UTF-8' />
+          <meta httpEquiv='X-UA-Compatible' content='ie=edge' />
+          <link rel='icon' href='/favicon.ico' type='image/x-icon' />
+          <meta name='apple-mobile-web-app-capable' content='yes' />
         </Head>
-
         <body>
           <ColorModeScript initialColorMode={theme.config.initialColorMode} />
           <Main />
