@@ -27,8 +27,19 @@ const Footer = () => {
       py='5'
       bottom='0'
     >
-      <Text>
-        Powered by <Link href='https://braindao.org'>Braindao</Link>
+      <Text
+        color='gray.600'
+        _dark={{
+          color: "gray.400",
+        }}
+      >
+        Powered by{" "}
+        <Link
+          _hover={{ color: "whiteAlpha.900", textDecor: "underline" }}
+          href='https://braindao.org'
+        >
+          Braindao
+        </Link>
       </Text>
       <HStack w='full' alignItems='center' justifyContent='center'>
         {Socials.map((social) => (
@@ -37,6 +48,10 @@ const Footer = () => {
             href={social.href}
             _hover={{ textDecoration: "none" }}
             key={social.href}
+            color='gray.600'
+            _dark={{
+              color: "gray.400",
+            }}
           >
             <chakra.span srOnly>{social.href}</chakra.span>
             <Button size='xs' variant='social'>
@@ -47,7 +62,7 @@ const Footer = () => {
                 h={{ base: "6", lg: "7" }}
                 color='gray.600'
                 _dark={{
-                  color: "whiteAlpha.900",
+                  color: "gray.400",
                 }}
                 _hover={{ color: "brand.500", _dark: { color: "brand.800" } }}
               />
@@ -61,7 +76,13 @@ const Footer = () => {
         direction={{ base: "column", md: "initial" }}
         fontSize={{ base: "12px", lg: "14px" }}
       >
-        <Text pr={2}>
+        <Text
+          pr={2}
+          color='gray.600'
+          _dark={{
+            color: "gray.400",
+          }}
+        >
           ©{thisYear} Powered by
           <Link target='_blank' href='https://iq.wiki.com/'>
             <Text
