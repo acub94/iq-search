@@ -3,12 +3,12 @@ import Footer from "@/components/Layout/Footer";
 import { Box, Flex, VStack, chakra, useToast } from "@chakra-ui/react";
 
 import Header from "@/components/Layout/Header";
-import { transformQuery } from "@/utils/text.utils";
+import { devLog, transformQuery } from "@/utils/text.utils";
 import { trpc } from "@/utils/trpc";
 import { useState } from "react";
 
-import { SearchInput } from "@/components/SearchElements/SearchInput";
 import AnswerCard from "@/components/SearchElements/AnswerCard";
+import { SearchInput } from "@/components/SearchElements/SearchInput";
 import SearchLoading from "@/components/SearchElements/SearchLoading";
 
 export interface QueryResult {
@@ -35,10 +35,13 @@ export default function Home() {
     }
     setLoading(true);
 
-    const { wikiId, answer, wikiTitle } = await getAnswer({
-      query: transformQuery(query),
+    const transformedQuery = transformQuery(query);
+
+    const { wikiId, answer, wikiTitle, chunks } = await getAnswer({
+      query: transformedQuery,
     });
 
+    devLog(transformedQuery, chunks);
     setResult({ answer, wikiId, query, wikiTitle });
     setLoading(false);
   };
