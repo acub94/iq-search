@@ -1,5 +1,6 @@
 import { gql, request } from "graphql-request";
 import config from "@/config";
+import { useMutation } from "react-query";
 
 const CONTENT_FEEDBACK_MUTATION = gql`
   mutation ContentFeedback(
@@ -29,31 +30,22 @@ export enum FeedbackType {
   negative = "NEGATIVE",
 }
 
-export const useContentFeedback = async ({
-  input,
-  output,
-  feedback,
-}: {
-  input: string;
-  output: string;
-  feedback?: FeedbackType;
-}) => {
-  try {
-    if (feedback) {
-      const { contentFeedback } = (await request(
+export const useContentFeedback = () => {
+  type ContentFeedbackInput = {
+    input: string;
+    output: string;
+    feedback: FeedbackType;
+  };
+
+  return useMutation({
+    mutationKey: "contentFeedback",
+    mutationFn: async (input: ContentFeedbackInput) => {
+      const { contentFeedback } = await request<ContentFeedbackResponseType>(
         config.graphqlUrl,
         CONTENT_FEEDBACK_MUTATION,
-        {
-          input,
-          output,
-          feedback,
-        },
-      )) as {
-        contentFeedback: ContentFeedbackResponseType;
-      };
+        input,
+      );
       return contentFeedback;
-    }
-  } catch (_error) {
-    return null;
-  }
+    },
+  });
 };
