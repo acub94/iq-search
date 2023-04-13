@@ -2,21 +2,22 @@ import { PGChunk } from "@/types";
 import axios from "axios";
 import endent from "endent";
 import { CreateChatCompletionResponse } from "openai";
+import { z } from "zod";
 
-export enum AvailableModels {
-  GPT_4 = "gpt-4",
-  GPT_4_0314 = "gpt-4-0314",
-  GPT_4_32K = "gpt-4-32k",
-  GPT_4_32K_0314 = "gpt-4-32k-0314",
-  GPT_3_5_TURBO = "gpt-3.5-turbo",
-  GPT_3_5_TURBO_0301 = "gpt-3.5-turbo-0301",
-}
+export const AvailableModels = z.enum([
+  "gpt-4",
+  "gpt-4-0314",
+  "gpt-4-32k",
+  "gpt-4-32k-0314",
+  "gpt-3.5-turbo",
+  "gpt-3.5-turbo-0301",
+]);
 
 interface GetClubedResponsesArgs {
   query: string;
   chunks: PGChunk[];
   openAiOptions: {
-    model: AvailableModels;
+    model: z.infer<typeof AvailableModels>;
     temperature: number;
     maxTokens: number;
   };
@@ -54,24 +55,20 @@ export const getClubedResponse = async ({
     temperature,
   };
 
-  const requestOptions = {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.OPENAI_API_KEY!}`,
-    },
-  };
-
   const { data, status } = await axios.post<CreateChatCompletionResponse>(
     "https://api.openai.com/v1/chat/completions",
     body,
-    requestOptions,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY!}`,
+      },
+    },
   );
 
   if (status !== 200) {
     throw new Error("OpenAI API returned an error");
   }
-
-  console.log(data);
 
   return data.choices[0].message?.content;
 };

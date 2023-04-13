@@ -8,7 +8,7 @@ const config = {
     pgFunction: "langchain150tkn_search",
     similarityThreshold: 0.76,
     matchCount: 5,
-    model: AvailableModels.GPT_3_5_TURBO,
+    model: AvailableModels.Enum["gpt-3.5-turbo"],
     temperature: 0,
     maxTokens: 200,
   },
