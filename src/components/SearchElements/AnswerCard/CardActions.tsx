@@ -18,7 +18,7 @@ interface CardActionsProps {
 const CardActions = ({ onShareOpen, result }: CardActionsProps) => {
   const { mutateAsync } = useContentFeedback();
   const [feedbackAction, setFeedbackAction] = useState<"liked" | "disliked">();
-  
+
   const handleLike = () => {
     mutateAsync({
       input: result.query,
