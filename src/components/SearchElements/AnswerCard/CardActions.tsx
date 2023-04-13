@@ -9,15 +9,19 @@ import {
   RiThumbUpFill,
   RiThumbUpLine,
 } from "react-icons/ri";
+import { z } from "zod";
 
 interface CardActionsProps {
   onShareOpen: () => void;
   result: QueryResult;
 }
 
+const feedbackActionSchema = z.enum(["liked", "disliked"]);
+
 const CardActions = ({ onShareOpen, result }: CardActionsProps) => {
   const { mutateAsync } = useContentFeedback();
-  const [feedbackAction, setFeedbackAction] = useState<"liked" | "disliked">();
+  const [feedbackAction, setFeedbackAction] =
+    useState<z.infer<typeof feedbackActionSchema>>();
 
   const handleLike = () => {
     mutateAsync({
@@ -25,7 +29,7 @@ const CardActions = ({ onShareOpen, result }: CardActionsProps) => {
       output: result.answer,
       feedback: FeedbackType.positive,
     });
-    setFeedbackAction("liked");
+    setFeedbackAction(feedbackActionSchema.Enum.liked);
   };
 
   const handleDislike = () => {
@@ -34,7 +38,7 @@ const CardActions = ({ onShareOpen, result }: CardActionsProps) => {
       output: result.answer,
       feedback: FeedbackType.negative,
     });
-    setFeedbackAction("disliked");
+    setFeedbackAction(feedbackActionSchema.Enum.disliked);
   };
 
   return (
