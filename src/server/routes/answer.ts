@@ -1,6 +1,9 @@
 import { z } from "zod";
 import { getChunks } from "../modules/getChunks";
-import { getClubedResponse } from "../modules/getClubedResponse";
+import {
+  AvailableModels,
+  getClubedResponse,
+} from "../modules/getClubedResponse";
 import { procedure, router } from "../trpc";
 import config from "@/config";
 
@@ -11,6 +14,7 @@ const answerInputSchema = z.object({
       pgFunction: z.string().optional(),
       similarityThreshold: z.number().optional(),
       matchCount: z.number().optional(),
+      model: AvailableModels.optional(),
     })
     .optional(),
 });
@@ -43,6 +47,7 @@ export const answersRouter = router({
       wikiId: chunks[0].wikiid,
       answer: result || "Sorry, I don't know how to help with that.",
       wikiTitle: chunks[0].title,
+      chunks,
     };
   }),
 });
