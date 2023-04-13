@@ -1,6 +1,6 @@
 import { VStack, Text, Link, Box, useDisclosure, Flex } from "@chakra-ui/react";
 import React from "react";
-import { shortenText } from "@/utils/shortenText";
+import { shortenText } from "@/utils/text.utils";
 import { Inconsolata } from "next/font/google";
 import CardActions from "./CardActions";
 import ShareModal from "../ShareModal";
