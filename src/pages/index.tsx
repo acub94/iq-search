@@ -8,6 +8,7 @@ import { useState } from "react";
 import AnswerCard from "@/components/SearchElements/AnswerCard";
 import { SearchInput } from "@/components/SearchElements/SearchInput";
 import SearchLoading from "@/components/SearchElements/SearchLoading";
+import { NextSeo } from "next-seo";
 
 export interface QueryResult {
   query: string;
@@ -17,6 +18,7 @@ export interface QueryResult {
 }
 
 export default function Home() {
+  const [query, setQuery] = useState<string>("");
   const [result, setResult] = useState<QueryResult>();
   const [loading, setLoading] = useState<boolean>(false);
   const toast = useToast();
@@ -31,6 +33,7 @@ export default function Home() {
       });
       return;
     }
+    setQuery(query);
     setLoading(true);
 
     const transformedQuery = transformQuery(query);
@@ -45,26 +48,29 @@ export default function Home() {
   };
 
   return (
-    <Flex direction='column' minH='100vh'>
-      <Box w='full' textAlign='right' p='3' position='fixed'>
-        <ColorModeToggle />
-      </Box>
-      <chakra.div flexGrow='1' display='flex' mt={{ md: "10" }}>
-        <VStack gap={{ base: "10", md: "6" }} w='full' mt={{ base: "16" }}>
-          <Header />
-          <VStack w='full' px={{ base: "5", md: 0 }}>
-            <SearchInput handleSearch={handleSearch} />
-            {loading ? (
-              <SearchLoading />
-            ) : (
-              <VStack w='full' justifyContent='center' alignItems='center'>
-                {result && <AnswerCard result={result} />}
-              </VStack>
-            )}
+    <>
+      {query && <NextSeo title={`${query} - search on IQ GPT`} />}
+      <Flex direction='column' minH='100vh'>
+        <Box w='full' textAlign='right' p='3' position='fixed'>
+          <ColorModeToggle />
+        </Box>
+        <chakra.div flexGrow='1' display='flex' mt={{ md: "10" }}>
+          <VStack gap={{ base: "10", md: "6" }} w='full' mt={{ base: "16" }}>
+            <Header />
+            <VStack w='full' px={{ base: "5", md: 0 }}>
+              <SearchInput handleSearch={handleSearch} />
+              {loading ? (
+                <SearchLoading />
+              ) : (
+                <VStack w='full' justifyContent='center' alignItems='center'>
+                  {result && <AnswerCard result={result} />}
+                </VStack>
+              )}
+            </VStack>
           </VStack>
-        </VStack>
-      </chakra.div>
-      <Footer />
-    </Flex>
+        </chakra.div>
+        <Footer />
+      </Flex>
+    </>
   );
 }

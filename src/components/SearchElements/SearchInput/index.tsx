@@ -14,51 +14,54 @@ export const SearchInput = ({ handleSearch }: SearchInputProps) => {
   };
 
   return (
-    <Box w='full'>
-      <form onSubmit={handleSubmit}>
-        <Flex
-          w={{
-            base: "full",
-            md: "560px",
-          }}
-          gap='2'
-          h='14'
-          borderColor='gray.200'
-          _dark={{
-            borderColor: "#ffffff3d",
-            bg: "gray.700",
-            color: "#ffffffa3",
-          }}
-          bg='white'
-          borderWidth='1px'
-          rounded='lg'
-          alignItems='center'
-        >
-          <Input
-            pl='4'
-            name='query'
-            placeholder='Ask me anything Crypto'
-            _placeholderShown={{
-              textOverflow: "ellipsis",
+    <Flex justifyContent='center' w='full'>
+      <Box w='full'>
+        <form onSubmit={handleSubmit}>
+          <Flex
+            w={{
+              base: "full",
+              md: "560px",
             }}
-            fontSize='16'
-            variant='unstyled'
-            h='full'
-            w='full'
-          />
-          <Button
-            type='submit'
-            bg='none'
-            px='4'
-            _hover={{
-              bg: "none",
-              color: "gray.500",
+            mx='auto'
+            gap='2'
+            h='14'
+            borderColor='gray.200'
+            _dark={{
+              borderColor: "#ffffff3d",
+              bg: "gray.700",
+              color: "#ffffffa3",
             }}
+            bg='white'
+            borderWidth='1px'
+            rounded='lg'
+            alignItems='center'
           >
-            <Icon as={Search2Icon} />
-          </Button>
-        </Flex>
-      </form>
-    </Box>
+            <Input
+              pl='4'
+              name='query'
+              placeholder='Ask me anything Crypto'
+              _placeholderShown={{
+                textOverflow: "ellipsis",
+              }}
+              fontSize='16'
+              variant='unstyled'
+              h='full'
+              w='full'
+            />
+            <Button
+              type='submit'
+              bg='none'
+              px='4'
+              _hover={{
+                bg: "none",
+                color: "gray.500",
+              }}
+            >
+              <Icon as={Search2Icon} />
+            </Button>
+          </Flex>
+        </form>
+      </Box>
+    </Flex>
   );
 };

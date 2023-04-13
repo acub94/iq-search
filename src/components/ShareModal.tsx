@@ -1,3 +1,4 @@
+import { QueryResult } from "@/pages";
 import { CloseIcon } from "@chakra-ui/icons";
 import {
   useClipboard,
@@ -21,14 +22,18 @@ interface ShareModalProps {
   onClose: () => void;
   isOpen: boolean;
   shareLink: string;
+  result: QueryResult;
 }
 
 const ShareModal = ({
   onClose,
   isOpen = false,
   shareLink,
+  result,
 }: ShareModalProps) => {
-  const { hasCopied, onCopy } = useClipboard("https://iq.wiki/rank");
+  const { hasCopied, onCopy } = useClipboard(
+    `https://search.iq.qiki/?query=${result.query}`,
+  );
   if (!isOpen) return null;
 
   return (
