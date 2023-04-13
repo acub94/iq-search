@@ -1,6 +1,6 @@
 import { gql, request } from "graphql-request";
 import config from "@/config";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 
 const CONTENT_FEEDBACK_MUTATION = gql`
   mutation ContentFeedback(
@@ -38,7 +38,6 @@ export const useContentFeedback = () => {
   };
 
   return useMutation({
-    mutationKey: "contentFeedback",
     mutationFn: async (input: ContentFeedbackInput) => {
       const { contentFeedback } = await request<ContentFeedbackResponseType>(
         config.graphqlUrl,
