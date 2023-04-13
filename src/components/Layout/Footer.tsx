@@ -9,7 +9,7 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import React from "react";
-import { Socials } from "./Data/socialData";
+import { Socials } from "../Data/socialData";
 
 const Footer = () => {
   const thisYear = new Date().getFullYear();
