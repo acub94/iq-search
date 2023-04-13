@@ -17,13 +17,17 @@ import {
 } from "@chakra-ui/react";
 import { Socials } from "./Data/socialData";
 
+interface ShareModalProps {
+  onClose: () => void;
+  isOpen: boolean;
+  shareLink: string;
+}
+
 const ShareModal = ({
   onClose,
   isOpen = false,
-}: {
-  onClose: () => void;
-  isOpen: boolean;
-}) => {
+  shareLink,
+}: ShareModalProps) => {
   const { hasCopied, onCopy } = useClipboard("https://iq.wiki/rank");
   if (!isOpen) return null;
 
@@ -125,7 +129,7 @@ const ShareModal = ({
                   color='#2D3748'
                   _dark={{ color: "#b1b2b5" }}
                 >
-                  https://iq.wiki/rank
+                  {shareLink}
                 </Link>
                 <Button
                   onClick={onCopy}
