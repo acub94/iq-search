@@ -1,5 +1,6 @@
-import { AppRouter } from "@/server/_app";
+import { AppRouter } from "@/server/routes/_app";
 import { httpBatchLink } from "@trpc/client";
+import { createClient } from "@supabase/supabase-js";
 import { createTRPCNext } from "@trpc/next";
 
 function getBaseUrl() {
@@ -45,3 +46,8 @@ export const trpc = createTRPCNext<AppRouter>({
    **/
   ssr: false,
 });
+
+export const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
+);
