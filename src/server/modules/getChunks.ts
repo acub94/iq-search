@@ -1,31 +1,32 @@
 import { PGChunk } from "@/types";
-import { supabaseAdmin } from "@/utils/trpc";
+import { createClient } from "@supabase/supabase-js";
 import { TRPCError } from "@trpc/server";
 import axios from "axios";
 import { CreateEmbeddingResponse } from "openai";
 
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
+);
+
 interface getChunksArgs {
   query: string;
-  tableName: string;
+  pgFunction: string;
   similarityThreshold: number;
   matchCount: number;
 }
 
 export const getChunks = async ({
   query,
-  tableName,
+  pgFunction,
   similarityThreshold,
   matchCount,
 }: getChunksArgs) => {
-  let input = query;
-  if (input[input.length - 1] !== "?") input += "?";
-  input = input.replace(/(\w)\?/g, "$1 ?");
-
   const { data } = await axios.post<CreateEmbeddingResponse>(
     "https://api.openai.com/v1/embeddings",
     {
       model: "text-embedding-ada-002",
-      input,
+      input: query,
     },
     {
       headers: {
@@ -35,7 +36,7 @@ export const getChunks = async ({
     },
   );
 
-  const { data: chunks, error } = (await supabaseAdmin.rpc(tableName, {
+  const { data: chunks, error } = (await supabaseAdmin.rpc(pgFunction, {
     query_embedding: data.data[0].embedding,
     similarity_threshold: similarityThreshold,
     match_count: matchCount,
