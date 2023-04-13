@@ -1,11 +1,8 @@
 import { z } from "zod";
 import { getChunks } from "../modules/getChunks";
-import {
-  AvailableModels,
-  getClubedResponse,
-} from "../modules/getClubedResponse";
+import { getClubedResponse } from "../modules/getClubedResponse";
 import { procedure, router } from "../trpc";
-import config from "@/config";
+import config, { AvailableModels } from "@/config";
 
 const answerInputSchema = z.object({
   query: z.string(),
@@ -15,6 +12,8 @@ const answerInputSchema = z.object({
       similarityThreshold: z.number().optional(),
       matchCount: z.number().optional(),
       model: AvailableModels.optional(),
+      temperature: z.number().optional(),
+      maxTokens: z.number().optional(),
     })
     .optional(),
 });
@@ -22,7 +21,14 @@ const answerInputSchema = z.object({
 export const answersRouter = router({
   getAnswer: procedure.input(answerInputSchema).mutation(async ({ input }) => {
     const { query, options } = input;
-    const { pgFunction, similarityThreshold, matchCount } = options || {};
+    const {
+      pgFunction,
+      similarityThreshold,
+      matchCount,
+      model,
+      temperature,
+      maxTokens,
+    } = options || {};
 
     const chunks = await getChunks({
       query,
@@ -34,9 +40,9 @@ export const answersRouter = router({
 
     let result;
     const openAiOptions = {
-      model: config.defaultOptions.model,
-      temperature: config.defaultOptions.temperature,
-      maxTokens: config.defaultOptions.maxTokens,
+      model: model || config.defaultOptions.model,
+      temperature: temperature || config.defaultOptions.temperature,
+      maxTokens: maxTokens || config.defaultOptions.maxTokens,
     };
 
     if (chunks.length !== 0) {
