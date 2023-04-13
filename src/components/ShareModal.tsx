@@ -17,19 +17,18 @@ import {
 } from "@chakra-ui/react";
 import { Socials } from "./Data/socialData";
 
+interface ShareModalProps {
+  onClose: () => void;
+  isOpen: boolean;
+  shareLink: string;
+}
+
 const ShareModal = ({
   onClose,
   isOpen = false,
-  searchInput,
-}: {
-  onClose: () => void;
-  isOpen: boolean;
-  searchInput: string;
-}) => {
-  const urlEncoded = encodeURIComponent(searchInput);
-  const { hasCopied, onCopy } = useClipboard(
-    `https://search.iq.wiki/?query=${urlEncoded}`,
-  );
+  shareLink,
+}: ShareModalProps) => {
+  const { hasCopied, onCopy } = useClipboard("https://iq.wiki/rank");
   if (!isOpen) return null;
 
   return (
@@ -136,7 +135,7 @@ const ShareModal = ({
                   display='inline'
                   textOverflow='ellipsis'
                 >
-                  {`https://search.iq.wiki/?query=${urlEncoded}`}
+                  {shareLink}
                 </Link>
                 <Button
                   onClick={onCopy}

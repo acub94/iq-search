@@ -1,27 +1,22 @@
 import { VStack, Text, Link, Box, useDisclosure, Flex } from "@chakra-ui/react";
 import React from "react";
-import { shortenText } from "@/utils/shortenText";
+import { shortenText } from "@/utils/text.utils";
 import { Inconsolata } from "next/font/google";
 import CardActions from "./CardActions";
-import ShareModal from "../ShareModal";
+import ShareModal from "../../ShareModal";
+import { QueryResult } from "@/pages";
 
 const inconsolata = Inconsolata({
   subsets: ["latin"],
 });
 
-const SearchCard = ({
-  result,
-  resultLink,
-  searchInput,
-}: {
-  searchInput: string;
-  result: string;
-  resultLink: string;
-}) => {
+interface AnswerCardProps {
+  result: QueryResult;
+}
+
+const AnswerCard = ({ result }: AnswerCardProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const ShareHandler = () => {
-    onOpen();
-  };
+  const shareLink = `https://iq.wiki/wiki/${result.wikiId}`;
 
   return (
     <VStack
@@ -39,40 +34,37 @@ const SearchCard = ({
     >
       <Box w='full'>
         <Text fontSize={{ base: "14px", lg: "16px" }} whiteSpace='pre-wrap'>
-          {result}
+          {result.answer}
         </Text>
-        <VStack
-          pt='7'
-          w='full'
-          alignItems='flex-start'
-          fontFamily={inconsolata.style.fontFamily}
-        >
-          <Text mt='0'>
+        {result.wikiId && (
+          <Box
+            mt='0'
+            pt='7'
+            w='full'
+            alignItems='flex-start'
+            fontFamily={inconsolata.style.fontFamily}
+          >
             <Flex w='full' pb='0' as='span'>
-              Source: <Text pl='2'>{shortenText(result, 70)}</Text>
+              Source: <Text pl='2'>{shortenText(result.wikiTitle, 70)}</Text>
             </Flex>
             <Link
               mt='-5px'
-              href={resultLink}
+              href={shareLink}
               target='_blank'
               textOverflow='hidden'
               color='brand.500'
               _hover={{ textDecor: "underline" }}
               _dark={{ color: "brand.800" }}
             >
-              {resultLink}
+              {shareLink}
             </Link>
-          </Text>
-        </VStack>
+          </Box>
+        )}
       </Box>
-      <CardActions
-        searchInput={searchInput}
-        resultOutput={result}
-        ShareHandler={ShareHandler}
-      />
-      <ShareModal isOpen={isOpen} onClose={onClose} searchInput={searchInput} />
+      <CardActions result={result} onShareOpen={onOpen} />
+      <ShareModal isOpen={isOpen} onClose={onClose} shareLink={shareLink} />
     </VStack>
   );
 };
 
-export default SearchCard;
+export default AnswerCard;

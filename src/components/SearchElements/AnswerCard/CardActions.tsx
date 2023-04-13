@@ -1,44 +1,45 @@
 import { FeedbackType, useContentFeedback } from "@/hooks/useContentFeedback";
-import { HStack, Tooltip, IconButton, Icon } from "@chakra-ui/react";
+import { QueryResult } from "@/pages";
+import { HStack, Icon, IconButton, Tooltip } from "@chakra-ui/react";
 import { useState } from "react";
 import {
   RiShareLine,
-  RiThumbUpFill,
-  RiThumbUpLine,
   RiThumbDownFill,
   RiThumbDownLine,
+  RiThumbUpFill,
+  RiThumbUpLine,
 } from "react-icons/ri";
+import { z } from "zod";
 
-const CardActions = ({
-  ShareHandler,
-  resultOutput,
-  searchInput,
-}: {
-  ShareHandler: () => void;
-  resultOutput: string;
-  searchInput: string;
-}) => {
-  const [liked, setLiked] = useState<boolean>(false);
-  const [feedbackType, setFeedbackType] = useState<FeedbackType>();
-  const [disLiked, setDisliked] = useState<boolean>(false);
+interface CardActionsProps {
+  onShareOpen: () => void;
+  result: QueryResult;
+}
+
+const feedbackActionSchema = z.enum(["liked", "disliked"]);
+
+const CardActions = ({ onShareOpen, result }: CardActionsProps) => {
+  const { mutateAsync } = useContentFeedback();
+  const [feedbackAction, setFeedbackAction] =
+    useState<z.infer<typeof feedbackActionSchema>>();
 
   const handleLike = () => {
-    setLiked(true);
-    setDisliked(false);
-    setFeedbackType(FeedbackType.positive);
+    mutateAsync({
+      input: result.query,
+      output: result.answer,
+      feedback: FeedbackType.positive,
+    });
+    setFeedbackAction(feedbackActionSchema.Enum.liked);
   };
 
   const handleDislike = () => {
-    setDisliked(true);
-    setLiked(false);
-    setFeedbackType(FeedbackType.negative);
+    mutateAsync({
+      input: result.query,
+      output: result.answer,
+      feedback: FeedbackType.negative,
+    });
+    setFeedbackAction(feedbackActionSchema.Enum.disliked);
   };
-
-  useContentFeedback({
-    input: searchInput,
-    output: resultOutput,
-    feedback: feedbackType,
-  });
 
   return (
     <HStack
@@ -59,7 +60,7 @@ const CardActions = ({
         <IconButton
           variant='unstyled'
           aria-label='Share'
-          onClick={ShareHandler}
+          onClick={onShareOpen}
           minW='initial'
           display='flex'
           h='6'
@@ -95,7 +96,7 @@ const CardActions = ({
             handleLike();
           }}
         >
-          {liked ? (
+          {feedbackAction === "liked" ? (
             <Icon as={RiThumbUpFill} w='5' h='5' />
           ) : (
             <Icon as={RiThumbUpLine} w='5' h='5' />
@@ -125,7 +126,7 @@ const CardActions = ({
             handleDislike();
           }}
         >
-          {disLiked ? (
+          {feedbackAction === "disliked" ? (
             <Icon as={RiThumbDownFill} w='5' h='5' />
           ) : (
             <Icon as={RiThumbDownLine} w='5' h='5' />

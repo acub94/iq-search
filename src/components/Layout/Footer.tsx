@@ -9,7 +9,7 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import React from "react";
-import { Socials } from "./Data/socialData";
+import { Socials } from "../Data/socialData";
 
 const Footer = () => {
   const thisYear = new Date().getFullYear();
@@ -91,7 +91,7 @@ const Footer = () => {
           }}
         >
           ©{thisYear} Powered by
-          <Link target='_blank' href='https://iq.wiki.com/'>
+          <Link target='_blank' href='https://iq.wiki/'>
             <Text
               as='span'
               color='#ff5caa'

@@ -1,4 +1,3 @@
-import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
 import { StrictMode, useEffect } from "react";
@@ -8,6 +7,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import GoogleAnalyticsScripts from "@/components/GoogleAnalytics/GoogleAnalytics";
 import { pageView } from "@/utils/googleAnalytics";
 import SEOHeader from "@/components/SEO/DefaultSEO";
+import { trpc } from "@/utils/trpc";
 
 export const montserrat = Montserrat({
   subsets: ["latin"],
@@ -36,10 +36,10 @@ const App = ({ Component, pageProps, router }: AppProps) => {
         <ChakraProvider theme={theme}>
           <Component {...pageProps} />
         </ChakraProvider>
-        <GoogleAnalyticsScripts />
       </QueryClientProvider>
+      <GoogleAnalyticsScripts />
     </StrictMode>
   );
 };
 
-export default App;
+export default trpc.withTRPC(App);
