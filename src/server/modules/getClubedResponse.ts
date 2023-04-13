@@ -1,3 +1,4 @@
+import config from "@/config";
 import { PGChunk } from "@/types";
 import axios from "axios";
 import endent from "endent";
@@ -43,8 +44,7 @@ export const getClubedResponse = async ({
     messages: [
       {
         role: "system",
-        content:
-          "You are an IQ.Wiki representative who loves to help people! Given the following sections from the IQ.Wiki articles, answer the questions using only that information in less than 150 words, outputted in the markdown format. If you are unsure and the answer is not explicitly written in the documentation, say -Sorry, I don't know how to help with that- .",
+        content: config.systemMessage,
       },
       {
         role: "user",
