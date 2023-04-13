@@ -20,7 +20,7 @@ const SEOHeader = ({ router }: SEOHeaderProps) => {
         site_name: "IQ.GPT",
         images: [
           {
-            url: "https://iq.social/images/og-image.png",
+            url: "https://search.iq.wiki/images/og-image.png",
             width: 1200,
             height: 630,
             alt: "IQ GPT | The AI-Driven Search Engine for the Latest Crypto and Blockchain Content",
