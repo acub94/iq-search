@@ -1,4 +1,4 @@
-import { CloseIcon } from '@chakra-ui/icons';
+import { CloseIcon } from "@chakra-ui/icons";
 import {
   useClipboard,
   Modal,
@@ -13,14 +13,14 @@ import {
   Icon,
   Button,
   HStack,
-  VStack
-} from '@chakra-ui/react';
-import { Socials } from './Data/socialData';
+  VStack,
+} from "@chakra-ui/react";
+import { Socials } from "./Data/socialData";
 
 const ShareModal = ({
   onClose,
   isOpen = false,
-  searchInput
+  searchInput,
 }: {
   onClose: () => void;
   isOpen: boolean;
@@ -28,7 +28,7 @@ const ShareModal = ({
 }) => {
   const urlEncoded = encodeURIComponent(searchInput);
   const { hasCopied, onCopy } = useClipboard(
-    `https://search.iq.wiki/?query=${urlEncoded}`
+    `https://search.iq.wiki/?query=${urlEncoded}`,
   );
   if (!isOpen) return null;
 
@@ -37,12 +37,12 @@ const ShareModal = ({
       onClose={onClose}
       isOpen={isOpen}
       isCentered
-      size={{ base: 'sm', md: 'lg' }}
+      size={{ base: "sm", md: "lg" }}
     >
       <ModalOverlay />
       <ModalContent
         _dark={{
-          bg: 'gray.800'
+          bg: "gray.800",
         }}
         rounded='2xl'
       >
@@ -71,7 +71,7 @@ const ShareModal = ({
         <ModalBody pt='0' pb='6' px='6'>
           <Flex justify='space-between' direction='column' pb='6' gap='10'>
             <Text
-              fontSize={{ base: 'md', md: 'lg', lg: 'xl' }}
+              fontSize={{ base: "md", md: "lg", lg: "xl" }}
               fontWeight='600'
             >
               Share this result
@@ -79,14 +79,14 @@ const ShareModal = ({
             <HStack
               w='full'
               alignItems='center'
-              gap={{ base: '1', md: '5' }}
+              gap={{ base: "1", md: "5" }}
               justifyContent='center'
             >
               {Socials.map((social) => (
                 <Link
                   target='_blank'
                   href={social.href}
-                  _hover={{ textDecoration: 'none' }}
+                  _hover={{ textDecoration: "none" }}
                   key={social.href}
                 >
                   <chakra.span srOnly>{social.href}</chakra.span>
@@ -94,11 +94,11 @@ const ShareModal = ({
                     <chakra.span srOnly>{social.href}</chakra.span>
                     <Icon
                       as={social.icon}
-                      w={{ base: '6', lg: '8' }}
-                      h={{ base: '7', lg: '9' }}
+                      w={{ base: "6", lg: "8" }}
+                      h={{ base: "7", lg: "9" }}
                       _hover={{
-                        color: 'brand.500',
-                        _dark: { color: 'brand.800' }
+                        color: "brand.500",
+                        _dark: { color: "brand.800" },
                       }}
                     />
                   </Button>
@@ -109,16 +109,16 @@ const ShareModal = ({
               w='full'
               gap='2'
               alignItems='flex-start'
-              fontSize={{ base: 'sm', md: 'md', lg: 'lg' }}
+              fontSize={{ base: "sm", md: "md", lg: "lg" }}
             >
-              <chakra.span color='gray.600' _dark={{ color: 'whiteAlpha.700' }}>
+              <chakra.span color='gray.600' _dark={{ color: "whiteAlpha.700" }}>
                 Or copy link
               </chakra.span>
               <Flex
                 w='full'
                 borderColor='gray.100'
                 borderWidth='1px'
-                _dark={{ borderColor: '#FFFFFF3D' }}
+                _dark={{ borderColor: "#FFFFFF3D" }}
                 rounded='md'
                 justifyContent='space-between'
                 px='3'
@@ -129,9 +129,9 @@ const ShareModal = ({
                 <Link
                   whiteSpace='nowrap'
                   color='#2D3748'
-                  _dark={{ color: '#b1b2b5' }}
+                  _dark={{ color: "#b1b2b5" }}
                   noOfLines={1}
-                  fontSize={{ base: '12px', lg: '14px' }}
+                  fontSize={{ base: "12px", lg: "14px" }}
                   overflow='hidden'
                   display='inline'
                   textOverflow='ellipsis'
@@ -142,12 +142,12 @@ const ShareModal = ({
                   onClick={onCopy}
                   variant='unstyled'
                   color='brand.500'
-                  _dark={{ color: 'brand.800' }}
+                  _dark={{ color: "brand.800" }}
                   h='initial'
                   w='max-content'
-                  fontSize={{ base: '12px', lg: '14px' }}
+                  fontSize={{ base: "12px", lg: "14px" }}
                 >
-                  {!hasCopied ? 'Copy' : 'Copied'}
+                  {!hasCopied ? "Copy" : "Copied"}
                 </Button>
               </Flex>
             </VStack>
