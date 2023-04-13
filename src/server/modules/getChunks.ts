@@ -3,10 +3,11 @@ import { createClient } from "@supabase/supabase-js";
 import { TRPCError } from "@trpc/server";
 import axios from "axios";
 import { CreateEmbeddingResponse } from "openai";
+import { env } from "@/env.mjs";
 
 const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
+  env.NEXT_PUBLIC_SUPABASE_URL,
+  env.SUPABASE_SERVICE_ROLE_KEY,
 );
 
 interface getChunksArgs {
@@ -31,7 +32,7 @@ export const getChunks = async ({
     {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY!}`,
+        Authorization: `Bearer ${env.OPENAI_API_KEY}`,
       },
     },
   );
