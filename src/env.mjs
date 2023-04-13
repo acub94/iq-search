@@ -6,7 +6,9 @@ const server = z.object({
 });
 
 const client = z.object({
-  NODE_ENV: z.enum(["development", "test", "production"]).optional(),
+  NEXT_PUBLIC_NODE_ENV: z
+    .enum(["development", "test", "production"])
+    .optional(),
   NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
   NEXT_PUBLIC_EP_API_URL: z.string().url().optional(),
 });

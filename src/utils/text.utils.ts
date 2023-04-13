@@ -16,7 +16,7 @@ export const transformQuery = (query: string): string => {
 };
 
 export const devLog = (transformedQuery: string, chunks: PGChunk[]) => {
-  if (env.NODE_ENV !== "development") return;
+  if (env.NEXT_PUBLIC_NODE_ENV !== "development") return;
   console.log("🛸 QUERY: ", transformedQuery);
   chunks.forEach((chunk, i) =>
     console.log(endent`
