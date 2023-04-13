@@ -22,7 +22,7 @@ import endent from "endent";
 import FilterDark from "../components/Data/filterDark.json";
 import FilterLight from "../components/Data/filterLight.json";
 import Link from "next/link";
-import { queryReadyText } from "@/utils/shortenText";
+import { queryReadyText } from "@/utils/text.utils";
 import SearchCard from "@/components/SearchCard";
 
 export default function Home() {
