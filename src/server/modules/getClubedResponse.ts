@@ -1,18 +1,10 @@
-import config from "@/config";
+import config, { AvailableModels } from "@/config";
 import { PGChunk } from "@/types";
 import axios from "axios";
 import endent from "endent";
 import { CreateChatCompletionResponse } from "openai";
 import { z } from "zod";
-
-export const AvailableModels = z.enum([
-  "gpt-4",
-  "gpt-4-0314",
-  "gpt-4-32k",
-  "gpt-4-32k-0314",
-  "gpt-3.5-turbo",
-  "gpt-3.5-turbo-0301",
-]);
+import { env } from "@/env.mjs";
 
 interface GetClubedResponsesArgs {
   query: string;
@@ -61,7 +53,7 @@ export const getClubedResponse = async ({
     {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY!}`,
+        Authorization: `Bearer ${env.OPENAI_API_KEY}`,
       },
     },
   );
