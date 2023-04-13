@@ -31,6 +31,7 @@ const AnswerCard = ({ result }: AnswerCardProps) => {
       gap='1'
       w={{ base: "100%", md: "80%", xl: "60%" }}
       rounded='2xl'
+      mb='5'
     >
       <Box w='full'>
         <Text fontSize={{ base: "14px", lg: "16px" }} whiteSpace='pre-wrap'>

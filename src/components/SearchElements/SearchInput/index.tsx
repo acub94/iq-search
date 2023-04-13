@@ -1,5 +1,5 @@
 import { Search2Icon } from "@chakra-ui/icons";
-import { Button, Flex, Icon, Input } from "@chakra-ui/react";
+import { Box, Button, Flex, Icon, Input } from "@chakra-ui/react";
 
 interface SearchInputProps {
   handleSearch: (query: string) => void;
@@ -14,48 +14,51 @@ export const SearchInput = ({ handleSearch }: SearchInputProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Flex
-        w={{
-          base: "full",
-          md: "560px",
-        }}
-        gap='2'
-        h='14'
-        borderColor='gray.200'
-        _dark={{
-          borderColor: "#ffffff3d",
-          bg: "gray.700",
-          color: "#ffffffa3",
-        }}
-        bg='white'
-        borderWidth='1px'
-        rounded='lg'
-        pl='4'
-        alignItems='center'
-      >
-        <Input
-          name='query'
-          placeholder='Ask me anything Crypto'
-          _placeholderShown={{
-            textOverflow: "ellipsis",
+    <Box w='full'>
+      <form onSubmit={handleSubmit}>
+        <Flex
+          w={{
+            base: "full",
+            md: "560px",
           }}
-          fontSize='16'
-          variant='unstyled'
-          h='full'
-        />
-        <Button
-          type="submit"
-          bg='none'
-          px='4'
-          _hover={{
-            bg: "none",
-            color: "gray.500",
+          gap='2'
+          h='14'
+          borderColor='gray.200'
+          _dark={{
+            borderColor: "#ffffff3d",
+            bg: "gray.700",
+            color: "#ffffffa3",
           }}
+          bg='white'
+          borderWidth='1px'
+          rounded='lg'
+          alignItems='center'
         >
-          <Icon as={Search2Icon} />
-        </Button>
-      </Flex>
-    </form>
+          <Input
+            pl='4'
+            name='query'
+            placeholder='Ask me anything Crypto'
+            _placeholderShown={{
+              textOverflow: "ellipsis",
+            }}
+            fontSize='16'
+            variant='unstyled'
+            h='full'
+            w='full'
+          />
+          <Button
+            type='submit'
+            bg='none'
+            px='4'
+            _hover={{
+              bg: "none",
+              color: "gray.500",
+            }}
+          >
+            <Icon as={Search2Icon} />
+          </Button>
+        </Flex>
+      </form>
+    </Box>
   );
 };
