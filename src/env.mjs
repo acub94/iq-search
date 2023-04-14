@@ -1,15 +1,14 @@
 import { z } from "zod";
 
 const server = z.object({
+  DATABASE_URL: z.string().url(),
   OPENAI_API_KEY: z.string(),
-  SUPABASE_SERVICE_ROLE_KEY: z.string(),
 });
 
 const client = z.object({
   NEXT_PUBLIC_NODE_ENV: z
     .enum(["development", "test", "production"])
     .optional(),
-  NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
   NEXT_PUBLIC_EP_API_URL: z.string().url().optional(),
 });
 
@@ -18,9 +17,8 @@ const client = z.object({
  */
 const processEnv = {
   NODE_ENV: process.env.NODE_ENV,
+  DATABASE_URL: process.env.DATABASE_URL,
   OPENAI_API_KEY: process.env.OPENAI_API_KEY,
-  NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
-  SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY,
   NEXT_PUBLIC_EP_API_URL: process.env.NEXT_PUBLIC_EP_API_URL,
 };
 
@@ -47,7 +45,7 @@ if (!!process.env.SKIP_ENV_VALIDATION === false) {
   if (parsed.success === false) {
     console.error(
       "❌ Invalid environment variables:",
-      parsed.error.flatten().fieldErrors,
+      parsed.error.flatten().fieldErrors
     );
     throw new Error("Invalid environment variables");
   }
@@ -62,7 +60,7 @@ if (!!process.env.SKIP_ENV_VALIDATION === false) {
         throw new Error(
           process.env.NODE_ENV === "production"
             ? "❌ Attempted to access a server-side environment variable on the client"
-            : `❌ Attempted to access server-side environment variable '${prop}' on the client`,
+            : `❌ Attempted to access server-side environment variable '${prop}' on the client`
         );
       return target[/** @type {keyof typeof target} */ (prop)];
     },

@@ -1,14 +1,7 @@
-import { PGChunk } from "@/types";
-import { createClient } from "@supabase/supabase-js";
 import { TRPCError } from "@trpc/server";
 import axios from "axios";
 import { CreateEmbeddingResponse } from "openai";
 import { env } from "@/env.mjs";
-
-const supabaseAdmin = createClient(
-  env.NEXT_PUBLIC_SUPABASE_URL,
-  env.SUPABASE_SERVICE_ROLE_KEY,
-);
 
 interface getChunksArgs {
   query: string;
@@ -37,11 +30,11 @@ export const getChunks = async ({
     },
   );
 
-  const { data: chunks, error } = (await supabaseAdmin.rpc(pgFunction, {
-    query_embedding: data.data[0].embedding,
-    similarity_threshold: similarityThreshold,
-    match_count: matchCount,
-  })) as { data: PGChunk[]; error: any };
+  // const { data: chunks, error } = (await supabaseAdmin.rpc(pgFunction, {
+  //   query_embedding: data.data[0].embedding,
+  //   similarity_threshold: similarityThreshold,
+  //   match_count: matchCount,
+  // }))
 
   if (error) {
     new TRPCError({

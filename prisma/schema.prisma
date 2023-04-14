@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model langchain_150tkn {
+  id        BigInt                 @id @default(autoincrement())
+  wikiid    String?
+  title     String?
+  content   String?
+  embedding Unsupported("vector")?
+}
+
+model langchain_split {
+  id        BigInt                 @id @default(autoincrement())
+  wikiid    String?
+  title     String?
+  content   String?
+  embedding Unsupported("vector")?
+}
+
+model wiki_embedding {
+  id        BigInt                 @id @default(autoincrement())
+  wikiid    String?
+  title     String?
+  content   String?
+  embedding Unsupported("vector")?
+}
+
+model wiki_merge3 {
+  id        BigInt                 @id @default(autoincrement())
+  wikiid    String?
+  title     String?
+  content   String?
+  embedding Unsupported("vector")?
+}
