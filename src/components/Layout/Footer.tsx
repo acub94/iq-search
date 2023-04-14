@@ -38,7 +38,11 @@ const Footer = () => {
       >
         Powered by{" "}
         <Link
-          _hover={{ color: "whiteAlpha.900", textDecor: "underline" }}
+          _hover={{
+            color: "gray.900",
+            textDecor: "underline",
+            _dark: { color: "whiteAlpha.900" },
+          }}
           href='https://braindao.org'
         >
           Braindao
@@ -87,7 +91,7 @@ const Footer = () => {
           }}
         >
           ©{thisYear} Powered by
-          <Link target='_blank' href='https://iq.wiki.com/'>
+          <Link target='_blank' href='https://iq.wiki/'>
             <Text
               as='span'
               color='#ff5caa'

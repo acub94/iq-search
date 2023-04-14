@@ -11,6 +11,7 @@ export const AvailableModels = z.enum([
 ]);
 
 const config = {
+  googleAnalyticsID: process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS,
   graphqlUrl:
     env.NEXT_PUBLIC_EP_API_URL || "https://api.dev.braindao.org/graphql",
   systemMessage:

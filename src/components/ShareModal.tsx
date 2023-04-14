@@ -28,7 +28,7 @@ const ShareModal = ({
   isOpen = false,
   shareLink,
 }: ShareModalProps) => {
-  const { hasCopied, onCopy } = useClipboard("https://iq.wiki/rank");
+  const { hasCopied, onCopy } = useClipboard(shareLink);
   if (!isOpen) return null;
 
   return (
@@ -123,11 +123,17 @@ const ShareModal = ({
                 px='3'
                 py='1'
                 alignItems='center'
+                gap='2'
               >
                 <Link
                   whiteSpace='nowrap'
                   color='#2D3748'
                   _dark={{ color: "#b1b2b5" }}
+                  noOfLines={1}
+                  fontSize={{ base: "12px", lg: "14px" }}
+                  overflow='hidden'
+                  display='inline'
+                  textOverflow='ellipsis'
                 >
                   {shareLink}
                 </Link>
@@ -137,6 +143,8 @@ const ShareModal = ({
                   color='brand.500'
                   _dark={{ color: "brand.800" }}
                   h='initial'
+                  w='max-content'
+                  fontSize={{ base: "12px", lg: "14px" }}
                 >
                   {!hasCopied ? "Copy" : "Copied"}
                 </Button>

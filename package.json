@@ -16,6 +16,7 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@supabase/supabase-js": "^2.8.0",
+    "@types/gtag.js": "^0.0.10",
     "@tanstack/react-query": "^4.29.1",
     "@trpc/client": "^10.19.1",
     "@trpc/next": "^10.19.1",
@@ -39,6 +40,7 @@
     "react-icons": "^4.8.0",
     "react-query": "^3.39.3",
     "typescript": "4.9.5",
+    "next-seo": "^5.15.0",
     "zod": "^3.21.4"
   },
   "devDependencies": {
