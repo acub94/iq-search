@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { getChunks } from "../modules/getChunks";
-import { getClubedResponse } from "../modules/getClubedResponse";
+import { getChunks } from "../../modules/getChunks";
+import { getClubedResponse } from "../../modules/getClubedResponse";
 import { procedure, router } from "../trpc";
 import config, { AvailableModels } from "@/config";
 
