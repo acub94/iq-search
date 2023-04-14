@@ -80,7 +80,7 @@ export default function Home({ searchQuery }: { searchQuery: string }) {
   }, [searchQuery, handleAISearch]);
 
   const handleSearch = async (query: string) => {
-    void handleAISearch(query);
+    await handleAISearch(query);
     router.push(
       {
         pathname: "/",
