@@ -36,11 +36,6 @@ const sendUserEvents = (query: string) => {
   });
 };
 
-enum EventType {
-  SEARCH = "search",
-  URL = "url",
-}
-
 export default function Home({ searchQuery }: { searchQuery: string }) {
   const router = useRouter();
   const [inputQuery, setInputQuery] = useState<string>("");
@@ -50,7 +45,7 @@ export default function Home({ searchQuery }: { searchQuery: string }) {
   const { mutateAsync: getAnswer } = trpc.answers.getAnswer.useMutation();
 
   const handleAISearch = useCallback(
-    async (querySearchStr: string, eventType: EventType) => {
+    async (querySearchStr: string) => {
       if (querySearchStr.length === 0) {
         toast({
           title: "Please enter a valid text before searching",
@@ -65,17 +60,6 @@ export default function Home({ searchQuery }: { searchQuery: string }) {
 
       const transformedQuery = transformQuery(querySearchStr);
       sendUserEvents(transformedQuery);
-
-      if (eventType === EventType.SEARCH) {
-        router.push(
-          {
-            pathname: "/",
-            query: `query=${querySearchStr}`,
-          },
-          undefined,
-          { shallow: true },
-        );
-      }
 
       const { wikiId, answer, wikiTitle, chunks } = await getAnswer({
         query: transformedQuery,
@@ -92,11 +76,19 @@ export default function Home({ searchQuery }: { searchQuery: string }) {
   useEffect(() => {
     if (searchQuery.length === 0 || searchQuery.slice(1) === "") return;
 
-    void handleAISearch(searchQuery, EventType.URL);
+    void handleAISearch(searchQuery);
   }, [searchQuery, handleAISearch]);
 
   const handleSearch = async (query: string) => {
-    void handleAISearch(query, EventType.SEARCH);
+    void handleAISearch(query);
+    router.push(
+      {
+        pathname: "/",
+        query: `query=${query}`,
+      },
+      undefined,
+      { shallow: true },
+    );
   };
 
   const decodeQueryURL = decodeURI(inputQuery);
