@@ -1,10 +1,26 @@
-// TODO: Fetch new wikis from IQ.WIKI
-// ------------- if first wiki is older than our cronjob frequency, then we can skip processing
-// ------------- continue with wikis you got in filtering process (new wikis) [wikis]
-// TODO: Clean the scrapped wikis
+import config from "@/config";
+import { fetchNewWikis } from "./fetchNewWikis";
+import removeMarkdown from "markdown-to-text";
 
-// TODO: Chunk the content with langchain
+export const refreshEmbeddings = async () => {
+  // Fetch new wikis from IQ.WIKI
+  const newWikis = await fetchNewWikis(
+    new Date(Date.now() - config.cronFrequency),
+  );
 
-// TODO: Create embeddings of the chunks
+  // Clean the scrapped wikis
+  const cleanedWikis = newWikis.map((wiki) => {
+    return {
+      id: wiki.content[0].id,
+      title: wiki.content[0].title,
+      content: removeMarkdown(wiki.content[0].content),
+    };
+  });
+  console.log(cleanedWikis);
 
-// TODO: Update supabase with the embeddings
+  // TODO: Chunk the content with langchain
+
+  // TODO: Create embeddings of the chunks
+
+  // TODO: Update supabase with the embeddings
+};
