@@ -17,7 +17,11 @@ interface AnswerCardProps {
 const AnswerCard = ({ result }: AnswerCardProps) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const wikiLink = `https://iq.wiki/wiki/${result.wikiId}`;
-  const shareLink = `https://search.iq.wiki/?query=${result.query}`;
+  let shareLink;
+
+  if (typeof window !== "undefined") {
+    shareLink = window.location.href;
+  }
 
   return (
     <VStack
@@ -65,10 +69,9 @@ const AnswerCard = ({ result }: AnswerCardProps) => {
       </Box>
       <CardActions result={result} onShareOpen={onOpen} />
       <ShareModal
-        result={result}
         isOpen={isOpen}
         onClose={onClose}
-        shareLink={shareLink}
+        shareLink={shareLink as string}
       />
     </VStack>
   );

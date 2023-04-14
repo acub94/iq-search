@@ -1,5 +1,3 @@
-export {};
-
 export type GTagParams = {
   event_category: string;
   event_label: string;

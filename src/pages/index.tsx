@@ -9,7 +9,7 @@ import AnswerCard from "@/components/SearchElements/AnswerCard";
 import { SearchInput } from "@/components/SearchElements/SearchInput";
 import SearchLoading from "@/components/SearchElements/SearchLoading";
 import { NextSeo } from "next-seo";
-import { NextRouter, useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import { logEvent } from "@/utils/googleAnalytics";
 
@@ -36,17 +36,6 @@ const sendUserEvents = (query: string) => {
   });
 };
 
-const navigateToQuery = (router: NextRouter, query: string) => {
-  router.push(
-    {
-      pathname: "/",
-      query: `query=${query}`,
-    },
-    undefined,
-    { shallow: true },
-  );
-};
-
 enum EventType {
   SEARCH = "search",
   URL = "url",
@@ -54,45 +43,47 @@ enum EventType {
 
 export default function Home({ searchQuery }: { searchQuery: string }) {
   const router = useRouter();
-  const [query, setQuery] = useState<string>("");
+  const [inputQuery, setInputQuery] = useState<string>("");
   const [result, setResult] = useState<QueryResult>();
   const [loading, setLoading] = useState<boolean>(false);
   const toast = useToast();
   const { mutateAsync: getAnswer } = trpc.answers.getAnswer.useMutation();
 
-  const handleQuerySearch = async (
-    querySearchStr: string,
-    eventType: EventType,
-  ) => {
-    if (querySearchStr.length === 0) {
-      toast({
-        title: "Please enter a valid text before searching",
-        isClosable: true,
-        status: "error",
+  const handleAISearch = useCallback(
+    async (querySearchStr: string, eventType: EventType) => {
+      if (querySearchStr.length === 0) {
+        toast({
+          title: "Please enter a valid text before searching",
+          isClosable: true,
+          status: "error",
+        });
+        return;
+      }
+
+      setInputQuery(querySearchStr);
+      setLoading(true);
+
+      const transformedQuery = transformQuery(querySearchStr);
+      sendUserEvents(transformedQuery);
+
+      if (eventType === EventType.SEARCH) {
+        router.push(
+          {
+            pathname: "/",
+            query: `query=${querySearchStr}`,
+          },
+          undefined,
+          { shallow: true },
+        );
+      }
+
+      const { wikiId, answer, wikiTitle, chunks } = await getAnswer({
+        query: transformedQuery,
       });
-      return;
-    }
 
-    setQuery(querySearchStr);
-    setLoading(true);
-
-    const transformedQuery = transformQuery(querySearchStr);
-    sendUserEvents(transformedQuery);
-
-    if (eventType === EventType.SEARCH) navigateToQuery(router, querySearchStr);
-
-    const { wikiId, answer, wikiTitle, chunks } = await getAnswer({
-      query: transformedQuery,
-    });
-
-    devLog(transformedQuery, chunks);
-    setResult({ answer, wikiId, query, wikiTitle });
-    setLoading(false);
-  };
-
-  const handleURLSearch = useCallback(
-    async (urlQuery: string) => {
-      await handleQuerySearch(urlQuery, EventType.URL);
+      devLog(transformedQuery, chunks);
+      setResult({ answer, wikiId, query: querySearchStr, wikiTitle });
+      setLoading(false);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [searchQuery],
@@ -101,18 +92,18 @@ export default function Home({ searchQuery }: { searchQuery: string }) {
   useEffect(() => {
     if (searchQuery.length === 0 || searchQuery.slice(1) === "") return;
 
-    void handleURLSearch(searchQuery);
-  }, [searchQuery, handleURLSearch]);
+    void handleAISearch(searchQuery, EventType.URL);
+  }, [searchQuery, handleAISearch]);
 
   const handleSearch = async (query: string) => {
-    await handleQuerySearch(query, EventType.SEARCH);
+    void handleAISearch(query, EventType.SEARCH);
   };
 
-  const decodeQueryURL = decodeURI(query);
+  const decodeQueryURL = decodeURI(inputQuery);
 
   return (
     <>
-      {query && <NextSeo title={`${decodeQueryURL} - search on IQ GPT`} />}
+      {inputQuery && <NextSeo title={`${decodeQueryURL} - search on IQ GPT`} />}
       <Flex direction='column' minH='100vh'>
         <Box w='full' textAlign='right' p='3' position='fixed'>
           <ColorModeToggle />
@@ -138,23 +129,20 @@ export default function Home({ searchQuery }: { searchQuery: string }) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const { url } = req;
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { query } = ctx.query;
 
-  if (!url) {
+  if (!query) {
     return {
-      redirect: {
-        destination: "/",
-        permanent: false,
+      props: {
+        searchQuery: "",
       },
     };
   }
 
-  const queryValue = url.substring(url.indexOf("=") + 1);
-
   return {
     props: {
-      searchQuery: queryValue,
+      searchQuery: query,
     },
   };
 };
