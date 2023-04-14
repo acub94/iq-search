@@ -1,16 +1,29 @@
 import { Search2Icon } from "@chakra-ui/icons";
 import { Box, Button, Flex, Icon, Input } from "@chakra-ui/react";
+import { ChangeEvent } from "react";
 
 interface SearchInputProps {
   handleSearch: (query: string) => void;
+  query: string;
 }
 
-export const SearchInput = ({ handleSearch }: SearchInputProps) => {
+export const SearchInput = ({ handleSearch, query }: SearchInputProps) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formdata = new FormData(e.currentTarget);
     const query = formdata.get("query") as string;
     handleSearch(query);
+  };
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (query.length === 0) return;
+
+    const queryParam = new URLSearchParams({
+      query: e.target.value,
+    });
+    const url = new URL(window.location.pathname, window.location.origin);
+    url.search = queryParam.toString();
+    window.history.pushState({}, "", url.toString());
   };
 
   return (
@@ -43,10 +56,12 @@ export const SearchInput = ({ handleSearch }: SearchInputProps) => {
               _placeholderShown={{
                 textOverflow: "ellipsis",
               }}
+              defaultValue={query}
               fontSize='16'
               variant='unstyled'
               h='full'
               w='full'
+              onChange={handleInputChange}
             />
             <Button
               type='submit'

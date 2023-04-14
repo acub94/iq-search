@@ -29,7 +29,7 @@ const sendUserEvents = (query: string) => {
   });
 
   logEvent({
-    action: `SEARCH - ${query}`,
+    action: `SEARCH for: ${query}`,
     label: "SEARCH ",
     value: 1,
     category: "search",
@@ -112,11 +112,7 @@ export default function Home({ searchQuery }: { searchQuery: string }) {
 
   return (
     <>
-      {query && (
-        <NextSeo
-          title={`${transformQuery(decodeQueryURL)} - search on IQ GPT`}
-        />
-      )}
+      {query && <NextSeo title={`${decodeQueryURL} - search on IQ GPT`} />}
       <Flex direction='column' minH='100vh'>
         <Box w='full' textAlign='right' p='3' position='fixed'>
           <ColorModeToggle />
@@ -125,7 +121,7 @@ export default function Home({ searchQuery }: { searchQuery: string }) {
           <VStack gap={{ base: "10", md: "6" }} w='full' mt={{ base: "16" }}>
             <Header />
             <VStack w='full' px={{ base: "5", md: 0 }}>
-              <SearchInput handleSearch={handleSearch} />
+              <SearchInput handleSearch={handleSearch} query={decodeQueryURL} />
               {loading ? (
                 <SearchLoading />
               ) : (

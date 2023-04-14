@@ -10,7 +10,7 @@ const SEOHeader = ({ router }: SEOHeaderProps) => {
     <DefaultSeo
       title='IQ GPT | The AI-Driven Search Engine for the Latest Crypto and Blockchain Content'
       description="IQ GPT is an AI-powered search engine that retrieves the latest crypto and blockchain insights from IQ Wiki - the world's largest blockchain and crypto encyclopedia. Discover your web3 curiosities with IQ GPT and stay up-to-date with the latest developments in the crypto space."
-      canonical={`https://search.iq.wiki/${router.asPath || ""}`}
+      canonical={`https://search.iq.wiki${router.asPath || ""}`}
       openGraph={{
         title:
           "IQ GPT | The AI-Driven Search Engine for the Latest Crypto and Blockchain Content",
