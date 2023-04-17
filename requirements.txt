@@ -1,0 +1,7 @@
+pandas
+re
+penai
+supabase
+langchain
+tiktoken
+dotenv
