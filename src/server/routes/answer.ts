@@ -32,7 +32,7 @@ export const answersRouter = router({
 
     const chunks = await getChunks({
       query,
-      pgFunction: pgFunction || config.defaultDebugOptions.pgFunction,
+      pgFunction: pgFunction || config.defaultDebugOptions.pgTables,
       similarityThreshold:
         similarityThreshold || config.defaultDebugOptions.similarityThreshold,
       matchCount: matchCount || config.defaultDebugOptions.matchCount,
