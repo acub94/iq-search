@@ -1,16 +1,14 @@
-import config, { AvailableModels } from "@/config";
+import config from "@/config";
+import { env } from "@/env.mjs";
 import { PGChunk } from "@/types";
 import axios from "axios";
 import endent from "endent";
 import { CreateChatCompletionResponse } from "openai";
-import { z } from "zod";
-import { env } from "@/env.mjs";
 
 interface GetClubedResponsesArgs {
   query: string;
   chunks: PGChunk[];
   openAiOptions: {
-    model: z.infer<typeof AvailableModels>;
     temperature: number;
     maxTokens: number;
   };
@@ -21,7 +19,7 @@ export const getClubedResponse = async ({
   chunks,
   openAiOptions,
 }: GetClubedResponsesArgs) => {
-  const { model, temperature, maxTokens } = openAiOptions;
+  const { temperature, maxTokens } = openAiOptions;
   const chunksString = chunks.map((chunk) => chunk.content).join("");
 
   const prompt = endent`
@@ -31,8 +29,10 @@ export const getClubedResponse = async ({
     ${chunksString}
   `;
 
+  console.log("ℹ️ [OPEN AI] Using Options", openAiOptions);
+
   const body = {
-    model,
+    model: "gpt-3.5-turbo",
     messages: [
       {
         role: "system",
