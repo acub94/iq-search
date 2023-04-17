@@ -54,13 +54,26 @@ export default function Home({ searchQuery }: { searchQuery: string }) {
   const [result, setResult] = useState<QueryResult>();
   const [loading, setLoading] = useState<boolean>(false);
   const toast = useToast();
-  const { mutateAsync: getAnswer } = trpc.answers.getAnswer.useMutation();
+  const { mutateAsync: getAnswer, error } =
+    trpc.answers.getAnswer.useMutation();
   const {
     isOpen: isDebugPanelOpen,
     onToggle: onDebugPanelToggle,
     onClose: onDebugPanelClose,
   } = useDisclosure();
   const [debugOptions, setDebugOptions] = useDebugOptions();
+
+  useEffect(() => {
+    if (error) {
+      toast({
+        title: "An error occurred while fetching the answer",
+        description: error.message,
+        isClosable: true,
+        status: "error",
+      });
+      setLoading(false);
+    }
+  }, [error, toast]);
 
   const handleSearch = async (
     querySearchStr: string,
