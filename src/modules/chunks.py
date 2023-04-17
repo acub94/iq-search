@@ -25,9 +25,3 @@ def chunking():
     df_exploded = df.explode('chunks').reset_index(drop=True)
     df_exploded = df_exploded[['wikiid', 'title', 'chunks']]
     return df_exploded
-
-def main():
-    print(chunking())
-
-if __name__ == '__main__':
-    main()
