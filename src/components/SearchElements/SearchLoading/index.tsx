@@ -14,6 +14,7 @@ const SearchLoading = () => {
         style={{
           height: 70,
           cursor: "pointer",
+          opacity: 0.3,
         }}
       />
     </VStack>
