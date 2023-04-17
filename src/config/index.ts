@@ -1,15 +1,6 @@
 import { env } from "@/env.mjs";
 import { z } from "zod";
 
-export const AvailableModels = z.enum([
-  "gpt-4",
-  "gpt-4-0314",
-  "gpt-4-32k",
-  "gpt-4-32k-0314",
-  "gpt-3.5-turbo",
-  "gpt-3.5-turbo-0301",
-]);
-
 export const AvailablePgTables = z.enum([
   "langchain_search",
   "langchain150tkn_search",
@@ -21,7 +12,6 @@ export const DebugOptionsSchema = z.object({
   pgTables: z.string(),
   similarityThreshold: z.number().min(0).max(1),
   matchCount: z.number().min(1).max(10),
-  model: AvailableModels,
   temperature: z.number().min(0).max(2),
   maxTokens: z.number().min(1).max(200),
 });
@@ -36,7 +26,6 @@ const config = {
     pgTables: AvailablePgTables.Enum.langchain150tkn_search,
     similarityThreshold: 0.76,
     matchCount: 5,
-    model: AvailableModels.Values["gpt-3.5-turbo"],
     temperature: 0,
     maxTokens: 200,
   },

@@ -37,6 +37,11 @@ export const getChunks = async ({
     },
   );
 
+  console.log("ℹ️ [CHUNKS FETCH] Using Options", {
+    similarityThreshold,
+    matchCount,
+  });
+
   const { data: chunks, error } = (await supabaseAdmin.rpc(pgFunction, {
     query_embedding: data.data[0].embedding,
     similarity_threshold: similarityThreshold,

@@ -2,7 +2,7 @@ import { z } from "zod";
 import { getChunks } from "../modules/getChunks";
 import { getClubedResponse } from "../modules/getClubedResponse";
 import { procedure, router } from "../trpc";
-import config, { AvailableModels } from "@/config";
+import config from "@/config";
 
 const answerInputSchema = z.object({
   query: z.string(),
@@ -11,7 +11,6 @@ const answerInputSchema = z.object({
       pgFunction: z.string().optional(),
       similarityThreshold: z.number().optional(),
       matchCount: z.number().optional(),
-      model: AvailableModels.optional(),
       temperature: z.number().optional(),
       maxTokens: z.number().optional(),
     })
@@ -25,7 +24,6 @@ export const answersRouter = router({
       pgFunction,
       similarityThreshold,
       matchCount,
-      model,
       temperature,
       maxTokens,
     } = options || {};
@@ -40,7 +38,6 @@ export const answersRouter = router({
 
     let result;
     const openAiOptions = {
-      model: model || config.defaultDebugOptions.model,
       temperature: temperature || config.defaultDebugOptions.temperature,
       maxTokens: maxTokens || config.defaultDebugOptions.maxTokens,
     };
