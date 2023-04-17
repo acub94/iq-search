@@ -1,6 +1,15 @@
 import { ColorModeToggle } from "@/components/ColorToggle";
 import Footer from "@/components/Layout/Footer";
-import { Box, Flex, VStack, chakra, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  HStack,
+  IconButton,
+  VStack,
+  chakra,
+  useDisclosure,
+  useToast,
+} from "@chakra-ui/react";
 import Header from "@/components/Layout/Header";
 import { devLog, transformQuery } from "@/utils/text.utils";
 import { trpc } from "@/utils/trpc";
@@ -12,6 +21,9 @@ import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import { logEvent } from "@/utils/googleAnalytics";
+import DebugPanel from "@/components/DebugPanel";
+import { SettingsIcon } from "@chakra-ui/icons";
+import { useDebugOptions } from "@/hooks/useDebugOptions";
 
 export interface QueryResult {
   query: string;
@@ -43,9 +55,15 @@ export default function Home({ searchQuery }: { searchQuery: string }) {
   const [loading, setLoading] = useState<boolean>(false);
   const toast = useToast();
   const { mutateAsync: getAnswer } = trpc.answers.getAnswer.useMutation();
+  const {
+    isOpen: isDebugPanelOpen,
+    onToggle: onDebugPanelToggle,
+    onClose: onDebugPanelClose,
+  } = useDisclosure();
+  const [debugOptions, setDebugOptions] = useDebugOptions();
 
-  const handleAISearch = useCallback(
-    async (querySearchStr: string) => {
+  const handleSearch = useCallback(
+    async (querySearchStr: string, route: boolean = true) => {
       if (querySearchStr.length === 0) {
         toast({
           title: "Please enter a valid text before searching",
@@ -63,39 +81,43 @@ export default function Home({ searchQuery }: { searchQuery: string }) {
 
       const { wikiId, answer, wikiTitle, chunks } = await getAnswer({
         query: transformedQuery,
+        options: debugOptions,
       });
 
       devLog(transformedQuery, chunks);
       setResult({ answer, wikiId, query: querySearchStr, wikiTitle });
       setLoading(false);
+
+      if (route) {
+        router.push(
+          {
+            pathname: "/",
+            query: `query=${querySearchStr}`,
+          },
+          undefined,
+          { shallow: true },
+        );
+      }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [searchQuery],
   );
 
   useEffect(() => {
     if (searchQuery.length === 0 || searchQuery.slice(1) === "") return;
-
-    void handleAISearch(searchQuery);
-  }, [searchQuery, handleAISearch]);
-
-  const handleSearch = async (query: string) => {
-    await handleAISearch(query);
-    router.push(
-      {
-        pathname: "/",
-        query: `query=${query}`,
-      },
-      undefined,
-      { shallow: true },
-    );
-  };
-
-  const decodeQueryURL = decodeURI(inputQuery);
+    void handleSearch(searchQuery, false);
+  }, [searchQuery, handleSearch]);
 
   return (
     <>
-      {inputQuery && <NextSeo title={`${decodeQueryURL} - search on IQ GPT`} />}
+      <DebugPanel
+        isOpen={isDebugPanelOpen}
+        onClose={onDebugPanelClose}
+        debugOptions={debugOptions}
+        setDebugOptions={setDebugOptions}
+      />
+      {inputQuery && (
+        <NextSeo title={`${decodeURI(inputQuery)} - search on IQ GPT`} />
+      )}
       <Flex direction='column' minH='100vh'>
         <Box w='full' textAlign='right' p='3' position='fixed'>
           <ColorModeToggle />
@@ -104,7 +126,18 @@ export default function Home({ searchQuery }: { searchQuery: string }) {
           <VStack gap={{ base: "10", md: "6" }} w='full' mt={{ base: "16" }}>
             <Header />
             <VStack w='full' px={{ base: "5", md: 0 }}>
-              <SearchInput handleSearch={handleSearch} query={decodeQueryURL} />
+              <HStack>
+                <SearchInput
+                  handleSearch={handleSearch}
+                  query={decodeURI(inputQuery)}
+                />
+                <IconButton
+                  variant="solid"
+                  aria-label='Debug Panel'
+                  onClick={onDebugPanelToggle}
+                  icon={<SettingsIcon />}
+                />
+              </HStack>
               {loading ? (
                 <SearchLoading />
               ) : (

@@ -32,17 +32,17 @@ export const answersRouter = router({
 
     const chunks = await getChunks({
       query,
-      pgFunction: pgFunction || config.defaultOptions.pgFunction,
+      pgFunction: pgFunction || config.defaultDebugOptions.pgFunction,
       similarityThreshold:
-        similarityThreshold || config.defaultOptions.similarityThreshold,
-      matchCount: matchCount || config.defaultOptions.matchCount,
+        similarityThreshold || config.defaultDebugOptions.similarityThreshold,
+      matchCount: matchCount || config.defaultDebugOptions.matchCount,
     });
 
     let result;
     const openAiOptions = {
-      model: model || config.defaultOptions.model,
-      temperature: temperature || config.defaultOptions.temperature,
-      maxTokens: maxTokens || config.defaultOptions.maxTokens,
+      model: model || config.defaultDebugOptions.model,
+      temperature: temperature || config.defaultDebugOptions.temperature,
+      maxTokens: maxTokens || config.defaultDebugOptions.maxTokens,
     };
 
     if (chunks.length !== 0) {
