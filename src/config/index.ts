@@ -10,6 +10,15 @@ export const AvailableModels = z.enum([
   "gpt-3.5-turbo-0301",
 ]);
 
+export const DebugOptionsSchema = z.object({
+  pgFunction: z.string(),
+  similarityThreshold: z.number().min(0).max(1),
+  matchCount: z.number().min(1).max(10),
+  model: AvailableModels,
+  temperature: z.number().min(0).max(2),
+  maxTokens: z.number().min(1).max(200),
+});
+
 const config = {
   googleAnalyticsID: process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS,
   graphqlUrl:

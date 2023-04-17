@@ -10,6 +10,8 @@ import {
   DrawerOverlay,
 } from "@chakra-ui/react";
 import React from "react";
+import { useZodForm } from "@/utils/form.utils";
+import { DebugOptionsSchema } from "@/config";
 
 interface DebugPanelProps {
   isOpen: boolean;
@@ -24,24 +26,36 @@ const DebugPanel = ({
   debugOptions,
   setDebugOptions,
 }: DebugPanelProps) => {
+  const methods = useZodForm({
+    schema: DebugOptionsSchema,
+    defaultValues: debugOptions,
+  });
+
+  const handleSubmit = methods.handleSubmit((data) => {
+    setDebugOptions(data);
+    onClose();
+  });
+
   return (
     <Drawer isOpen={isOpen} placement='right' onClose={onClose}>
       <DrawerOverlay />
-      <DrawerContent>
-        <DrawerCloseButton />
-        <DrawerHeader>Debug Options</DrawerHeader>
+      <form onSubmit={handleSubmit}>
+        <DrawerContent>
+          <DrawerCloseButton />
 
-        <DrawerBody>
-          <p>Some content here</p>
-        </DrawerBody>
+          <DrawerHeader>Debug Options</DrawerHeader>
+          <DrawerBody h="full">hello</DrawerBody>
 
-        <DrawerFooter>
-          <Button variant='outline' mr={3} onClick={onClose}>
-            Cancel
-          </Button>
-          <Button colorScheme='blue'>Save</Button>
-        </DrawerFooter>
-      </DrawerContent>
+          <DrawerFooter>
+            <Button variant='outline' mr={3} onClick={onClose}>
+              Cancel
+            </Button>
+            <Button type="submit" colorScheme='blue'>
+              Save
+            </Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </form>
     </Drawer>
   );
 };
