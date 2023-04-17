@@ -9,7 +9,7 @@ export const AvailablePgTables = z.enum([
 ]);
 
 export const DebugOptionsSchema = z.object({
-  pgTables: z.string(),
+  pgTables: AvailablePgTables,
   similarityThreshold: z.number().min(0).max(1),
   matchCount: z.number().min(1).max(10),
   temperature: z.number().min(0).max(2),
