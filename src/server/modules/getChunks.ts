@@ -1,13 +1,15 @@
-import { TRPCError } from "@trpc/server";
+import { env } from "@/env.mjs";
+import { PGChunk } from "@/types";
+import { type PrismaClient } from "@prisma/client";
 import axios from "axios";
 import { CreateEmbeddingResponse } from "openai";
-import { env } from "@/env.mjs";
 
 interface getChunksArgs {
   query: string;
   pgFunction: string;
   similarityThreshold: number;
   matchCount: number;
+  prisma: PrismaClient;
 }
 
 export const getChunks = async ({
@@ -15,6 +17,7 @@ export const getChunks = async ({
   pgFunction,
   similarityThreshold,
   matchCount,
+  prisma,
 }: getChunksArgs) => {
   const { data } = await axios.post<CreateEmbeddingResponse>(
     "https://api.openai.com/v1/embeddings",
@@ -30,19 +33,15 @@ export const getChunks = async ({
     },
   );
 
-  // const { data: chunks, error } = (await supabaseAdmin.rpc(pgFunction, {
-  //   query_embedding: data.data[0].embedding,
-  //   similarity_threshold: similarityThreshold,
-  //   match_count: matchCount,
-  // }))
+  const embedding = data.data[0].embedding;
 
-  if (error) {
-    new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "Error getting embeddings from supabase",
-      cause: error,
-    });
-  }
+  const result: PGChunk[] = await prisma.$queryRaw`
+    SELECT * FROM ${pgFunction}(
+      query_embedding := ${embedding},
+      similarity_threshold := ${similarityThreshold},
+      match_count := ${matchCount}
+    );
+  `;
 
-  return chunks;
+  return result;
 };

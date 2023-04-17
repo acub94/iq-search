@@ -19,41 +19,44 @@ const answerInputSchema = z.object({
 });
 
 export const answersRouter = router({
-  getAnswer: procedure.input(answerInputSchema).mutation(async ({ input }) => {
-    const { query, options } = input;
-    const {
-      pgFunction,
-      similarityThreshold,
-      matchCount,
-      model,
-      temperature,
-      maxTokens,
-    } = options || {};
+  getAnswer: procedure
+    .input(answerInputSchema)
+    .mutation(async ({ input, ctx }) => {
+      const { query, options } = input;
+      const {
+        pgFunction,
+        similarityThreshold,
+        matchCount,
+        model,
+        temperature,
+        maxTokens,
+      } = options || {};
 
-    const chunks = await getChunks({
-      query,
-      pgFunction: pgFunction || config.defaultOptions.pgFunction,
-      similarityThreshold:
-        similarityThreshold || config.defaultOptions.similarityThreshold,
-      matchCount: matchCount || config.defaultOptions.matchCount,
-    });
+      const chunks = await getChunks({
+        query,
+        pgFunction: pgFunction || config.defaultOptions.pgFunction,
+        similarityThreshold:
+          similarityThreshold || config.defaultOptions.similarityThreshold,
+        matchCount: matchCount || config.defaultOptions.matchCount,
+        prisma: ctx.prisma,
+      });
 
-    let result;
-    const openAiOptions = {
-      model: model || config.defaultOptions.model,
-      temperature: temperature || config.defaultOptions.temperature,
-      maxTokens: maxTokens || config.defaultOptions.maxTokens,
-    };
+      let result;
+      const openAiOptions = {
+        model: model || config.defaultOptions.model,
+        temperature: temperature || config.defaultOptions.temperature,
+        maxTokens: maxTokens || config.defaultOptions.maxTokens,
+      };
 
-    if (chunks.length !== 0) {
-      result = await getClubedResponse({ query, chunks, openAiOptions });
-    }
+      if (chunks.length !== 0) {
+        result = await getClubedResponse({ query, chunks, openAiOptions });
+      }
 
-    return {
-      wikiId: chunks[0].wikiid,
-      answer: result || "Sorry, I don't know how to help with that.",
-      wikiTitle: chunks[0].title,
-      chunks,
-    };
-  }),
+      return {
+        wikiId: chunks[0].wikiid,
+        answer: result || "Sorry, I don't know how to help with that.",
+        wikiTitle: chunks[0].title,
+        chunks,
+      };
+    }),
 });
