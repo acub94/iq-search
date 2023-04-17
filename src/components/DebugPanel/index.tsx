@@ -59,9 +59,10 @@ const DebugPanel = ({
                   Matches 
             =======================*/}
             <FieldWrapper
+              label="Match Count"
               name="matchCount"
               methods={methods}
-              description="Number of matches to use to get summary"
+              description="Number of chunks to use to get summary"
             >
               <NumberInput>
                 <NumberInputField
@@ -81,9 +82,10 @@ const DebugPanel = ({
             =======================*/}
 
             <FieldWrapper
+              label="Temperature"
               name="temperature"
               methods={methods}
-              description="Temperature to use for temperature based matches"
+              description="Temperature to use for summary generation"
             >
               <Slider
                 mt={8}
@@ -118,9 +120,10 @@ const DebugPanel = ({
             =======================*/}
 
             <FieldWrapper
+              label="Similarity Threshold"
               name="similarityThreshold"
               methods={methods}
-              description="Similarity threshold to use for similarity based matches"
+              description="Similarity threshold is used for chunk matches"
             >
               <Slider
                 mt={8}
@@ -158,9 +161,10 @@ const DebugPanel = ({
             =======================*/}
 
             <FieldWrapper
+              label="Table to use"
               name="pgTables"
               methods={methods}
-              description="Postgres tables to use for matches"
+              description="Table to use for chunk matches."
             >
               <Select {...methods.register("pgTables")}>
                 {Object.values(AvailablePgTables.Values).map((fnName) => (
@@ -176,9 +180,10 @@ const DebugPanel = ({
             =======================*/}
 
             <FieldWrapper
+              label="Max Tokens"
               name="maxTokens"
               methods={methods}
-              description="Max tokens to use for matches"
+              description="Max tokens to use for summary generation."
             >
               <NumberInput>
                 <NumberInputField
