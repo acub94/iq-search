@@ -91,13 +91,14 @@ const DebugPanel = ({
                 min={0}
                 max={2}
                 step={0.01}
+                colorScheme="pink"
                 defaultValue={debugOptions.temperature}
                 onChange={(value) => methods.setValue("temperature", value)}
               >
                 <SliderMark
                   value={methods.watch("temperature")}
                   textAlign='center'
-                  bg='blue.500'
+                  bg='brand.500'
                   color='white'
                   mt='-10'
                   ml='-6'
@@ -126,6 +127,7 @@ const DebugPanel = ({
                 aria-label='slider-ex-1'
                 min={0}
                 max={1}
+                colorScheme="pink"
                 step={0.01}
                 value={methods.watch("similarityThreshold")}
                 onChange={(value) =>
@@ -140,7 +142,7 @@ const DebugPanel = ({
                 <SliderMark
                   value={methods.watch("similarityThreshold")}
                   textAlign='center'
-                  bg='blue.500'
+                  bg='brand.500'
                   color='white'
                   mt='-10'
                   ml='-6'
@@ -204,7 +206,7 @@ const DebugPanel = ({
             >
               Restore Defaults
             </Button>
-            <Button type="submit" colorScheme='blue'>
+            <Button type="submit" colorScheme='brand'>
               Save
             </Button>
           </DrawerFooter>
