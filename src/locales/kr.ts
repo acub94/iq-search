@@ -14,6 +14,6 @@ export default {
   debugMaxTokensDescription: "요약 생성에 사용할 최대 토큰 수",
   debugSave: "저장",
   debugRestoreDefaults: "기본값으로 복원",
-  // footerPoweredBy: "{name}에서 제공",
+  footerPoweredBy: "{name}에서 제공",
   footerCopyright: "©2023 IQ.Wiki. All Rights Reserved.",
 };
