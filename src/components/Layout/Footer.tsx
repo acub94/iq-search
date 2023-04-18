@@ -10,8 +10,10 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { Socials } from "../Data/socialData";
+import { useI18n } from "@/locales";
 
 const Footer = () => {
+  const t = useI18n();
   const thisYear = new Date().getFullYear();
   return (
     <VStack
@@ -36,17 +38,20 @@ const Footer = () => {
           color: "gray.400",
         }}
       >
-        Powered by{" "}
-        <Link
-          _hover={{
-            color: "gray.900",
-            textDecor: "underline",
-            _dark: { color: "whiteAlpha.900" },
-          }}
-          href='https://braindao.org'
-        >
-          Braindao
-        </Link>
+        {t("footerPoweredBy", {
+          name: (
+            <Link
+              _hover={{
+                color: "gray.900",
+                textDecor: "underline",
+                _dark: { color: "whiteAlpha.900" },
+              }}
+              href='https://braindao.org'
+            >
+              Braindao
+            </Link>
+          ),
+        })}
       </Text>
       <HStack w='full' alignItems='center' justifyContent='center'>
         {Socials.map((social) => (

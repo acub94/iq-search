@@ -1,3 +1,4 @@
+import { useI18n } from "@/locales";
 import { Search2Icon } from "@chakra-ui/icons";
 import { Box, Button, Flex, Icon, Input } from "@chakra-ui/react";
 import { ChangeEvent } from "react";
@@ -8,6 +9,8 @@ interface SearchInputProps {
 }
 
 export const SearchInput = ({ handleSearch, query }: SearchInputProps) => {
+  const t = useI18n();
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formdata = new FormData(e.currentTarget);
@@ -52,7 +55,7 @@ export const SearchInput = ({ handleSearch, query }: SearchInputProps) => {
             <Input
               pl='4'
               name='query'
-              placeholder='Ask me anything Crypto'
+              placeholder={t("searchPlaceholder")}
               _placeholderShown={{
                 textOverflow: "ellipsis",
               }}

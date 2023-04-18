@@ -8,6 +8,7 @@ import GoogleAnalyticsScripts from "@/components/GoogleAnalytics/GoogleAnalytics
 import { pageView } from "@/utils/googleAnalytics";
 import SEOHeader from "@/components/SEO/DefaultSEO";
 import { trpc } from "@/utils/trpc";
+import { I18nProvider, getLocaleProps } from "../locales";
 
 export const montserrat = Montserrat({
   subsets: ["latin"],
@@ -34,12 +35,16 @@ const App = ({ Component, pageProps, router }: AppProps) => {
       `}</style>
       <QueryClientProvider client={queryClient}>
         <ChakraProvider theme={theme}>
-          <Component {...pageProps} />
+          <I18nProvider locale={pageProps.locale}>
+            <Component {...pageProps} />
+          </I18nProvider>
         </ChakraProvider>
       </QueryClientProvider>
       <GoogleAnalyticsScripts />
     </StrictMode>
   );
 };
+
+export const getStaticProps = getLocaleProps();
 
 export default trpc.withTRPC(App);

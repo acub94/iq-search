@@ -1,8 +1,10 @@
+import { useI18n } from "@/locales";
 import { Flex, Heading, Image } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
 
 const Header = () => {
+  const t = useI18n();
   return (
     <Link href='/'>
       <Flex justifyContent='center'>
@@ -18,7 +20,7 @@ const Header = () => {
         textAlign='center'
         _hover={{ textDecoration: "none" }}
       >
-        IQ GPT
+        {t("headerTitle")}
       </Heading>
     </Link>
   );

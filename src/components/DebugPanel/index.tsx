@@ -23,6 +23,7 @@ import {
   SliderTrack,
 } from "@chakra-ui/react";
 import { FieldWrapper } from "./FieldWrapper";
+import { useI18n } from "@/locales";
 
 interface DebugPanelProps {
   isOpen: boolean;
@@ -37,6 +38,8 @@ const DebugPanel = ({
   debugOptions,
   setDebugOptions,
 }: DebugPanelProps) => {
+  const t = useI18n();
+
   const methods = useZodForm({
     schema: DebugOptionsSchema,
     defaultValues: debugOptions,
@@ -59,10 +62,10 @@ const DebugPanel = ({
                   Matches 
             =======================*/}
             <FieldWrapper
-              label="Match Count"
+              label={t("debugMatchCountLabel")}
               name="matchCount"
               methods={methods}
-              description="Number of chunks to use to get summary"
+              description={t("debugMatchCountDescription")}
             >
               <NumberInput>
                 <NumberInputField
@@ -82,10 +85,10 @@ const DebugPanel = ({
             =======================*/}
 
             <FieldWrapper
-              label="Temperature"
+              label={t("debugTemperatureLabel")}
               name="temperature"
               methods={methods}
-              description="Temperature to use for summary generation"
+              description={t("debugTemperatureDescription")}
             >
               <Slider
                 mt={8}
@@ -120,10 +123,10 @@ const DebugPanel = ({
             =======================*/}
 
             <FieldWrapper
-              label="Similarity Threshold"
+              label={t("debugSimilarityThresholdLabel")}
               name="similarityThreshold"
               methods={methods}
-              description="Similarity threshold is used for chunk matches"
+              description={t("debugSimilarityThresholdDescription")}
             >
               <Slider
                 mt={8}
@@ -157,14 +160,14 @@ const DebugPanel = ({
             </FieldWrapper>
 
             {/* ====================
-                  pgFunction
+                  Tables to use
             =======================*/}
 
             <FieldWrapper
-              label="Table to use"
+              label={t("debugTableToUseLabel")}
               name="pgTables"
               methods={methods}
-              description="Table to use for chunk matches."
+              description={t("debugTableToUseDescription")}
             >
               <Select {...methods.register("pgTables")}>
                 {Object.values(AvailablePgTables.Values).map((fnName) => (
@@ -180,10 +183,10 @@ const DebugPanel = ({
             =======================*/}
 
             <FieldWrapper
-              label="Max Tokens"
+              label={t("debugMaxTokensLabel")}
               name="maxTokens"
               methods={methods}
-              description="Max tokens to use for summary generation."
+              description={t("debugMaxTokensDescription")}
             >
               <NumberInput>
                 <NumberInputField
@@ -209,10 +212,10 @@ const DebugPanel = ({
                 methods.reset(config.defaultDebugOptions);
               }}
             >
-              Restore Defaults
+              {t("debugRestoreDefaults")}
             </Button>
             <Button type="submit" colorScheme='brand'>
-              Save
+              {t("debugSave")}
             </Button>
           </DrawerFooter>
         </DrawerContent>
