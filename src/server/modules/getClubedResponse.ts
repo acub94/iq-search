@@ -1,9 +1,11 @@
 import config from "@/config";
 import { env } from "@/env.mjs";
+import { allLocales, localeSchema } from "@/locales";
 import { PGChunk } from "@/types";
 import axios from "axios";
 import endent from "endent";
 import { CreateChatCompletionResponse } from "openai";
+import { z } from "zod";
 
 interface GetClubedResponsesArgs {
   query: string;
@@ -12,24 +14,29 @@ interface GetClubedResponsesArgs {
     temperature: number;
     maxTokens: number;
   };
+  language?: z.infer<typeof localeSchema>;
 }
 
 export const getClubedResponse = async ({
   query,
   chunks,
   openAiOptions,
+  language = "en",
 }: GetClubedResponsesArgs) => {
   const { temperature, maxTokens } = openAiOptions;
   const chunksString = chunks.map((chunk) => chunk.content).join("");
+  const languageName = allLocales.find((locale) => locale.code === language);
 
   const prompt = endent`
     Use the following passage to answer the query (don't write any questions in output): 
     ${query}\n
 
     ${chunksString}
+
+    Reply in ${languageName?.name} language.
   `;
 
-  console.log("ℹ️ [OPEN AI] Using Options", openAiOptions);
+  console.log("ℹ️ [OPEN AI] Using Options", { ...openAiOptions, language });
 
   const body = {
     model: "gpt-3.5-turbo",

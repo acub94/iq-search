@@ -24,6 +24,7 @@ import { GetServerSideProps } from "next";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useCurrentLocale } from "@/locales";
 
 export interface QueryResult {
   query: string;
@@ -62,6 +63,7 @@ export default function Home({ searchQuery }: { searchQuery: string }) {
     onClose: onDebugPanelClose,
   } = useDisclosure();
   const [debugOptions, setDebugOptions] = useDebugOptions();
+  const locale = useCurrentLocale();
 
   useEffect(() => {
     if (error) {
@@ -97,6 +99,7 @@ export default function Home({ searchQuery }: { searchQuery: string }) {
     const { wikiId, answer, wikiTitle, chunks } = await getAnswer({
       query: transformedQuery,
       options: debugOptions,
+      language: locale,
     });
 
     devLog(transformedQuery, chunks);
