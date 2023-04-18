@@ -90,38 +90,37 @@ export default function Home({ searchQuery }: { searchQuery: string }) {
       return;
     }
 
-    setInputQuery(querySearchStr);
     setLoading(true);
 
     const transformedQuery = transformQuery(querySearchStr);
     sendUserEvents(transformedQuery);
-
     const { wikiId, answer, wikiTitle, chunks } = await getAnswer({
       query: transformedQuery,
       options: debugOptions,
       language: locale,
     });
-
     devLog(transformedQuery, chunks);
     setResult({ answer, wikiId, query: querySearchStr, wikiTitle });
-    setLoading(false);
 
-    if (route) {
-      router.push(
-        {
-          pathname: "/",
-          query: `query=${querySearchStr}`,
-        },
-        undefined,
-        { shallow: true },
-      );
-    }
+    setLoading(false);
+    setInputQuery(querySearchStr);
+
+    if (!route) return;
+
+    router.push(
+      {
+        pathname: "/",
+        query: `query=${querySearchStr}`,
+      },
+      undefined,
+      { shallow: true },
+    );
   };
 
   useEffect(() => {
     if (searchQuery.length === 0 || searchQuery.slice(1) === "") return;
     handleSearch(searchQuery, false);
-  }, [searchQuery, handleSearch]);
+  }, []);
 
   return (
     <>
@@ -172,14 +171,6 @@ export default function Home({ searchQuery }: { searchQuery: string }) {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { query } = ctx.query;
-
-  if (!query) {
-    return {
-      props: {
-        searchQuery: "",
-      },
-    };
-  }
 
   return {
     props: {
