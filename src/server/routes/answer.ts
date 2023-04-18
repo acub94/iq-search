@@ -4,6 +4,7 @@ import { getClubedResponse } from "../modules/getClubedResponse";
 import { procedure, router } from "../trpc";
 import config from "@/config";
 import { localeSchema } from "@/locales";
+import { getTranslated } from "../modules/getTranslated";
 
 const answerInputSchema = z.object({
   query: z.string(),
@@ -30,8 +31,14 @@ export const answersRouter = router({
       maxTokens,
     } = options || {};
 
+    let translatedQuery = query;
+
+    if (language !== "en") {
+      translatedQuery = (await getTranslated({ query })) || query;
+    }
+
     const chunks = await getChunks({
-      query,
+      query: translatedQuery,
       pgFunction: pgFunction || config.defaultDebugOptions.pgTables,
       similarityThreshold:
         similarityThreshold || config.defaultDebugOptions.similarityThreshold,
