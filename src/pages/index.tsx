@@ -1,4 +1,4 @@
-import { ColorModeToggle } from "@/components/ColorToggle";
+import { NavButtons } from "@/components/Layout/NavButtons";
 import DebugPanel from "@/components/DebugPanel";
 import Footer from "@/components/Layout/Footer";
 import Header from "@/components/Layout/Header";
@@ -133,7 +133,7 @@ export default function Home({ searchQuery }: { searchQuery: string }) {
       )}
       <Flex direction='column' minH='100vh'>
         <Box w='full' textAlign='right' p='3' position='fixed'>
-          <ColorModeToggle />
+          <NavButtons />
         </Box>
         <chakra.div flexGrow='1' display='flex' mt={{ md: "10" }}>
           <VStack gap={{ base: "10", md: "6" }} w='full' mt={{ base: "16" }}>
