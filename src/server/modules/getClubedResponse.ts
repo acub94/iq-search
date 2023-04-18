@@ -50,7 +50,7 @@ export const getClubedResponse = async ({
         content: prompt,
       },
     ],
-    max_tokens: maxTokens,
+    max_tokens: maxTokens * (language !== "en" ? 3 : 1),
     temperature,
   };
 
