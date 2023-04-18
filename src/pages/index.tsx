@@ -174,7 +174,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   return {
     props: {
-      searchQuery: query,
+      searchQuery: query || "",
     },
   };
 };
