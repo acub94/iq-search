@@ -95,18 +95,22 @@ const Footer = () => {
             color: "gray.400",
           }}
         >
-          ©{thisYear} Powered by
-          <Link target='_blank' href='https://iq.wiki/'>
-            <Text
-              as='span'
-              color='#ff5caa'
-              px='1'
-              _hover={{ textDecoration: "underline" }}
-            >
-              IQ.Wiki
-            </Text>
-          </Link>
-          All Rights Reserved.
+          {t("footerCopyright", {
+            name: (
+              <Link
+                _hover={{
+                  color: "gray.900",
+                  textDecor: "underline",
+                  _dark: { color: "whiteAlpha.900" },
+                }}
+                target='_blank'
+                href='https://iq.wiki/'
+              >
+                IQ.Wiki
+              </Link>
+            ),
+            year: thisYear,
+          })}
         </Text>
       </Flex>
     </VStack>

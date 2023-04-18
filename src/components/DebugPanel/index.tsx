@@ -56,7 +56,7 @@ const DebugPanel = ({
       <form onSubmit={handleSubmit}>
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>Debug Options</DrawerHeader>
+          <DrawerHeader>{t("debugTitle")}</DrawerHeader>
           <DrawerBody h="full" display="flex" flexDir="column" gap={10}>
             {/* ====================
                   Matches 
