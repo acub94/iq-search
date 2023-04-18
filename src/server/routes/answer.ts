@@ -3,9 +3,11 @@ import { getChunks } from "../modules/getChunks";
 import { getClubedResponse } from "../modules/getClubedResponse";
 import { procedure, router } from "../trpc";
 import config from "@/config";
+import { localeSchema } from "@/locales";
 
 const answerInputSchema = z.object({
   query: z.string(),
+  language: localeSchema.optional(),
   options: z
     .object({
       pgFunction: z.string().optional(),
@@ -19,7 +21,7 @@ const answerInputSchema = z.object({
 
 export const answersRouter = router({
   getAnswer: procedure.input(answerInputSchema).mutation(async ({ input }) => {
-    const { query, options } = input;
+    const { query, options, language } = input;
     const {
       pgFunction,
       similarityThreshold,
@@ -43,7 +45,12 @@ export const answersRouter = router({
     };
 
     if (chunks.length !== 0) {
-      result = await getClubedResponse({ query, chunks, openAiOptions });
+      result = await getClubedResponse({
+        query,
+        chunks,
+        openAiOptions,
+        language,
+      });
     }
 
     return {

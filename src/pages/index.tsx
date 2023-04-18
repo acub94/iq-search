@@ -1,4 +1,4 @@
-import { ColorModeToggle } from "@/components/ColorToggle";
+import { NavButtons } from "@/components/Layout/NavButtons";
 import DebugPanel from "@/components/DebugPanel";
 import Footer from "@/components/Layout/Footer";
 import Header from "@/components/Layout/Header";
@@ -24,6 +24,7 @@ import { GetServerSideProps } from "next";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useCurrentLocale } from "@/locales";
 
 export interface QueryResult {
   query: string;
@@ -62,6 +63,7 @@ export default function Home({ searchQuery }: { searchQuery: string }) {
     onClose: onDebugPanelClose,
   } = useDisclosure();
   const [debugOptions, setDebugOptions] = useDebugOptions();
+  const locale = useCurrentLocale();
 
   useEffect(() => {
     if (error) {
@@ -88,37 +90,37 @@ export default function Home({ searchQuery }: { searchQuery: string }) {
       return;
     }
 
-    setInputQuery(querySearchStr);
     setLoading(true);
 
     const transformedQuery = transformQuery(querySearchStr);
     sendUserEvents(transformedQuery);
-
     const { wikiId, answer, wikiTitle, chunks } = await getAnswer({
       query: transformedQuery,
       options: debugOptions,
+      language: locale,
     });
-
     devLog(transformedQuery, chunks);
     setResult({ answer, wikiId, query: querySearchStr, wikiTitle });
-    setLoading(false);
 
-    if (route) {
-      router.push(
-        {
-          pathname: "/",
-          query: `query=${querySearchStr}`,
-        },
-        undefined,
-        { shallow: true },
-      );
-    }
+    setLoading(false);
+    setInputQuery(querySearchStr);
+
+    if (!route) return;
+
+    router.push(
+      {
+        pathname: "/",
+        query: `query=${querySearchStr}`,
+      },
+      undefined,
+      { shallow: true },
+    );
   };
 
   useEffect(() => {
     if (searchQuery.length === 0 || searchQuery.slice(1) === "") return;
     handleSearch(searchQuery, false);
-  }, [searchQuery, handleSearch]);
+  }, []);
 
   return (
     <>
@@ -133,9 +135,9 @@ export default function Home({ searchQuery }: { searchQuery: string }) {
       )}
       <Flex direction='column' minH='100vh'>
         <Box w='full' textAlign='right' p='3' position='fixed'>
-          <ColorModeToggle />
+          <NavButtons />
         </Box>
-        <chakra.div flexGrow='1' display='flex' mt={{ md: "10" }}>
+        <chakra.div flexGrow='1' display='flex' mt={10}>
           <VStack gap={{ base: "10", md: "6" }} w='full' mt={{ base: "16" }}>
             <Header />
             <VStack w='full' px={{ base: "5", md: 0 }}>
@@ -169,14 +171,6 @@ export default function Home({ searchQuery }: { searchQuery: string }) {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { query } = ctx.query;
-
-  if (!query) {
-    return {
-      props: {
-        searchQuery: "",
-      },
-    };
-  }
 
   return {
     props: {
