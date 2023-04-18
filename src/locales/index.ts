@@ -12,10 +12,12 @@ export const allLocales = [
   {
     code: "en",
     name: "English",
+    noAnswer: "Sorry, I don't know how to help with that.",
   },
   {
     code: "kr",
     name: "한국어",
+    noAnswer: "죄송합니다. 제가 도와드릴 수 없는 질문입니다.",
   },
 ] as const;
 

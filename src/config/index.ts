@@ -24,7 +24,7 @@ const config = {
     "You are an IQ.Wiki representative who loves to help people! Given the following sections from the IQ.Wiki articles, answer the questions using only that information in less than 150 words, outputted in the markdown format. If you are unsure and the answer is not explicitly written in the documentation, say -Sorry, I don't know how to help with that- .",
   defaultDebugOptions: {
     pgTables: AvailablePgTables.Enum.langchain150tkn_search,
-    similarityThreshold: 0.76,
+    similarityThreshold: 0.8,
     matchCount: 5,
     temperature: 0,
     maxTokens: 200,

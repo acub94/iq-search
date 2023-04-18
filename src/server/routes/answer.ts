@@ -3,7 +3,7 @@ import { getChunks } from "../modules/getChunks";
 import { getClubedResponse } from "../modules/getClubedResponse";
 import { procedure, router } from "../trpc";
 import config from "@/config";
-import { localeSchema } from "@/locales";
+import { allLocales, localeSchema } from "@/locales";
 import { getTranslated } from "../modules/getTranslated";
 
 const answerInputSchema = z.object({
@@ -62,7 +62,11 @@ export const answersRouter = router({
 
     return {
       wikiId: chunks[0].wikiid,
-      answer: result || "Sorry, I don't know how to help with that.",
+      answer:
+        result ||
+        allLocales.find((locale) => locale.code === language || "en")
+          ?.noAnswer ||
+        "No answer found",
       wikiTitle: chunks[0].title,
       chunks,
     };

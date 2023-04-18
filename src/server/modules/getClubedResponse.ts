@@ -33,7 +33,7 @@ export const getClubedResponse = async ({
 
     ${chunksString}
 
-    Reply in ${languageName?.name} language.
+    Only reply in ${languageName?.name} language.
   `;
 
   console.log("ℹ️ [OPEN AI] Using Options", { ...openAiOptions, language });
