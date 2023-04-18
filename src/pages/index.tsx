@@ -1,5 +1,15 @@
 import { ColorModeToggle } from "@/components/ColorToggle";
+import DebugPanel from "@/components/DebugPanel";
 import Footer from "@/components/Layout/Footer";
+import Header from "@/components/Layout/Header";
+import AnswerCard from "@/components/SearchElements/AnswerCard";
+import { SearchInput } from "@/components/SearchElements/SearchInput";
+import SearchLoading from "@/components/SearchElements/SearchLoading";
+import { useDebugOptions } from "@/hooks/useDebugOptions";
+import { logEvent } from "@/utils/googleAnalytics";
+import { devLog, transformQuery } from "@/utils/text.utils";
+import { trpc } from "@/utils/trpc";
+import { SettingsIcon } from "@chakra-ui/icons";
 import {
   Box,
   Flex,
@@ -10,20 +20,10 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
-import Header from "@/components/Layout/Header";
-import { devLog, transformQuery } from "@/utils/text.utils";
-import { trpc } from "@/utils/trpc";
-import { useCallback, useEffect, useState } from "react";
-import AnswerCard from "@/components/SearchElements/AnswerCard";
-import { SearchInput } from "@/components/SearchElements/SearchInput";
-import SearchLoading from "@/components/SearchElements/SearchLoading";
+import { GetServerSideProps } from "next";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/router";
-import { GetServerSideProps } from "next";
-import { logEvent } from "@/utils/googleAnalytics";
-import DebugPanel from "@/components/DebugPanel";
-import { SettingsIcon } from "@chakra-ui/icons";
-import { useDebugOptions } from "@/hooks/useDebugOptions";
+import { useEffect, useState } from "react";
 
 export interface QueryResult {
   query: string;
@@ -54,7 +54,8 @@ export default function Home({ searchQuery }: { searchQuery: string }) {
   const [result, setResult] = useState<QueryResult>();
   const [loading, setLoading] = useState<boolean>(false);
   const toast = useToast();
-  const { mutateAsync: getAnswer } = trpc.answers.getAnswer.useMutation();
+  const { mutateAsync: getAnswer, error } =
+    trpc.answers.getAnswer.useMutation();
   const {
     isOpen: isDebugPanelOpen,
     onToggle: onDebugPanelToggle,
@@ -62,49 +63,61 @@ export default function Home({ searchQuery }: { searchQuery: string }) {
   } = useDisclosure();
   const [debugOptions, setDebugOptions] = useDebugOptions();
 
-  const handleSearch = useCallback(
-    async (querySearchStr: string, route: boolean = true) => {
-      if (querySearchStr.length === 0) {
-        toast({
-          title: "Please enter a valid text before searching",
-          isClosable: true,
-          status: "error",
-        });
-        return;
-      }
-
-      setInputQuery(querySearchStr);
-      setLoading(true);
-
-      const transformedQuery = transformQuery(querySearchStr);
-      sendUserEvents(transformedQuery);
-
-      const { wikiId, answer, wikiTitle, chunks } = await getAnswer({
-        query: transformedQuery,
-        options: debugOptions,
+  useEffect(() => {
+    if (error) {
+      toast({
+        title: "An error occurred while fetching the answer",
+        description: error.message,
+        isClosable: true,
+        status: "error",
       });
-
-      devLog(transformedQuery, chunks);
-      setResult({ answer, wikiId, query: querySearchStr, wikiTitle });
       setLoading(false);
+    }
+  }, [error, toast]);
 
-      if (route) {
-        router.push(
-          {
-            pathname: "/",
-            query: `query=${querySearchStr}`,
-          },
-          undefined,
-          { shallow: true },
-        );
-      }
-    },
-    [searchQuery],
-  );
+  const handleSearch = async (
+    querySearchStr: string,
+    route: boolean = true,
+  ) => {
+    if (querySearchStr.length === 0) {
+      toast({
+        title: "Please enter a valid text before searching",
+        isClosable: true,
+        status: "error",
+      });
+      return;
+    }
+
+    setInputQuery(querySearchStr);
+    setLoading(true);
+
+    const transformedQuery = transformQuery(querySearchStr);
+    sendUserEvents(transformedQuery);
+
+    const { wikiId, answer, wikiTitle, chunks } = await getAnswer({
+      query: transformedQuery,
+      options: debugOptions,
+    });
+
+    devLog(transformedQuery, chunks);
+    setResult({ answer, wikiId, query: querySearchStr, wikiTitle });
+    setLoading(false);
+
+    if (route) {
+      router.push(
+        {
+          pathname: "/",
+          query: `query=${querySearchStr}`,
+        },
+        undefined,
+        { shallow: true },
+      );
+    }
+  };
 
   useEffect(() => {
     if (searchQuery.length === 0 || searchQuery.slice(1) === "") return;
-    void handleSearch(searchQuery, false);
+    handleSearch(searchQuery, false);
   }, [searchQuery, handleSearch]);
 
   return (
