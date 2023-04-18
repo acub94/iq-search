@@ -5,3 +5,6 @@ supabase
 langchain
 tiktoken
 dotenv
+tenacity
+psycopg2
+python-dateutil

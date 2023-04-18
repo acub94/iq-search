@@ -19,8 +19,7 @@ text_splitter = RecursiveCharacterTextSplitter(
     separators=['.', '']
 )
 
-def chunking():
-    df = getallWikis()
+def chunking(df):
     df['chunks'] = df['content'].apply(text_splitter.split_text)
     df_exploded = df.explode('chunks').reset_index(drop=True)
     df_exploded = df_exploded[['wikiid', 'title', 'chunks']]

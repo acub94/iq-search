@@ -133,7 +133,5 @@ def getallWikis():
     df.content = df.content.apply(clean)
     return df
 
-# if __name__ == '__main__':
-#     main()
 
 
