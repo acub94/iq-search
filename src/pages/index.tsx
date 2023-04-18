@@ -135,7 +135,7 @@ export default function Home({ searchQuery }: { searchQuery: string }) {
         <Box w='full' textAlign='right' p='3' position='fixed'>
           <NavButtons />
         </Box>
-        <chakra.div flexGrow='1' display='flex' mt={{ md: "10" }}>
+        <chakra.div flexGrow='1' display='flex' mt={10}>
           <VStack gap={{ base: "10", md: "6" }} w='full' mt={{ base: "16" }}>
             <Header />
             <VStack w='full' px={{ base: "5", md: 0 }}>

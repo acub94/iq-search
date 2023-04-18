@@ -15,7 +15,7 @@ const Header = () => {
         />
       </Flex>
       <Heading
-        fontSize={{ xl: "36px", md: "30px", base: "24px" }}
+        fontSize={{ base: "28px", md: "30px", xl: "36px" }}
         pt='4'
         textAlign='center'
         _hover={{ textDecoration: "none" }}
