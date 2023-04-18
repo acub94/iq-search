@@ -48,7 +48,7 @@ const Footer = () => {
               }}
               href='https://braindao.org'
             >
-              Braindao
+              BrainDAO
             </Link>
           ),
         })}
