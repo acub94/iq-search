@@ -16,5 +16,5 @@ export default {
   debugSave: "Save",
   debugRestoreDefaults: "Restore Defaults",
   footerPoweredBy: "Powered by {name}",
-  footerCopyright: "©2023 Powered byIQ.Wiki All Rights Reserved.",
+  footerCopyright: "©{year} Powered by {name} All Rights Reserved.",
 } as const;
