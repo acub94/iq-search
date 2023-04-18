@@ -11,9 +11,9 @@ export default {
   debugTableToUseLabel: "사용할 테이블",
   debugTableToUseDescription: "청크 일치에 사용할 테이블",
   debugMaxTokensLabel: "최대 토큰",
-  debugMaxTokensDescription: "요약 생성에 사용할 최대 토큰 수",
+  debugMaxTokensDescription: "요약 생성에 사용할 최대 토큰 개수",
   debugSave: "저장",
   debugRestoreDefaults: "기본값으로 복원",
-  footerPoweredBy: "{name}에서 제공",
-  footerCopyright: "©{year} {name}의 동력으로 운영. 모든 권리 보유.",
+  footerPoweredBy: "Powered by {name}",
+  footerCopyright: "©{year} Powered by {name} All Rights Reserved..",
 } as const;
