@@ -16,4 +16,4 @@ export default {
   debugRestoreDefaults: "기본값으로 복원",
   footerPoweredBy: "{name}에서 제공",
   footerCopyright: "©2023 IQ.Wiki. All Rights Reserved.",
-};
+} as const;
